@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on A Blog</title>
+    <link>/blog/posts/</link>
+    <description>Recent content in Posts on A Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright &amp;copy; 2019 - Laser Turtle</copyright>
+    <lastBuildDate>Mon, 27 May 2019 22:25:15 -0700</lastBuildDate>
+    
+	<atom:link href="/blog/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Maze Program</title>
+      <link>/blog/posts/maze/</link>
+      <pubDate>Mon, 27 May 2019 22:25:15 -0700</pubDate>
+      
+      <guid>/blog/posts/maze/</guid>
+      <description>This is part of an old program series I&amp;rsquo;ll be writing up. During college I was into Computer Graphics, Compilers, Operating Systems, anything that got to the &amp;ldquo;heart&amp;rdquo; of practical computing.</description>
+    </item>
+    
+    <item>
+      <title>OCaml is Cool</title>
+      <link>/blog/posts/ocaml-is-cool/</link>
+      <pubDate>Mon, 27 May 2019 21:45:30 -0700</pubDate>
+      
+      <guid>/blog/posts/ocaml-is-cool/</guid>
+      <description>Note: This is a filler document
+ Why is OCaml cool? It&amp;rsquo;s statically typed, compiles fast, immutable by default, expressive. Below is the basic OCaml hello world.
+let _ = print_endline &amp;#34;Hello World!</description>
+    </item>
+    
+  </channel>
+</rss>

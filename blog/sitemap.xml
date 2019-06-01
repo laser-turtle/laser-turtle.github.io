@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>/blog/about/</loc>
+    <lastmod>2019-05-27T21:53:08-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blog/posts/maze/</loc>
+    <lastmod>2019-05-27T22:25:15-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blog/posts/ocaml-is-cool/</loc>
+    <lastmod>2019-05-27T21:45:30-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blog/</loc>
+    <lastmod>2019-05-27T21:53:08-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/blog/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/blog/posts/</loc>
+    <lastmod>2019-05-27T22:25:15-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/blog/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+</urlset>
