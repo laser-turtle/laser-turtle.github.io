@@ -21,6 +21,15 @@
     </item>
     
     <item>
+      <title>Getting Started With Incr_dom - Part 1</title>
+      <link>/blog/posts/incr-dom/</link>
+      <pubDate>Sun, 25 Aug 2019 19:59:06 -0700</pubDate>
+      
+      <guid>/blog/posts/incr-dom/</guid>
+      <description>Incr_dom is a library created by Jane Street for building web applications using OCaml. The interesting thing about Incr_dom is it&amp;rsquo;s built on another one of Jane Street&amp;rsquo;s libraries, called Incremental.</description>
+    </item>
+    
+    <item>
       <title>Maze Program</title>
       <link>/blog/posts/maze/</link>
       <pubDate>Mon, 27 May 2019 22:25:15 -0700</pubDate>
