@@ -80,7 +80,7 @@
 
     
 
-<p><a href="https://github.com/janestreet/incr_dom">Incr_dom</a> is a library created by <a href="https://www.janestreet.com/">Jane Street</a> for building web applications using OCaml. The interesting thing about Incr_dom is it&rsquo;s built on another one of Jane Street&rsquo;s libraries, called <a href="https://opensource.janestreet.com/incremental/">Incremental</a>. Incremental lets you memoize parts of your application to avoid extraneous computations. When you combine incremental with something like the <a href="https://github.com/Matt-Esch/virtual-dom">virtual-dom</a> you get very speedy web applications. This is the topic of today&rsquo;s article. We&rsquo;ll be building a very simple &lsquo;Single Page (Web) Application&rsquo; using Incr_dom. The application will be a simple game of Tetris. It&rsquo;ll include the main menu, a leaderboard viewer, settings page, and of course the game itself.</p>
+<p><a href="https://github.com/janestreet/incr_dom">Incr_dom</a> is a library created by <a href="https://www.janestreet.com/">Jane Street</a> for building web applications using OCaml. The interesting thing about Incr_dom is it&rsquo;s built on another one of Jane Street&rsquo;s libraries, called <a href="https://opensource.janestreet.com/incremental/">Incremental</a>. Incremental lets you memoize parts of your application to avoid unnecessary computations. When you combine incremental with something like the <a href="https://github.com/Matt-Esch/virtual-dom">virtual-dom</a> you get very speedy web applications. This is the topic of today&rsquo;s article. We&rsquo;ll be building a very simple &lsquo;Single Page (Web) Application&rsquo; using Incr_dom. The application will be a simple game of Tetris. It&rsquo;ll include the main menu, a leaderboard viewer, settings page, and of course the game itself.</p>
 
 <h4 id="prerequisites">Prerequisites</h4>
 
@@ -120,7 +120,7 @@
 
 <h4 id="getting-started">Getting Started</h4>
 
-<p>The Incr_dom architecture is loosely based on <a href="https://elm-lang.org/">Elm</a> and <a href="https://reactjs.org/">React</a>. This means that applications are split into three main parts. The <code>Model</code>, the <code>Actions</code>, and the <code>View</code>. A standard MVC-ish pattern. The <code>Model</code> is 100% immutable, and the application can only use <code>Actions</code> to effect change in the <code>Model</code>&rsquo;s data. There&rsquo;s a special <code>State</code> sub-module that can be used for stateful data, but we shouldn&rsquo;t need that just yet. Let&rsquo;s get started!</p>
+<p>The Incr_dom architecture is loosely inspired by <a href="https://elm-lang.org/">Elm</a> and <a href="https://reactjs.org/">React</a>. This means that applications are split into three main parts. The <code>Model</code>, the <code>Actions</code>, and the <code>View</code>. A standard MVC-ish pattern. The <code>Model</code> is 100% immutable, and the application can only use <code>Actions</code> to effect change in the <code>Model</code>&rsquo;s data. There&rsquo;s a special <code>State</code> sub-module that can be used for stateful data, but we shouldn&rsquo;t need that just yet. Let&rsquo;s get started!</p>
 
 <p>Create a new file in the <code>lib</code> folder called <code>tetris.ml</code> with the following contents:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#66d9ef">open</span> <span style="color:#a6e22e">Incr_dom</span>
