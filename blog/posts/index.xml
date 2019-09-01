@@ -6,10 +6,19 @@
     <description>Recent content in Posts on A Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright &amp;copy; 2019 - Laser Turtle</copyright>
-    <lastBuildDate>Sun, 25 Aug 2019 19:59:06 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 31 Aug 2019 18:18:28 -0700</lastBuildDate>
     
 	<atom:link href="/blog/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Getting Started With Incr_Dom - Part 2</title>
+      <link>/blog/posts/incr-dom-2/</link>
+      <pubDate>Sat, 31 Aug 2019 18:18:28 -0700</pubDate>
+      
+      <guid>/blog/posts/incr-dom-2/</guid>
+      <description>This installment will add the basic frame of the single page application. We&amp;rsquo;ll create a menu and be able to navigate between the various pages. In later chapters we&amp;rsquo;ll fill in the contents of each of the pages.</description>
+    </item>
     
     <item>
       <title>Getting Started With Incr_dom - Part 1</title>

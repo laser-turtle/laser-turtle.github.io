@@ -8,6 +8,11 @@
   </url>
   
   <url>
+    <loc>/blog/posts/incr-dom-2/</loc>
+    <lastmod>2019-08-31T18:18:28-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/blog/posts/incr-dom/</loc>
     <lastmod>2019-08-25T19:59:06-07:00</lastmod>
   </url>
@@ -35,7 +40,7 @@
   
   <url>
     <loc>/blog/posts/</loc>
-    <lastmod>2019-08-25T19:59:06-07:00</lastmod>
+    <lastmod>2019-08-31T18:18:28-07:00</lastmod>
     <priority>0</priority>
   </url>
   
