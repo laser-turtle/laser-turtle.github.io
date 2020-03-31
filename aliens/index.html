@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Escape from the aliens</title>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <script src="simplepeer.min.js"></script>
+        <script src="main.bc.js"></script>
+        <link rel="stylesheet" href="bulma.min.css">
+        <link rel="stylesheet" href="style.css">
+        <style>
+        .attack-choice-container { 
+            position: absolute;
+            z-index: 2;
+        }
+
+        .pointer {
+            cursor: pointer;
+        }
+
+        .player {
+            margin-left: 0.1rem;
+            margin-right: 0.1rem;
+            margin-bottom: 0.2rem;
+            padding-left: 0.25rem;
+            padding-right: 0.25rem;
+            background-color: #DDDDDD;
+            border-radius: 0.2rem;
+            white-space: nowrap;
+            display: inline-block;
+        }
+
+        .active {
+            background-color: #CCFFCC;
+            font-size: 1.25rem;
+        }
+
+        .computer {
+        }
+
+        .event-list {
+        }
+
+        #canvas-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 200px;
+        }
+
+        .sector-item {
+            display: inline-block;
+            margin: 0.25rem;
+        }
+
+        .subcanvas {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        @keyframes shadow-pulse {
+            0% {
+                box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.9);
+            }
+            100% {
+                box-shadow: 0 0 0 0.5rem rgba(0, 0, 0, 0);
+            }
+        }
+
+        .action-button {
+            margin-left: 0.25rem;
+            margin-right: 0.25rem;
+        }
+
+        .action-button:enabled {
+            animation: shadow-pulse 0.75s 1;
+        }
+
+        .action-container {
+            display:flex; 
+            align-content:flex-start;
+            justify-content:center;
+            flex-wrap:wrap;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        </style>
+    </head>
+
+    <body>
+        <div class="tile is-ancestor" style="height:100%">
+            <div class="tile is-vertical">
+                <div class="tile" style="flex-grow:0.2">
+                    <div class="tile is-parent is-6" style="flex-grow:0.5">
+                        <article class="tile is-child notification is-light box">
+                            <p id="sector-history-title" class="title">Sector History</p>
+                            <div class="content">
+                                <div id="sector-history" class="sector-history">
+                                </div> 
+                            </div>
+                        </article>
+                    </div>
+                    <div class="tile is-parent">
+                        <div class="tile is-child box is-light">
+                            <p class="title">Player Turn
+                                <span id="player-type" class="player" style="float:right">Human</span></p>
+                            <p id="round-text" class="subtitle">Round 0/39</p>
+                            <div id="player-turns">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tile" style="flex-grow:2">
+                    <div class="tile is-vertical">
+                        <div class="tile is-parent" style="flex-grow:0.1">
+                            <div class="tile is-child action-container">
+                            <button id="noise-in-your-sector-btn" class="button is-danger action-button" disabled>NOISE IN YOUR SECTOR</button>
+                            <button id="noise-in-any-sector-btn" class="button is-warning action-button" disabled>NOISE IN ANY SECTOR</button>
+                            <button id="silence-in-all-sectors-btn" class="button is-dark action-button" disabled>SILENCE IN ALL SECTORS</button>
+                            <button id="safe-btn" class="button is-success action-button" disabled>SAFE SECTOR</button>
+                            <button id="advance" class="button">STEP</button>
+                            </div>
+                        </div>
+                        <div class="tile is-parent" height="100%" style="flex-grow:3">
+                            <div id="canvas-parent" class="tile is-child" width="100%" height="100%" style="padding:0; padding-left:0.75rem">
+                                <div id="canvas-container">
+                                    <canvas id='map-canvas' class='subcanvas'></canvas>
+                                    <canvas id='gui-canvas' class='subcanvas' style="z-index:1"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tile is-parent is-3">
+                        <article class="tile is-child notification box">
+                            <div class="content">
+                                <p class="title">Events</p>
+                                <div id='event-list-content' class="event-list">
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id='attack-choices' class="attack-choice-container" style="display:none" >
+            <button id='attack' class='button is-danger'>Attack</button>
+            <button id='dont-attack' class='button is-light'>Don't Attack</button>
+        </div>
+        <script type="text/javascript">
+            "use strict";
+        </script>
+    </body>
+</html>
