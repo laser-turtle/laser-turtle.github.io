@@ -4,11 +4,30 @@
         <title>Escape from the aliens</title>
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <script src="simplepeer.min.js"></script>
         <script src="main.bc.js"></script>
+        <script src="lobby.js"></script>
         <link rel="stylesheet" href="bulma.min.css">
         <link rel="stylesheet" href="style.css">
         <style>
+
+        .is-huge {
+            font-size: 3rem;
+        }
+
+        h4.game-over-heading {
+            margin-top: 0.25rem;
+            margin-bottom: 0.25rem !important;
+        }
+
+        .game-over-body {
+            margin-bottom: 1.0rem !important;
+        }
+
+        .lobby-start-button {
+            display: flex;
+            flex-direction: column;
+        }
+
         .attack-choice-container { 
             position: absolute;
             z-index: 2;
@@ -30,8 +49,23 @@
             display: inline-block;
         }
 
-        .active {
+        .game-id {
+            float: right;
+            background-color: #349e59;
+            padding: 0.2rem;
+            border-radius: 0.2rem;
+        }
+
+        .lobby-player-count {
+        }
+
+        .your-turn {
             background-color: #CCFFCC;
+            font-size: 1.25rem;
+        }
+
+        .active {
+            background-color: #FFFFCC;
             font-size: 1.25rem;
         }
 
@@ -39,6 +73,14 @@
         }
 
         .event-list {
+        }
+
+        a.panel-block {
+            cursor: initial;
+        }
+
+        #lobby-modal-host-start {
+            min-height: 0.2rem;
         }
 
         #canvas-container {
@@ -122,7 +164,7 @@
                             <button id="noise-in-any-sector-btn" class="button is-warning action-button" disabled>NOISE IN ANY SECTOR</button>
                             <button id="silence-in-all-sectors-btn" class="button is-dark action-button" disabled>SILENCE IN ALL SECTORS</button>
                             <button id="safe-btn" class="button is-success action-button" disabled>SAFE SECTOR</button>
-                            <button id="advance" class="button">STEP</button>
+                            <button id="advance" class="button" style="display:none">STEP</button>
                             </div>
                         </div>
                         <div class="tile is-parent" height="100%" style="flex-grow:3">
@@ -150,8 +192,133 @@
             <button id='attack' class='button is-danger'>Attack</button>
             <button id='dont-attack' class='button is-light'>Don't Attack</button>
         </div>
-        <script type="text/javascript">
-            "use strict";
-        </script>
+        <!-- Multiplayer Modal Flow -->
+        <div id='host-or-join-modal' class='modal is-active'>
+            <div class='modal-background'></div>
+            <div class='modal-content has-text-centered'>
+                <div class='box has-text-centered' style="display:inline-block;padding:4vw">
+                    <button id='host-btn' class="button is-success is-huge">Host</button>
+                    <div style="margin:1.5rem"><span style="font-size:2.0rem">- OR -</span></div>
+                    <button id='join-btn' class="button is-success is-huge">Join</button>
+                </div>
+            </div>
+        </div>
+        <!-- Host Modal -->
+        <div id='host-modal' class='modal'>
+            <div class='modal-background'></div>
+            <div class='modal-content'>
+                <div class='box'>
+                    <div class='field'>
+                        <label class='label'>Your Name</label>
+                        <div class='control'>
+                            <input id='host-modal-name' class='input' type='text' placeholder='Name'>
+                        </div>
+                    </div>
+                    <div class='field'>
+                        <label class='label'>Number of Players</label>
+                        <div class='control'>
+                            <span class='select'>
+                                <select id='host-modal-players'>
+                                    <option >2</option>
+                                    <option >3</option>
+                                    <option selected>4</option>
+                                    <option >5</option>
+                                    <option >6</option>
+                                    <option >7</option>
+                                    <option >8</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                    <div class='field'>
+                        <label class='label'>Game Server</label>
+                        <div class='control'>
+                            <input id='host-modal-server' class='input' type='text' 
+                                placeholder='1.2.3.4' value='mc.laserturtle.net'>
+                        </div>
+                    </div>
+                    <div class='field'>
+                        <p class='control'>
+                        <button id='host-modal-btn' class='button is-success'>Host</button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Lobby Modal -->
+        <div id='lobby-modal' class='modal'>
+            <div class='modal-background'></div>
+            <div class='modal-content'>
+                <div class='box' style="padding:0">
+                <article class='panel is-success'>
+                    <p class='panel-heading'>
+                    <span>Game Lobby</span> <span id='game-id' class="game-id">ABCD</span>
+                    -
+                    <span id='player-count' class="lobby-player-count">2/8</span>
+                    </p> 
+                    <p id='lobby-tabs' class="panel-tabs"></p>
+                    <div id='lobby-modal-host-start' class='lobby-start-button'>
+                        <button id='lobby-start-btn' class='button is-success' style='align-self:end;margin:0.5rem'>Start</button>
+                    </div>
+                </article>
+                </div>
+            </div> 
+        </div>
+        <!-- Join Modal -->
+        <div id='join-modal' class='modal'>
+            <div class='modal-background'></div>
+            <div class='modal-content'>
+                <div class='box'>
+                    <div class='field'>
+                        <label class='label'>Your Name</label>
+                        <div class='control'>
+                            <input id='join-modal-name' class='input' type='text' placeholder='Name'>
+                        </div>
+                    </div>
+                    <div class='field'>
+                        <label class='label'>Game ID</label>
+                        <div class='control'>
+                            <input id='join-modal-game-id' class='input' type='text' placeholder='ABCD'>
+                        </div>
+                    </div>
+                    <div class='field'>
+                        <label class='label'>Game Server</label>
+                        <div class='control'>
+                            <input id='join-modal-server' class='input' type='text' 
+                                placeholder='1.2.3.4' value='mc.laserturtle.net'>
+                        </div>
+                    </div>
+                    <div class='field'>
+                        <p class='control'>
+                        <button id='join-modal-btn' class='button is-success'>Join</button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Game Over Modal -->
+        <div id='game-over-modal' class='modal'>
+            <div class='modal-background'></div>
+            <div class='modal-content'>
+                <article class='box'>
+                    <p class='title'>Game Over <span id='game-result'>Aliens Win!</span></p>
+                    <p class='subtitle'>Game Stats</p>
+                    <div class='content'>
+                        <h4 class='game-over-heading'>Survived</h4>
+                        <div class='game-over-body' id='survived'>
+                            No one
+                        </div>
+                        <h4 class='game-over-heading'>Escaped</h4>
+                        <div class='game-over-body' id='escaped'>
+                            No one
+                        </div>
+                        <h4 class='game-over-heading' class='game-over-heading'>Killed</h4>
+                        <div class='game-over-body' id='killed'>
+                            No one
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
     </body>
 </html>
