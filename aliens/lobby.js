@@ -46,7 +46,7 @@ function update_lobby(lobby_data)
 }
 
 function setupLobby(name, max_players, server, update_callback) {
-    var ws = new WebSocket("ws://" + server);
+    var ws = new WebSocket("wss://" + server);
 
     ws.onopen = function(event) {
         ws.send(JSON.stringify({
