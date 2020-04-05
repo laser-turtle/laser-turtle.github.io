@@ -11,175 +11,219 @@
         <link rel="stylesheet" href="style.css">
         <style>
 
-        .noise-ping-container {
-            width: 2rem;
-            height: 2rem;
-            display: none;
-            pointer-events: none;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: absolute;
-            z-index: 3;
+#card-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
 
-            top: 500px;
-            left: 500px;
-        }
-
-        @keyframes noisePing {
-            from {
-                transform: scale(0.5, 0.5);
-                opacity: 0.5
+            @keyframes fade-away {
+                0% {
+                    opacity: 100%;
+                }
+                50% {
+                    opacity: 100%;
+                }
+                100% {
+                    opacity: 0%;
+                }
             }
-            to {
-                transform: scale(2.5, 2.5);
+
+            .hide-card {
+                position: absolute;
+                background-color: gray;
+                z-index: 1;
+                margin-left: auto;
+                margin-right: auto;
+                left:0;
+                right:0;
+                width: 100%;
+                height: 100%;
+                opacity: 0%;
+                animation: fade-away 2s 1 ease-out;
+            }
+
+            .card-svg {
+                width: 100%;
+                height: 100%;
+            }
+
+            .card-svg-holder {
+                position: absolute;
+                height: 100%;
+                padding-width: 33%;
+            }
+
+            .noise-ping-container {
+                width: 2rem;
+                height: 2rem;
+                display: none;
+                pointer-events: none;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                position: absolute;
+                z-index: 3;
+
+                top: 500px;
+                left: 500px;
+            }
+
+            @keyframes noisePing {
+                from {
+                    transform: scale(0.5, 0.5);
+                    opacity: 0.5
+                }
+                to {
+                    transform: scale(2.5, 2.5);
+                    opacity: 0;
+                }
+            }
+
+            .noise-ping-circle {
+                border-radius: 50%;
+                background-color: red;
+                width: 50%;
+                height: 50%;
+                position: absolute;
                 opacity: 0;
+                animation: noisePing 0.75s 1 cubic-bezier(0.36, 0.11, 0.89, 0.32);
             }
-        }
 
-        .noise-ping-circle {
-            border-radius: 50%;
-            background-color: red;
-            width: 50%;
-            height: 50%;
-            position: absolute;
-            opacity: 0;
-            animation: noisePing 1s 2 cubic-bezier(0.36, 0.11, 0.89, 0.32);
-        }
-
-        .stop-animation {
-            animation: none
-        }
-
-        .is-huge {
-            font-size: 3rem;
-        }
-
-        h4.game-over-heading {
-            margin-top: 0.25rem;
-            margin-bottom: 0.25rem !important;
-        }
-
-        .passthrough-mouse {
-            pointer-events: none;
-        }
-
-        .game-over-body {
-            margin-bottom: 1.0rem !important;
-        }
-
-        .lobby-start-button {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .attack-choice-container { 
-            position: absolute;
-            z-index: 4;
-        }
-
-        .pointer {
-            cursor: pointer;
-        }
-
-        .player {
-            margin-left: 0.1rem;
-            margin-right: 0.1rem;
-            margin-bottom: 0.2rem;
-            padding-left: 0.25rem;
-            padding-right: 0.25rem;
-            background-color: #DDDDDD;
-            border-radius: 0.2rem;
-            white-space: nowrap;
-            display: inline-block;
-        }
-
-        .game-id {
-            float: right;
-            background-color: #349e59;
-            padding: 0.2rem;
-            border-radius: 0.2rem;
-        }
-
-        .lobby-player-count {
-        }
-
-        .your-turn {
-            border: 2px solid black;
-            background-color: #CCFFCC;
-            font-size: 1.5rem;
-        }
-
-        .active {
-            background-color: #FFFFCC;
-            font-size: 1.25rem;
-        }
-
-        .you-but-not-active {
-            border: 2px solid black;
-        }
-
-        .computer {
-        }
-
-        .event-list {
-        }
-
-        a.panel-block {
-            cursor: initial;
-        }
-
-        #lobby-modal-host-start {
-            min-height: 0.2rem;
-        }
-
-        #canvas-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            min-height: 200px;
-        }
-
-        .sector-item {
-            display: inline-block;
-            margin: 0.25rem;
-        }
-
-        .subcanvas {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
-        @keyframes shadow-pulse {
-            0% {
-                box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.9);
+            .stop-animation {
+                animation: none
             }
-            100% {
-                box-shadow: 0 0 0 0.5rem rgba(0, 0, 0, 0);
+
+            .is-huge {
+                font-size: 3rem;
             }
-        }
 
-        .action-button {
-            margin-left: 0.25rem;
-            margin-right: 0.25rem;
-        }
+            h4.game-over-heading {
+                margin-top: 0.25rem;
+                margin-bottom: 0.25rem !important;
+            }
 
-        .action-button:enabled {
-            animation: shadow-pulse 0.75s 1;
-        }
+            .passthrough-mouse {
+                pointer-events: none;
+            }
 
-        .action-container {
-            display:flex; 
-            align-content:flex-start;
-            justify-content:center;
-            flex-wrap:wrap;
-        }
+            .game-over-body {
+                margin-bottom: 1.0rem !important;
+            }
 
-        html, body {
-            height: 100%;
-            margin: 0;
-        }
+            .lobby-start-button {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .attack-choice-container { 
+                position: absolute;
+                z-index: 4;
+            }
+
+            .pointer {
+                cursor: pointer;
+            }
+
+            .player {
+                margin-left: 0.1rem;
+                margin-right: 0.1rem;
+                margin-bottom: 0.2rem;
+                padding-left: 0.25rem;
+                padding-right: 0.25rem;
+                background-color: #DDDDDD;
+                border-radius: 0.2rem;
+                white-space: nowrap;
+                display: inline-block;
+            }
+
+            .game-id {
+                float: right;
+                background-color: #349e59;
+                padding: 0.2rem;
+                border-radius: 0.2rem;
+            }
+
+            .lobby-player-count {
+            }
+
+            .your-turn {
+                border: 2px solid black;
+                background-color: #CCFFCC;
+                font-size: 1.5rem;
+            }
+
+            .active {
+                background-color: #FFFFCC;
+                font-size: 1.25rem;
+            }
+
+            .you-but-not-active {
+                border: 2px solid black;
+            }
+
+            .computer {
+            }
+
+            .event-list {
+            }
+
+            a.panel-block {
+                cursor: initial;
+            }
+
+            #lobby-modal-host-start {
+                min-height: 0.2rem;
+            }
+
+            #canvas-container {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                min-height: 200px;
+            }
+
+            .sector-item {
+                display: inline-block;
+                margin: 0.25rem;
+            }
+
+            .subcanvas {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+            }
+
+            @keyframes shadow-pulse {
+                0% {
+                    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.9);
+                }
+                100% {
+                    box-shadow: 0 0 0 0.5rem rgba(0, 0, 0, 0);
+                }
+            }
+
+            .action-button {
+                margin-left: 0.25rem;
+                margin-right: 0.25rem;
+            }
+
+            .action-button:enabled {
+                animation: shadow-pulse 0.75s 1;
+            }
+
+            .action-container {
+                display:flex; 
+                align-content:flex-start;
+                justify-content:center;
+                flex-wrap:wrap;
+            }
+
+            html, body {
+                height: 100%;
+                margin: 0;
+            }
         </style>
     </head>
 
@@ -187,7 +231,7 @@
         <div class="tile is-ancestor" style="height:100%">
             <div class="tile is-vertical">
                 <div class="tile" style="flex-grow:0.2">
-                    <div class="tile is-parent is-6" style="flex-grow:0.5">
+                    <div class="tile is-parent is-7" style="flex-grow:0.5">
                         <article class="tile is-child notification is-light box">
                             <p id="sector-history-title" class="title">Sector History</p>
                             <div class="content">
@@ -196,10 +240,10 @@
                             </div>
                         </article>
                     </div>
-                    <div class="tile is-parent">
+                    <div class="tile is-parent is-5">
                         <div class="tile is-child box is-light">
-                            <p class="title">Player Turn
-                                <span id="player-type" class="player" style="float:right">Human</span></p>
+                            <p class="title"><span id='player-turn-title'>Player Turn</span>
+                            <span id="player-type" class="player" style="float:right">Human</span></p>
                             <p id="round-text" class="subtitle">Round 0/39</p>
                             <div id="player-turns">
                             </div>
@@ -208,45 +252,49 @@
                 </div>
                 <div class="tile" style="flex-grow:2">
                     <div class="tile is-vertical">
+                        <!--
                         <div class="tile is-parent" style="flex-grow:0.1">
                             <div class="tile is-child action-container">
-                            <button id="noise-in-your-sector-btn" class="button is-danger action-button" disabled>NOISE IN YOUR SECTOR</button>
-                            <button id="noise-in-any-sector-btn" class="button is-warning action-button" disabled>NOISE IN ANY SECTOR</button>
-                            <button id="silence-in-all-sectors-btn" class="button is-dark action-button" disabled>SILENCE IN ALL SECTORS</button>
-                            <button id="safe-btn" class="button is-success action-button" disabled>SAFE SECTOR</button>
-                            <button id="advance" class="button" style="display:none">STEP</button>
+                                <button id="noise-in-your-sector-btn" class="button is-danger action-button" disabled>NOISE IN YOUR SECTOR</button>
+                                <button id="noise-in-any-sector-btn" class="button is-warning action-button" disabled>NOISE IN ANY SECTOR</button>
+                                <button id="silence-in-all-sectors-btn" class="button is-dark action-button" disabled>SILENCE IN ALL SECTORS</button>
+                                <button id="safe-btn" class="button is-success action-button" disabled>SAFE SECTOR</button>
+                                <button id="advance" class="button" style="display:none">STEP</button>
                             </div>
                         </div>
-                            <div class="tile is-parent" style="flex-grow:0.1">
-                            <div class="tile is-child field">
-                                  <input id="annotate-toggle" type="checkbox" name="annotate" class="switch is-warning" checked="checked">
-                                    <label style="float:right" for="annotate">Annotation Mode</label>
-                            </div>
-                            </div>
+                        -->
                         <div class="tile is-parent" height="100%" style="flex-grow:3">
                             <div id="canvas-parent" class="tile is-child" width="100%" height="100%" style="padding:0; padding-left:0.75rem">
                                 <div id="canvas-container">
                                     <canvas id='map-canvas' class='subcanvas'></canvas>
                                     <canvas id='annot-canvas' class='subcanvas' style="z-index:1"></canvas>
                                     <canvas id='gui-canvas' class='subcanvas' style="z-index:2"></canvas>
-                                <div id='noise-ping-container' class='noise-ping-container'>
-                                    <div class='noise-ping-circle' style="animation-delay: 0s"></div>
-                                    <div class='noise-ping-circle' style="animation-delay: 0.2s"></div>
-                                    <div class='noise-ping-circle' style="animation-delay: 0.4s"></div>
-                                    <div class='noise-ping-circle' style="animation-delay: 0.6s"></div>
-                                </div>
+                                    <div id='noise-ping-container' class='noise-ping-container'>
+                                        <div class='noise-ping-circle' style="animation-delay: 0s"></div>
+                                        <div class='noise-ping-circle' style="animation-delay: 0.2s"></div>
+                                        <div class='noise-ping-circle' style="animation-delay: 0.4s"></div>
+                                        <div class='noise-ping-circle' style="animation-delay: 0.6s"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="tile is-parent is-3">
-                        <article class="tile is-child notification box">
-                            <div class="content">
-                                <p class="title">Events</p>
-                                <div id='event-list-content' class="event-list">
-                                </div>
+                    <div class='tile is-vertical is-3'>
+                        <div class="tile is-parent" style="flex-grow:0.01">
+                            <div class="tile is-child field">
+                                <input id="annotate-toggle" type="checkbox" name="annotate" class="switch is-warning" checked="checked">
+                                <label style="" for="annotate">Annotation Mode</label>
                             </div>
-                        </article>
+                        </div>
+                        <div class="tile is-parent">
+                            <article class="tile is-child notification box">
+                                <div class="content">
+                                    <p class="title">Events</p>
+                                    <div id='event-list-content' class="event-list">
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -297,7 +345,7 @@
                         <label class='label'>Game Server</label>
                         <div class='control'>
                             <input id='host-modal-server' class='input' type='text' 
-                                placeholder='1.2.3.4' value='mc.laserturtle.net'>
+                                   placeholder='1.2.3.4' value='mc.laserturtle.net'>
                         </div>
                     </div>
                     <div class='field'>
@@ -313,17 +361,17 @@
             <div class='modal-background'></div>
             <div class='modal-content'>
                 <div class='box' style="padding:0">
-                <article class='panel is-success'>
-                    <p class='panel-heading'>
-                    <span>Game Lobby</span> <span id='game-id' class="game-id">ABCD</span>
-                    -
-                    <span id='player-count' class="lobby-player-count">2/8</span>
-                    </p> 
-                    <p id='lobby-tabs' class="panel-tabs"></p>
-                    <div id='lobby-modal-host-start' class='lobby-start-button'>
-                        <button id='lobby-start-btn' class='button is-success' style='align-self:end;margin:0.5rem'>Start</button>
-                    </div>
-                </article>
+                    <article class='panel is-success'>
+                        <p class='panel-heading'>
+                        <span>Game Lobby</span> <span id='game-id' class="game-id">ABCD</span>
+                        -
+                        <span id='player-count' class="lobby-player-count">2/8</span>
+                        </p> 
+                        <p id='lobby-tabs' class="panel-tabs"></p>
+                        <div id='lobby-modal-host-start' class='lobby-start-button'>
+                            <button id='lobby-start-btn' class='button is-success' style='align-self:end;margin:0.5rem'>Start</button>
+                        </div>
+                    </article>
                 </div>
             </div> 
         </div>
@@ -348,7 +396,7 @@
                         <label class='label'>Game Server</label>
                         <div class='control'>
                             <input id='join-modal-server' class='input' type='text' 
-                                placeholder='1.2.3.4' value='mc.laserturtle.net'>
+                                   placeholder='1.2.3.4' value='mc.laserturtle.net'>
                         </div>
                     </div>
                     <div class='field'>
@@ -381,6 +429,18 @@
                         </div>
                     </div>
                 </article>
+            </div>
+        </div>
+        <!-- Danger Sector Card Flip -->
+        <div id='card-flip-modal' class='modal'>
+            <div class='modal-background'></div>
+            <div class='modal-content' style="height:100%">
+                <div id='card-container'>
+                    <div id='card-svg-holder' class='card-svg-holder'>
+                        <div id='hide-card' class='hide-card'></div>
+                        <object id='card-svg-object' class='card-svg' data="noise_in_your_sector.svg" type="image/svg+xml">
+                    </div>
+                </div>
             </div>
         </div>
     </body>
