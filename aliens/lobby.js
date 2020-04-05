@@ -83,6 +83,7 @@ function setupLobby(name, max_players, server, update_callback) {
 
     sendServerHost = function(data) {
         if (ws.readyState === WebSocket.OPEN) {
+            console.log("SENDING", data);
             ws.send(data);
             return true;
         }
@@ -133,6 +134,7 @@ function connectToLobby(name, game_id, server, update_callback) {
 
     sendServerJoin = function(data) {
         if (ws.readyState === WebSocket.OPEN) {
+            console.log("SENDING", data);
             ws.send(data);
             return true;
         }

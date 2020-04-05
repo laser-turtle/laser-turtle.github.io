@@ -11,12 +11,23 @@
         <link rel="stylesheet" href="style.css">
         <style>
 
-#card-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-}
+            #card-container {
+                width: 100%;
+                height: 100%;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .annotate-player-toggle {
+            }
+
+            .annotate-player-label {
+                margin-bottom: 0.25rem;
+            }
+
+            .annotate-player-details {
+                overflow: hidden;
+            }
 
             @keyframes fade-away {
                 0% {
@@ -61,12 +72,15 @@
                 height: 100%;
                 opacity: 100%;
                 animation: fade-in 2s 1 ease-out;
+                pointer-events: none;
+                cursor: pointer;
             }
 
             .card-svg-holder {
                 position: absolute;
                 height: 100%;
                 padding-width: 33%;
+                cursor: pointer;
             }
 
             .noise-ping-container {
@@ -278,6 +292,10 @@
                                         <div class='noise-ping-circle' style="animation-delay: 0.4s"></div>
                                         <div class='noise-ping-circle' style="animation-delay: 0.6s"></div>
                                     </div>
+                                    <div id='attack-choices' class="attack-choice-container" style="display:none" >
+                                        <button id='attack' class='button is-danger'>Attack</button>
+                                        <button id='dont-attack' class='button is-light'>Don't Attack</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -286,9 +304,31 @@
                         <div class="tile is-parent" style="flex-grow:0.01">
                             <div class="tile is-child field">
                                 <input id="annotate-toggle" type="checkbox" name="annotate" class="switch is-dark" >
-                                <label id="annotate-toggle-label" style="" for="annotate">Annotation Mode</label>
+                                <label id="annotate-toggle-label" style="" for="annotate">Show Annotations</label>
                             </div>
                         </div>
+                        <div class='tile is-parent' style="flex-grow:0.01">
+                            <div class='tile is-child'>
+                                <details>
+                                    <summary>Annotate Player</summary>
+                                    <div id='annotate-player-container'>
+                                    </div>
+                                </details>
+                            </div>
+                        </div>
+                        <!-- <div class="tile is-parent" style="flex-grow:0.01">
+                            <div class="tile is-child content">
+                                <details class='annotate-player-details'>
+                                    <summary>Annotate Player</summary>
+                                    <div class='buttons'>
+                                        <button class='button annotate-player-btn'>Player 1</button>
+                                        <button class='button annotate-player-btn'>Player 2</button>
+                                        <button class='button annotate-player-btn'>Player 3</button>
+                                        <button class='button annotate-player-btn'>Player 4 iwtha logn fname</button>
+                                    </div>
+                                    </details>
+                            </div>
+                        </div>-->
                         <div class="tile is-parent">
                             <article class="tile is-child notification box">
                                 <div class="content">
@@ -301,10 +341,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div id='attack-choices' class="attack-choice-container" style="display:none" >
-            <button id='attack' class='button is-danger'>Attack</button>
-            <button id='dont-attack' class='button is-light'>Don't Attack</button>
         </div>
         <!-- Multiplayer Modal Flow -->
         <div id='host-or-join-modal' class='modal is-active'>
@@ -440,7 +476,6 @@
             <div class='modal-content' style="height:100%">
                 <div id='card-container'>
                     <div id='card-svg-holder' class='card-svg-holder'>
-                        <!--<div id='hide-card' class='hide-card'></div>-->
                         <object id='card-svg-object' class='card-svg' data="noise_in_your_sector.svg" type="image/svg+xml">
                     </div>
                 </div>
