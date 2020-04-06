@@ -348,8 +348,10 @@
             <div class='modal-content has-text-centered'>
                 <div class='box has-text-centered' style="display:inline-block;padding:4vw">
                     <button id='host-btn' class="button is-success is-huge">Host</button>
-                    <div style="margin:1.5rem"><span style="font-size:2.0rem">- OR -</span></div>
+                    <div style="margin:1.5rem"><span style="font-size:2.0rem"></span></div>
                     <button id='join-btn' class="button is-success is-huge">Join</button>
+                    <div style="margin:1.5rem"><span style="font-size:2.0rem"></span></div>
+                    <a id='editor-btn' href="editor.html" class="button is-success is-huge">Editor</a>
                 </div>
             </div>
         </div>
@@ -378,6 +380,21 @@
                                     <option >8</option>
                                 </select>
                             </span>
+                        </div>
+                    </div>
+                    <div class='field'>
+                        <label class='label'>Choose Map</label>
+                        <div class='control'>
+                            <span class='select'>
+                                <select id='host-modal-maps'>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                    <div id='map-string-entry' class='field' style="display:none">
+                        <label class='label'>Map String</label>
+                        <div class='control'>
+                            <textarea id='custom-map-string' class='textarea' placeholder='Paste map string...'></textarea>
                         </div>
                     </div>
                     <div class='field'>
