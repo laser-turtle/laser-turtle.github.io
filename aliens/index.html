@@ -29,6 +29,17 @@
                 overflow: hidden;
             }
 
+            .action-gif-container {
+                height:100%;
+                width:100%;
+                text-align:center;
+                vertical-align:middle;
+            }
+
+            .action-gif {
+                width:75%;
+            }
+
             @keyframes fade-away {
                 0% {
                     opacity: 100%;
@@ -265,7 +276,7 @@
                 <div class="tile" style="flex-grow:0.2">
                     <div class="tile is-parent is-7" style="flex-grow:0.5">
                         <article class="tile is-child notification is-light box">
-                            <p id="sector-history-title" class="title">Sector History v12</p>
+                            <p id="sector-history-title" class="title">Sector History v14</p>
                             <div class="content">
                                 <div id="sector-history" class="sector-history">
                                 </div> 
@@ -499,6 +510,14 @@
                     <div id='card-svg-holder' class='card-svg-holder'>
                         <embed id='card-svg-object' class='card-svg' type="image/svg+xml"></embed>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div id='action-modal' class='modal'>
+            <div class='modal-background'></div>
+            <div class='modal-content' style="height:100%;width:100%">
+                <div class='action-gif-container'>
+                    <img id='action-gif' class='action-gif' src='alien-attack-kill-1.gif'></img>
                 </div>
             </div>
         </div>
