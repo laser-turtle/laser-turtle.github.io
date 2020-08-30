@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="A blog description" />
   <meta name="author" content="" />
-  <meta name="generator" content="Hugo 0.40.1" />
+  <meta name="generator" content="Hugo 0.64.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" />
@@ -78,26 +78,15 @@
 </aside>
     
 
-    
-
-<p><a href="https://github.com/janestreet/incr_dom">Incr_dom</a> is a library created by <a href="https://www.janestreet.com/">Jane Street</a> for building web applications using OCaml. The interesting thing about Incr_dom is it&rsquo;s built on another one of Jane Street&rsquo;s libraries, called <a href="https://opensource.janestreet.com/incremental/">Incremental</a>. Incremental lets you memoize parts of your application to avoid unnecessary computations. When you combine incremental with something like the <a href="https://github.com/Matt-Esch/virtual-dom">virtual-dom</a> you get very speedy web applications. This is the topic of today&rsquo;s article. We&rsquo;ll be building a very simple &lsquo;Single Page (Web) Application&rsquo; using Incr_dom. The application will be a simple game of Tetris. It&rsquo;ll include the main menu, a leaderboard viewer, settings page, and of course the game itself.</p>
-
+    <p><a href="https://github.com/janestreet/incr_dom">Incr_dom</a> is a library created by <a href="https://www.janestreet.com/">Jane Street</a> for building web applications using OCaml. The interesting thing about Incr_dom is it&rsquo;s built on another one of Jane Street&rsquo;s libraries, called <a href="https://opensource.janestreet.com/incremental/">Incremental</a>. Incremental lets you memoize parts of your application to avoid unnecessary computations. When you combine incremental with something like the <a href="https://github.com/Matt-Esch/virtual-dom">virtual-dom</a> you get very speedy web applications. This is the topic of today&rsquo;s article. We&rsquo;ll be building a very simple &lsquo;Single Page (Web) Application&rsquo; using Incr_dom. The application will be a simple game of Tetris. It&rsquo;ll include the main menu, a leaderboard viewer, settings page, and of course the game itself.</p>
 <h4 id="prerequisites">Prerequisites</h4>
-
 <p>You&rsquo;ll need <code>opam</code>, installation instructions can be found <a href="https://opam.ocaml.org/doc/Install.html">here</a>. You should install <code>opam 2.0</code> if possible, as that&rsquo;s what this tutorial will be using. Next you&rsquo;ll need to install a recent version of OCaml. This can be done with the following <code>opam</code> command:</p>
-
 <p><code>opam switch create 4.07.0</code></p>
-
 <p>Which will install the 4.07.0 version of the compiler. This will take a bit as <code>opam</code> downloads and compiles OCaml. Once it&rsquo;s done run the following command to get the necessary libraries:</p>
-
 <p><code>opam install dune incr_dom</code></p>
-
 <p>Now we can use <a href="https://dune.readthedocs.io/en/stable/">dune</a> (a popular OCaml build system) to create our project:</p>
-
 <p><code>dune init project incr_dom_tetris</code></p>
-
 <p>Next we need to modify the <code>lib/dune</code> file to add our dependencies, it should look like the below:</p>
-
 <pre><code>(library
  (name incr_dom_tetris)
  (libraries
@@ -105,29 +94,21 @@
     )
  (preprocess (pps ppx_jane))
 )
-</code></pre>
-
-<p>It should be fairly self-explanatory. The <code>(preprocess (pps ppx_jane))</code> stuff is so we can use some syntax extensions that make dealing with the Incremental monad a bit easier. We&rsquo;re also going to make a few changes to the default standard library, we&rsquo;ll be using <code>core_kernel</code>. To do this add a file called <code>dune</code> in the root of the project with the following contents:</p>
-
+</code></pre><p>It should be fairly self-explanatory. The <code>(preprocess (pps ppx_jane))</code> stuff is so we can use some syntax extensions that make dealing with the Incremental monad a bit easier. We&rsquo;re also going to make a few changes to the default standard library, we&rsquo;ll be using <code>core_kernel</code>. To do this add a file called <code>dune</code> in the root of the project with the following contents:</p>
 <pre><code>(env
     (dev
         (flags (:standard -warn-error -A -open Core_kernel)))
     (release
         (flags (:standard -open Core_kernel))))
-</code></pre>
-
-<p>This makes it so we use the <code>core_kernel</code> standard library by default in all files we make. It also prevents warnings from failing the build (although this behavior may have changed recently). Now we&rsquo;re ready to start making our application! In the root of the project execute <code>dune build bin/main.exe</code> to make sure everything we&rsquo;ve done so far works.</p>
-
+</code></pre><p>This makes it so we use the <code>core_kernel</code> standard library by default in all files we make. It also prevents warnings from failing the build (although this behavior may have changed recently). Now we&rsquo;re ready to start making our application! In the root of the project execute <code>dune build bin/main.exe</code> to make sure everything we&rsquo;ve done so far works.</p>
 <h4 id="getting-started">Getting Started</h4>
-
-<p>The Incr_dom architecture is loosely inspired by <a href="https://elm-lang.org/">Elm</a> and <a href="https://reactjs.org/">React</a>. This means that applications are split into three main parts. The <code>Model</code>, the <code>Actions</code>, and the <code>View</code>. A standard MVC-ish pattern. The <code>Model</code> is 100% immutable, and the application can only use <code>Actions</code> to effect change in the <code>Model</code>&rsquo;s data. There&rsquo;s a special <code>State</code> sub-module that can be used for stateful data, but we shouldn&rsquo;t need that just yet. Let&rsquo;s get started!</p>
-
+<p>The Incr_dom architecture is loosely inspired by <a href="https://elm-lang.org/">Elm</a> and <a href="https://reactjs.org/">React</a>. This means that applications are split into three main parts. The <code>Model</code>, the <code>Actions</code>, and the <code>View</code>. A standard MVC-ish pattern. The <code>Model</code> is 100% immutable, and the application can only use <code>Actions</code> to effect change in the <code>Model</code>'s data. There&rsquo;s a special <code>State</code> sub-module that can be used for stateful data, but we shouldn&rsquo;t need that just yet. Let&rsquo;s get started!</p>
 <p>Create a new file in the <code>lib</code> folder called <code>tetris.ml</code> with the following contents:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#66d9ef">open</span> <span style="color:#a6e22e">Incr_dom</span>
 
 <span style="color:#66d9ef">module</span> <span style="color:#a6e22e">Model</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">struct</span>
   <span style="color:#66d9ef">type</span> t <span style="color:#f92672">=</span> <span style="color:#66d9ef">unit</span>
-  <span style="color:#f92672">[@@</span>deriving sexp<span style="color:#f92672">,</span> compare<span style="color:#f92672">]</span>
+  <span style="color:#f92672">[</span><span style="color:#f92672">@@</span>deriving sexp<span style="color:#f92672">,</span> compare<span style="color:#f92672">]</span>
 
   <span style="color:#66d9ef">let</span> init <span style="color:#f92672">=</span> ()
 
@@ -137,14 +118,14 @@
 
 <span style="color:#66d9ef">module</span> <span style="color:#a6e22e">Action</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">struct</span>
   <span style="color:#66d9ef">type</span> t <span style="color:#f92672">=</span> <span style="color:#66d9ef">unit</span>
-  <span style="color:#f92672">[@@</span>deriving sexp<span style="color:#f92672">]</span>
+  <span style="color:#f92672">[</span><span style="color:#f92672">@@</span>deriving sexp<span style="color:#f92672">]</span>
 <span style="color:#66d9ef">end</span>
 
 <span style="color:#66d9ef">module</span> <span style="color:#a6e22e">State</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">struct</span>
   <span style="color:#66d9ef">type</span> t <span style="color:#f92672">=</span> <span style="color:#66d9ef">unit</span>
 <span style="color:#66d9ef">end</span>
 
-<span style="color:#66d9ef">let</span> on_startup <span style="color:#f92672">~</span>schedule_action<span style="color:#f92672">:_</span> <span style="color:#f92672">_</span> <span style="color:#f92672">=</span>
+<span style="color:#66d9ef">let</span> on_startup <span style="color:#f92672">~</span>schedule_action<span style="color:#f92672">:</span><span style="color:#f92672">_</span> <span style="color:#f92672">_</span> <span style="color:#f92672">=</span>
   Async_kernel.return ()
 
 <span style="color:#66d9ef">let</span> apply_action <span style="color:#f92672">(</span>model <span style="color:#f92672">:</span> Model.t<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>action <span style="color:#f92672">:</span> Action.t<span style="color:#f92672">)</span> <span style="color:#f92672">_</span> <span style="color:#f92672">~</span>schedule_action <span style="color:#f92672">=</span>
@@ -154,10 +135,10 @@
 <span style="color:#66d9ef">let</span> view model <span style="color:#f92672">~</span>inject <span style="color:#f92672">=</span>
   <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">open</span> Incr.<span style="color:#a6e22e">Let_syntax</span> <span style="color:#66d9ef">in</span>
   <span style="color:#66d9ef">let</span><span style="color:#f92672">%</span>map model <span style="color:#f92672">=</span> model <span style="color:#66d9ef">in</span>
-  Vdom.Node.<span style="color:#f92672">(</span>div [] <span style="color:#f92672">[</span>text <span style="color:#e6db74">&#34;Hello World!&#34;</span><span style="color:#f92672">])</span>
+  Vdom.Node.<span style="color:#f92672">(</span>div [] <span style="color:#f92672">[</span>text <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Hello World!</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">]</span><span style="color:#f92672">)</span>
 <span style="color:#f92672">;;</span>
 
-<span style="color:#66d9ef">let</span> create model <span style="color:#f92672">~</span>old_model<span style="color:#f92672">:_</span> <span style="color:#f92672">~</span>inject <span style="color:#f92672">=</span>
+<span style="color:#66d9ef">let</span> create model <span style="color:#f92672">~</span>old_model<span style="color:#f92672">:</span><span style="color:#f92672">_</span> <span style="color:#f92672">~</span>inject <span style="color:#f92672">=</span>
   <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">open</span> Incr.<span style="color:#a6e22e">Let_syntax</span> <span style="color:#66d9ef">in</span>
   <span style="color:#66d9ef">let</span><span style="color:#f92672">%</span>map apply_action <span style="color:#f92672">=</span>
     <span style="color:#66d9ef">let</span><span style="color:#f92672">%</span>map model <span style="color:#f92672">=</span> model <span style="color:#66d9ef">in</span>
@@ -165,40 +146,33 @@
   <span style="color:#f92672">and</span> view <span style="color:#f92672">=</span> view model <span style="color:#f92672">~</span>inject
   <span style="color:#f92672">and</span> model <span style="color:#f92672">=</span> model <span style="color:#66d9ef">in</span>
   Component.create <span style="color:#f92672">~</span>apply_action model view
-<span style="color:#f92672">;;</span></code></pre></div>
-<p>There&rsquo;s a decent amount of boilerplate to go over here. The <code>[@@deriving sexp, compare]</code> are the syntax extensions talked about earlier. It&rsquo;s an attribute that does some codegen by those preprocessors so we don&rsquo;t have to write the comparison or serialization to <a href="https://en.wikipedia.org/wiki/S-expression">S-expressions</a>. Similarly the <code>let%map</code> code is another syntax extension that makes working with monads easier. More can be learned <a href="https://blog.janestreet.com/let-syntax-and-why-you-should-use-it/">here</a>.</p>
-
+<span style="color:#f92672">;;</span>
+</code></pre></div><p>There&rsquo;s a decent amount of boilerplate to go over here. The <code>[@@deriving sexp, compare]</code> are the syntax extensions talked about earlier. It&rsquo;s an attribute that does some codegen by those preprocessors so we don&rsquo;t have to write the comparison or serialization to <a href="https://en.wikipedia.org/wiki/S-expression">S-expressions</a>. Similarly the <code>let%map</code> code is another syntax extension that makes working with monads easier. More can be learned <a href="https://blog.janestreet.com/let-syntax-and-why-you-should-use-it/">here</a>.</p>
 <p>Starting from the top, the <code>Model</code> module has a basic model of <code>type t = unit</code> for now to make the compiler happy. It also has an <code>init</code> variable representing the initial state. The <code>cutoff</code> function is what Incr_dom uses to determine if the model has changed. This result determines if the incremental computations need to be recomputed.</p>
-
 <p>In the <code>Actions</code> module there&rsquo;s not much happening. We make a default <code>type t = unit</code> like the <code>Model</code> to make the compiler happy. The <code>[@@deriving sexp]</code> is because the serialization functions are required by the interface.</p>
-
 <p>We won&rsquo;t be using the <code>State</code> module and it will stay as this simple implementation. It&rsquo;s only here because it&rsquo;s also required by the Incr_dom application interface.</p>
-
 <p>The <code>on_startup</code> function gives an opportunity to setup state and asynchronous functions. It&rsquo;s useful for kicking off refresh actions or timers when the application loads. We won&rsquo;t need it for the moment.</p>
-
 <p>Next is <code>apply_action</code> which takes an <code>Action.t</code>, updates the model, and then returns a new model. Since we have no actions or model at the moment, it returns the passed in model.</p>
-
 <p>The <code>view</code> function is what generates the virtual-dom of our application. It takes in a <code>Model.t Incr.t</code> which is the model lifted into the Incremental monad. Since we need to return a <code>Vdom.Node.t Incr.t</code> we need to <code>map</code> the <code>Model.t Incr.t</code> to <code>Vdom.Node.t</code> hence the <code>let%map model = model in</code> code. This makes it so the value of the <code>let</code> body is the mapped value and handles lifting it back up into an <code>Incr.t</code>. Really it&rsquo;s calling <code>Incr.map</code> and putting all the code in the right places. It only makes things look nicer and avoid the endless nested <code>&gt;&gt;= &gt;&gt;|</code> operators. For example we could have written the code in the following ways:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#66d9ef">let</span> view model <span style="color:#f92672">~</span>inject <span style="color:#f92672">=</span>
-  Incr.map model <span style="color:#f92672">~</span>f<span style="color:#f92672">:(</span><span style="color:#66d9ef">fun</span> model <span style="color:#f92672">-&gt;</span>
+  Incr.map model <span style="color:#f92672">~</span>f<span style="color:#f92672">:</span><span style="color:#f92672">(</span><span style="color:#66d9ef">fun</span> model <span style="color:#f92672">-&gt;</span>
       Vdom.Node.div [] []
-  <span style="color:#f92672">)</span></code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#66d9ef">let</span> view model <span style="color:#f92672">~</span>inject <span style="color:#f92672">=</span>
+  <span style="color:#f92672">)</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#66d9ef">let</span> view model <span style="color:#f92672">~</span>inject <span style="color:#f92672">=</span>
   <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">open</span> <span style="color:#a6e22e">Incr</span> <span style="color:#66d9ef">in</span>
-  model <span style="color:#f92672">&gt;&gt;|</span> <span style="color:#66d9ef">fun</span> model <span style="color:#f92672">-&gt;</span>
-      Vdom.Node.div [] []</code></pre></div>
-<p>Which doesn&rsquo;t seem too bad right now, but gets much uglier and messier when we start projecting properties out of the model to be incrementalized. So we&rsquo;ll stick with the <code>let%map</code> for now as it&rsquo;s the one we want in the end.</p>
-
+  model <span style="color:#f92672">&gt;</span><span style="color:#f92672">&gt;</span><span style="color:#f92672">|</span> <span style="color:#66d9ef">fun</span> model <span style="color:#f92672">-&gt;</span>
+      Vdom.Node.div [] []
+</code></pre></div><p>Which doesn&rsquo;t seem too bad right now, but gets much uglier and messier when we start projecting properties out of the model to be incrementalized. So we&rsquo;ll stick with the <code>let%map</code> for now as it&rsquo;s the one we want in the end.</p>
 <p>Lastly, we have the complicated <code>create</code> function. This ultimately calls the <code>Component.create</code> function which bundles up our state into something the Incr_dom framework can use. The complication of this method stems from flexibility. The reasoning is <a href="https://blog.janestreet.com/what-the-interns-have-wrought-2018/">here</a> (see &lsquo;Streamlining Incr_dom&rsquo;). To summarize, it lets you share and incrementalize your application state more flexibly between the <code>Model</code>, <code>Action</code>, and <code>view</code>. In our case we don&rsquo;t really need much sharing, so we do the minimum to split things up.</p>
-
 <p>There&rsquo;s two more steps before we have a baseline application up and running. We need to edit the <code>bin/main.ml</code> file to initialize the Incr_dom framework with our module, and create our <code>index.html</code> file. Open <code>bin/main.ml</code> and change its contents to:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#66d9ef">open</span> <span style="color:#a6e22e">Incr_dom</span>
 
 <span style="color:#66d9ef">let</span> () <span style="color:#f92672">=</span>
     Start_app.start
         <span style="color:#f92672">(</span><span style="color:#66d9ef">module</span> Incr_dom_tetris.<span style="color:#a6e22e">Tetris</span><span style="color:#f92672">)</span>
-        <span style="color:#f92672">~</span>bind_to_element_with_id<span style="color:#f92672">:</span><span style="color:#e6db74">&#34;app&#34;</span>
-        <span style="color:#f92672">~</span>initial_model<span style="color:#f92672">:(</span>Incr_dom_tetris.Tetris.Model.init<span style="color:#f92672">)</span></code></pre></div>
-<p>It&rsquo;s pretty straightforward. We want to create an app that uses our <code>Tetris</code> module and attaches it to the <code>app</code> element on our webpage. Now we need to create that <code>index.html</code>. Create <code>index.html</code> in the root of the project with the following contents:</p>
+        <span style="color:#f92672">~</span>bind_to_element_with_id<span style="color:#f92672">:</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">app</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#f92672">~</span>initial_model<span style="color:#f92672">:</span><span style="color:#f92672">(</span>Incr_dom_tetris.Tetris.Model.init<span style="color:#f92672">)</span>
+</code></pre></div><p>It&rsquo;s pretty straightforward. We want to create an app that uses our <code>Tetris</code> module and attaches it to the <code>app</code> element on our webpage. Now we need to create that <code>index.html</code>. Create <code>index.html</code> in the root of the project with the following contents:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!DOCTYPE&gt;</span>
 &lt;<span style="color:#f92672">html</span> <span style="color:#a6e22e">lang</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;en&#34;</span>&gt;
     &lt;<span style="color:#f92672">head</span>&gt;
@@ -208,40 +182,28 @@
     &lt;<span style="color:#f92672">body</span>&gt;
         &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;app&#39;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
     &lt;/<span style="color:#f92672">body</span>&gt;
-&lt;/<span style="color:#f92672">html</span>&gt;</code></pre></div>
-<p>Now all that&rsquo;s left is to build the project! Run <code>dune build bin/main.bc.js</code>. This will compile the javascript version of our code. You can also compile the native version using <code>dune build bin/main.exe</code> which is not super useful because it won&rsquo;t have the javascript environment. But it is useful if we use a different <code>bin</code> module, for example our test executable can be native and call into our <code>Tetris</code> library for testing.</p>
-
+&lt;/<span style="color:#f92672">html</span>&gt;
+</code></pre></div><p>Now all that&rsquo;s left is to build the project! Run <code>dune build bin/main.bc.js</code>. This will compile the javascript version of our code. You can also compile the native version using <code>dune build bin/main.exe</code> which is not super useful because it won&rsquo;t have the javascript environment. But it is useful if we use a different <code>bin</code> module, for example our test executable can be native and call into our <code>Tetris</code> library for testing.</p>
 <p>After building you should be able to open <code>index.html</code> and see <code>Hello World!</code> on the screen. If you open the console you&rsquo;ll see something like:</p>
-
 <pre><code>Incr_dom action logging is disabled by default.
 To start logging actions, type startLogging()
 To stop logging actions, type stopLogging()
-</code></pre>
-
-<p>Which is super helpful later when debugging the application, as it will print all the intermediate state changes as they happen to the console. Congrats! You have the start of an Incr_dom project. It may seem like a decent amount of work here, but this is something that can easily be turned into a template so you never have to run through it again. But it&rsquo;s good to go through at least once so there&rsquo;s a base understanding of the different moving parts.</p>
-
+</code></pre><p>Which is super helpful later when debugging the application, as it will print all the intermediate state changes as they happen to the console. Congrats! You have the start of an Incr_dom project. It may seem like a decent amount of work here, but this is something that can easily be turned into a template so you never have to run through it again. But it&rsquo;s good to go through at least once so there&rsquo;s a base understanding of the different moving parts.</p>
 <p>In case things have gone awry the code has been pushed <a href="https://github.com/laser-turtle/base-incr-dom-tetris/tree/part1">here</a> (on branch <code>part1</code>).</p>
-
 <h4 id="ending-remarks">Ending Remarks</h4>
-
 <p>In this installment we managed to get a basic Incr_dom application going. It doesn&rsquo;t do much at the moment, but that&rsquo;ll happen soon enough. A lot of new libraries and tools were introduced in this post, so some extra links have been included below.</p>
-
 <h4 id="extra-reading">Extra Reading</h4>
-
-<h5 id="incr-dom">Incr_dom</h5>
-
-<p><a href="https://opensource.janestreet.com/incr_dom/">Documentation</a><br/>
-<a href="https://blog.janestreet.com/a-tutorial-for-building-web-applications-with-incrdom/">Tutorials + Examples</a><br/>
-<a href="https://www.youtube.com/watch?v=h_e5pPKI0K4">Tech Talk</a><br/>
-<a href="https://blog.janestreet.com/self-adjusting-dom/">Blog Post</a><br/></p>
-
+<h5 id="incr_dom">Incr_dom</h5>
+<p><a href="https://opensource.janestreet.com/incr_dom/">Documentation</a><!-- raw HTML omitted -->
+<a href="https://blog.janestreet.com/a-tutorial-for-building-web-applications-with-incrdom/">Tutorials + Examples</a><!-- raw HTML omitted -->
+<a href="https://www.youtube.com/watch?v=h_e5pPKI0K4">Tech Talk</a><!-- raw HTML omitted -->
+<a href="https://blog.janestreet.com/self-adjusting-dom/">Blog Post</a><!-- raw HTML omitted --></p>
 <h5 id="incremental">Incremental</h5>
-
-<p><a href="https://opensource.janestreet.com/incremental/">Documentation</a><br/>
-<a href="https://blog.janestreet.com/introducing-incremental/">Announcement Blog Post</a><br/>
-<a href="https://blog.janestreet.com/seven-implementations-of-incremental/">History Tech Talk</a><br/>
-<a href="https://www.youtube.com/watch?v=R3xX37RGJKE">Incremental and UI Tech Talk</a><br/>
-<a href="https://www.youtube.com/watch?v=6JnzLq5NAmY">Overview Tech Talk</a><br/></p>
+<p><a href="https://opensource.janestreet.com/incremental/">Documentation</a><!-- raw HTML omitted -->
+<a href="https://blog.janestreet.com/introducing-incremental/">Announcement Blog Post</a><!-- raw HTML omitted -->
+<a href="https://blog.janestreet.com/seven-implementations-of-incremental/">History Tech Talk</a><!-- raw HTML omitted -->
+<a href="https://www.youtube.com/watch?v=R3xX37RGJKE">Incremental and UI Tech Talk</a><!-- raw HTML omitted -->
+<a href="https://www.youtube.com/watch?v=6JnzLq5NAmY">Overview Tech Talk</a><!-- raw HTML omitted --></p>
 
 
 </article>
@@ -269,7 +231,7 @@ To stop logging actions, type stopLogging()
 
 </main>
     <footer>
-        <h6>Copyright &copy; 2019 - Laser Turtle | 
+        <h6>Copyright © 2019 - Laser Turtle | 
             Rendered by <a href="https://gohugo.io" title="Hugo">Hugo</a> |
             <a href="/blog/blogindex.xml">Subscribe</a></h6>
     </footer>

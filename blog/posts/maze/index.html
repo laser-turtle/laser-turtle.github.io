@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="A blog description" />
   <meta name="author" content="" />
-  <meta name="generator" content="Hugo 0.40.1" />
+  <meta name="generator" content="Hugo 0.64.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" />
@@ -78,33 +78,20 @@
 </aside>
     
 
-    
-
-<p>This is part of an old program series I&rsquo;ll be writing up. During college I was into <a href="https://en.wikipedia.org/wiki/Computer_graphics">Computer Graphics</a>, Compilers, Operating Systems, anything that got to the &ldquo;heart&rdquo; of practical computing. Our lab machines were running Solaris at the time (or maybe it was Ubuntu at that point?) and there was a pretty generous screensaver <a href="https://www.jwz.org/xscreensaver/screenshots/">collection</a> installed on them. One day something like this <a href="https://www.youtube.com/watch?v=-u4neMXIRA8">Maze Screensaver</a> was running and I got curious how mazes were generated.</p>
-
+    <p>This is part of an old program series I&rsquo;ll be writing up. During college I was into <a href="https://en.wikipedia.org/wiki/Computer_graphics">Computer Graphics</a>, Compilers, Operating Systems, anything that got to the &ldquo;heart&rdquo; of practical computing. Our lab machines were running Solaris at the time (or maybe it was Ubuntu at that point?) and there was a pretty generous screensaver <a href="https://www.jwz.org/xscreensaver/screenshots/">collection</a> installed on them. One day something like this <a href="https://www.youtube.com/watch?v=-u4neMXIRA8">Maze Screensaver</a> was running and I got curious how mazes were generated.</p>
 <p>After some googling I found that it&rsquo;s pretty <a href="https://en.wikipedia.org/wiki/Maze_generation_algorithm">simple</a> and mostly involves treating the maze cells as a graph and running some standard graph algorithms on it.</p>
-
 <h4 id="maze-video">Maze Video</h4>
-
 <div style="width:90%; max-width:350px">
     <video src="/blog/videos/maze.webm" alt="Maze Video" type="video/webm" controls width="100%">
 </div>
 
-
 <p>This is a video of the OpenGL program I wrote after that investigation. It&rsquo;s pretty old and uses &ldquo;old&rdquo; style OpenGL with <code>glVertex2f()</code> <code>glColor3f()</code> etc. And it looks like there&rsquo;s some floating point issues with the walls and scaling. But it works! And is interesting to look at.</p>
-
 <h4 id="building-a-maze">Building a Maze</h4>
-
 <p>You can think of a maze as a graph. Each &ldquo;box&rdquo; is a vertex and the space in between represents edges. A wall signals that there is no edge between two neighboring vertices. While a lack of wall indicates the two vertices are connected. A good maze shouldn&rsquo;t have any &ldquo;islands&rdquo;, or areas that aren&rsquo;t possible to get to. Every node (vertex) should be accessible from any other node, even though the path may be a little indirect.</p>
-
 <p>One simple way to achieve this property is to actually model the maze as a graph and run a standard graph algorithm like Breadth-First-Search or Depth-First-Search. These algorithms will visit each node in the graph once and if we keep track of the edges that were crossed, we can generate our maze! Then, it&rsquo;s simply a matter of drawing the final graph, putting up walls where there could be an edge, but isn&rsquo;t.</p>
-
 <p>Wikipedia has an excellent high-level <a href="https://en.wikipedia.org/wiki/Maze_generation_algorithm#Randomized_Depth-First_Search">description</a> of the algorithm</p>
-
-<hr />
-
+<hr>
 <p>The randomized depth-first search algorithm of maze generation can be implemented using a stack:</p>
-
 <pre><code>1. Start with a grid that has no edges (all walls)
 2. Make the initial cell the current cell
 3. Push the current cell to the stack and mark it as visited
@@ -117,14 +104,10 @@
        4. Make the neighbor the current cell
     Else
        1. Pop a cell from the stack and make it the current cell
-</code></pre>
-
-<p>Backtracking occurs when there are no more unvisited neighbors of the current cell. In that case the algorithm pops cells from the stack until it finds a cell with an unvisited neighbor from which a new branch is started.</p>
-
-<hr />
-
+</code></pre><p>Backtracking occurs when there are no more unvisited neighbors of the current cell. In that case the algorithm pops cells from the stack until it finds a cell with an unvisited neighbor from which a new branch is started.</p>
+<hr>
 <p>Some slightly lower-level pseudo code</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">struct</span> Vertex {
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Vertex</span> {
     <span style="color:#66d9ef">bool</span> left_edge   <span style="color:#f92672">=</span> false;
     <span style="color:#66d9ef">bool</span> right_edge  <span style="color:#f92672">=</span> false;
     <span style="color:#66d9ef">bool</span> top_edge    <span style="color:#f92672">=</span> false;
@@ -132,16 +115,16 @@
     <span style="color:#66d9ef">bool</span> visited     <span style="color:#f92672">=</span> false;
 };
 
-<span style="color:#66d9ef">enum</span> Direction {
+<span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Direction</span> {
     Left, Right, Top, Bottom
 }
 
-<span style="color:#66d9ef">struct</span> NeighborInfo {
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">NeighborInfo</span> {
     Vertex vertex;
     Direction direction;
 };
 
-<span style="color:#66d9ef">struct</span> Maze {
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Maze</span> {
     <span style="color:#66d9ef">int</span> width;
     <span style="color:#66d9ef">int</span> height;
     Vertex vertices[width][height];
@@ -175,11 +158,11 @@ Maze <span style="color:#a6e22e">BuildMaze</span>(width, height) {
 }
 
 <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setEdges</span>(Vertex picked, NeighborInfo info) {
-    <span style="color:#66d9ef">if</span> (info.direction <span style="color:#f92672">==</span> Left) {
+    <span style="color:#66d9ef">if</span> (info.direction <span style="color:#f92672">=</span><span style="color:#f92672">=</span> Left) {
         picked.left <span style="color:#f92672">=</span> true;
         info.right <span style="color:#f92672">=</span> true;
     }
-    <span style="color:#66d9ef">if</span> (info.direction <span style="color:#f92672">==</span> Right) {
+    <span style="color:#66d9ef">if</span> (info.direction <span style="color:#f92672">=</span><span style="color:#f92672">=</span> Right) {
         picked.right <span style="color:#f92672">=</span> true;
         info.left <span style="color:#f92672">=</span> true;
     }
@@ -198,39 +181,23 @@ Collection<span style="color:#f92672">&lt;</span>NeighborInfo<span style="color:
     Vertex left <span style="color:#f92672">=</span> getNeighbor(maze, picked, Left); 
     Vertex right <span style="color:#f92672">=</span> getNeighbor(maze, picked, Right);
     ...
-    <span style="color:#66d9ef">if</span> (left <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>left.visited) {
+    <span style="color:#66d9ef">if</span> (left <span style="color:#f92672">&amp;</span><span style="color:#f92672">&amp;</span> <span style="color:#f92672">!</span>left.visited) {
         neighbors.add(NeighborInfo{left, Left}));
     }
-    <span style="color:#66d9ef">if</span> (right <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>right.visited) {
+    <span style="color:#66d9ef">if</span> (right <span style="color:#f92672">&amp;</span><span style="color:#f92672">&amp;</span> <span style="color:#f92672">!</span>right.visited) {
         neighbors.add(NeighborInfo{right, Right});
     }
     ...
     <span style="color:#66d9ef">return</span> neighbors;
 }
-</code></pre></div>
-<h4 id="interactive-example">Interactive Example</h4>
 
+</code></pre></div><h4 id="interactive-example">Interactive Example</h4>
 <p>Here is a JavaScript+Canvas (written in OCaml) implementation of a couple algorithms. The link to the code is posted below. It uses an implementation similar to the code shown above.</p>
-
 <p><a href="https://github.com/laser-turtle/maze-ocaml-js">Code can be found here</a></p>
-
-<p><script src='/blog/js/maze.bc.js' type='text/javascript'></script>
-<div style='display:inline-block'>
-<div id='maze'>
-</div>
-<div style='display:flex; flex-direction:row; justify-content:space-between;'>
-<button id='reset-btn' type='button'>Reset</button>
-<select id='select-algorithm'></select>
-<button id='start-btn' type='button'>Start</button>
-</div>
-</div></p>
-
-<h6 id="note-you-ll-have-to-click-reset-after-any-changes-in-the-drop-down-for-it-to-take-effect">Note: You&rsquo;ll have to click &ldquo;Reset&rdquo; after any changes in the drop down for it to take effect.</h6>
-
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
 <p><strong>Depth First Search</strong> is more or less the &lsquo;Randomized Depth First Search&rsquo; from the wikipedia code above.</p>
-
 <p><strong>Breadth First Search</strong> is a breadth first search, and as such, generates pretty bad mazes.</p>
-
 <p><strong>Randomized</strong> is a bit of a combination of the two. It runs depth first search for a bit, then picks another random starting node and runs some more depth first search.</p>
 
 
@@ -259,7 +226,7 @@ Collection<span style="color:#f92672">&lt;</span>NeighborInfo<span style="color:
 
 </main>
     <footer>
-        <h6>Copyright &copy; 2019 - Laser Turtle | 
+        <h6>Copyright © 2019 - Laser Turtle | 
             Rendered by <a href="https://gohugo.io" title="Hugo">Hugo</a> |
             <a href="/blog/blogindex.xml">Subscribe</a></h6>
     </footer>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>A Blog</title>
@@ -6,7 +6,7 @@
     <description>Recent content on A Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright &amp;copy; 2019 - Laser Turtle</copyright>
-    <lastBuildDate>Mon, 27 May 2019 21:53:08 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 29 Aug 2020 21:45:30 +0000</lastBuildDate>
     
 	<atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
     
@@ -18,6 +18,24 @@
       
       <guid>/blog/about/</guid>
       <description>Mostly a source of nostalgia for myself.</description>
+    </item>
+    
+    <item>
+      <title>ErogoDox EZ Trackball Mod</title>
+      <link>/blog/posts/erogodox-ez-trackball/</link>
+      <pubDate>Sat, 29 Aug 2020 21:45:30 +0000</pubDate>
+      
+      <guid>/blog/posts/erogodox-ez-trackball/</guid>
+      <description>Recently I purchased an ErgoDox EZ ergonomic keyboard. I figured if I&amp;rsquo;m going to spend all my time at the computer, might as well save my wrists. I was also excited about the open source nature of the ErgoDox and the rave reviews.</description>
+    </item>
+    
+    <item>
+      <title>Getting Started With Incr_dom - Part 3</title>
+      <link>/blog/posts/incr-dom-3/</link>
+      <pubDate>Sun, 01 Sep 2019 14:04:57 -0700</pubDate>
+      
+      <guid>/blog/posts/incr-dom-3/</guid>
+      <description>In this installment of the tutorial we&amp;rsquo;ll get the basics of the Tetris game working. We&amp;rsquo;ll create a 10x24 space board and use the standard pieces. There will be a preview box, score, and line clear animation.</description>
     </item>
     
     <item>

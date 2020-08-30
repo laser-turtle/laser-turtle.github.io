@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="A blog description" />
   <meta name="author" content="" />
-  <meta name="generator" content="Hugo 0.40.1" />
+  <meta name="generator" content="Hugo 0.64.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" />
@@ -81,13 +81,11 @@
     <blockquote>
 <p>Note: This is a filler document</p>
 </blockquote>
-
 <p>Why is OCaml cool? It&rsquo;s statically typed, compiles fast, immutable by default, expressive. Below is the basic OCaml hello world.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#66d9ef">let</span> <span style="color:#f92672">_</span> <span style="color:#f92672">=</span> print_endline <span style="color:#e6db74">&#34;Hello World!&#34;</span></code></pre></div>
-<p>or</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#66d9ef">let</span> <span style="color:#f92672">_</span> <span style="color:#f92672">=</span> Printf.printf <span style="color:#e6db74">&#34;Hello World!&#34;</span></code></pre></div>
-<p>People have done lots of cool things with it:</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#66d9ef">let</span> <span style="color:#f92672">_</span> <span style="color:#f92672">=</span> print_endline <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Hello World!</span><span style="color:#e6db74">&#34;</span>
+</code></pre></div><p>or</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#66d9ef">let</span> <span style="color:#f92672">_</span> <span style="color:#f92672">=</span> Printf.printf <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Hello World!</span><span style="color:#e6db74">&#34;</span>
+</code></pre></div><p>People have done lots of cool things with it:</p>
 <ul>
 <li><a href="https://mirage.io/">Unikernels</a></li>
 <li><a href="https://github.com/BinaryAnalysisPlatform/bap">Binary Analysis Platform</a></li>
@@ -96,17 +94,13 @@
 <li><a href="https://github.com/rust-lang/rust/tree/ef75860a0a72f79f97216f8aaa5b388d98da6480/src/boot">Bootstrapping Languages</a></li>
 <li><a href="https://github.com/ocaml-community/awesome-ocaml#formal-software-verification">Lots of other things</a></li>
 </ul>
-
 <p>It has an easy to use package manager called <a href="https://opam.ocaml.org/">opam</a>. Opam makes it really easy to keep multiple environments setup, grab the source of packages, upgrade dependencies, pin packages, etc.</p>
-
 <p>Unfortunately there is some community fragmentation. There are multiple standard libraries:</p>
-
 <ul>
 <li>The one included with the compiler</li>
 <li><a href="https://opensource.janestreet.com/base/">JaneStreet Base/Core</a></li>
 <li><a href="https://bucklescript.github.io/bucklescript/api/Belt.html">Belt</a></li>
 </ul>
-
 <p>The last one is from the OCaml &lsquo;alternative&rsquo; <a href="https://reasonml.github.io/">Reason</a>. It&rsquo;s not really an alternative, it replaces the syntax of OCaml with one that&rsquo;s closer to JavaScript. Personally, I prefer OCaml&rsquo;s original syntax. Reason also introduces a new package manager <a href="https://esy.sh/">esy</a> which adds to the fragmentation. Luckily the backends are shared (for now) so that the fragmentation isn&rsquo;t too bad. There are also <a href="https://reasonml.github.io/docs/en/convert-from-ocaml">automated</a> ways to convert between the two syntaxes.</p>
 
 
@@ -131,7 +125,7 @@
 
 </main>
     <footer>
-        <h6>Copyright &copy; 2019 - Laser Turtle | 
+        <h6>Copyright © 2019 - Laser Turtle | 
             Rendered by <a href="https://gohugo.io" title="Hugo">Hugo</a> |
             <a href="/blog/blogindex.xml">Subscribe</a></h6>
     </footer>

@@ -1,0 +1,160 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <title>A Blog</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A blog description" />
+  <meta name="author" content="" />
+  <meta name="generator" content="Hugo 0.64.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" />
+  <link rel="stylesheet" type="text/css" href="/blog/css/styles.css" />
+</head>
+
+<body>
+  <div id="container">
+    <header>
+      <h1>
+                <a href="/blog/">A Blog</a>
+            </h1>
+
+      <ul id="social-media">
+             
+      </ul>
+      
+    </header>
+
+    
+<nav>
+    <ul>
+        
+        <li>
+            <a class="" href="/blog/">
+                <i class="fa-li fa  fa-lg"></i><span>Home</span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="" href="/blog/posts/">
+                <i class="fa-li fa  fa-lg"></i><span>Posts</span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="" href="/blog/about/">
+                <i class="fa-li fa  fa-lg"></i><span>About</span>
+            </a>
+        </li>
+        
+    </ul>
+</nav>
+
+    <main>
+
+
+
+
+<article>
+
+    <h1>ErogoDox EZ Trackball Mod</h1>
+
+    
+        <aside>
+    <ul>
+        <li>
+            <time class="post-date" datetime="2020-08-29T21:45:30Z">Aug 29, 2020</time>
+        </li>
+        
+        
+
+        
+
+        <li>5 min read</li>
+    </ul>
+</aside>
+    
+
+    <p>Recently I purchased an <a href="https://ergodox-ez.com/">ErgoDox EZ</a> ergonomic keyboard. I figured if I&rsquo;m going to spend all my time at the computer, might as well save my wrists. I was also excited about the open source nature of the ErgoDox and the rave reviews. I have a friend who&rsquo;s used one for years and loves it. I almost purchased the new Moonlander, but there weren&rsquo;t enough reviews yet, so I went with the EZ.</p>
+<p>After using the EZ for a bit I was still unhappy with how often my hand was leaving the keyboard for the mouse. A lot of applications have decent keyboard shortcuts and using something like <a href="https://vimium.github.io/">Vimium</a> helps, but can&rsquo;t beat a mouse for some tasks. I wanted a way to integrate a trackpad or trackball into the EZ. I went searching around for small trackballs and trackapd breakout boards that might be usable and stumbled upon the <a href="https://www.digikey.com/catalog/en/partgroup/trackball-breakout-board/90540">Pimoroni trackball breakout board</a>. There were some others but this one looked the smallest and easiest to use.</p>
+<p>Originally I was going to use a Raspberry Pi Zero to act like a mouse because it supports <a href="https://learn.adafruit.com/turning-your-raspberry-pi-zero-into-a-usb-gadget">gadget mode</a> which uses the Linux gadget mode support to emulate a USB device. This means you could use the pi to relay the trackball events over USB and act like a normal mouse. Then the trackball could be attached somewhere on the ErgoDox and be a nice mouse addon. Only downside is the mouse is not really integrated and would take two USB slots to use. Thankfully doing some more searching I stumbled upon <a href="https://www.reddit.com/r/ergodox/comments/gsnhb5/an_ergodox_with_an_integrated_trackpadtrackball/">this Reddit post</a> where a user <code>drashna</code> had done a similar mod <em>with the same trackball!</em>.</p>
+<p>This was fantastic news, and reading the thread <code>drashna</code> explains that the TRRS jack of the ErgoDox is an <a href="https://en.wikipedia.org/wiki/I%C2%B2C">I2C Bus</a> and since the trackball is also an I2C device you can solder some wires onto the appropriate jack locations and get the trackball talking on the bus! Even better was <code>drashna</code> had already implemented a driver for it in the ErgoDox firmware, which can be found here: <a href="https://github.com/qmk/qmk_firmware/blob/357a888d805c21c9cb4917f55d558195e8b85db5/users/drashna/pimoroni_trackball.c">drashna trackball code</a></p>
+<p>Here&rsquo;s the basic steps:</p>
+<ol>
+<li>Find the schematic for the ErgoDox EZ so we can look at the TRRS jack connections:
+<a href="https://github.com/zsa/docs/blob/master/Ergodox%20V5-R.pdf">ErgoDox EZ Right Half Schematic Link</a></li>
+</ol>
+<p><img src="/blog/images/ergodox_ez_right_schematic.png" alt="ErgoDox EZ right schematic screenshot"></p>
+<p>In this image you can see the TRRS jack on the right with pins 1-6. We see that</p>
+<pre><code>pin 1 - Ground
+pin 2 &amp; 6 - VCC
+pin 3 &amp; 5 - Connected to Lx -&gt; Sx -&gt; SDA
+pin 4 - Connected to Ly -&gt; Sy -&gt; SCL
+</code></pre><p>The important ones are pins 1, 2, 3, 4 as we&rsquo;ll see when we look at the Pimoroni schematic.</p>
+<ol start="2">
+<li>Now we can take a look at the physical board and a schematic of the TRRS jack to figure out which solder joints we can co-opt for our trackball:</li>
+</ol>
+<p><img src="/blog/images/ergodox_ez_pcb_labeled.png" alt="ErgoDox EZ physical schematic"></p>
+<p>I&rsquo;ve labeled the joints on the jack that we can use for our trackball. This can be found out by finding the TRRS jacked used in the ErgoDox EZ: <a href="https://www.ergodox.io/">See section 2.1.0.2</a> and we find the part is <a href="https://www.digikey.com/product-detail/en/cui-devices/SJ-43514/CP-43514-ND/368146">CP-43514</a> which has the datasheet that shows the pinout connections:</p>
+<p><img src="/blog/images/trrs_jack_datasheet.png" alt="TRRS Jack Pinout"></p>
+<p>Remember that this is a top-down view and the PCB is a bottom-up view, so the pins are actually mirrored. Comparing the ErgoDox EZ schematic with the physical PCB and datasheet we arrive at the pin uses listed earlier.</p>
+<ol start="3">
+<li>Now that we know what to hook up its a simple matter of wiring the Pimoroni pins to the proper locations on the ErgoDox EZ jack. Unfortunately I don&rsquo;t have a picture of my solder job as I forgot to take it before putting the case together.</li>
+</ol>
+<p><img src="/blog/images/pimoroni_trackball.png" alt="Pimoroni Trackball"></p>
+<ol start="4">
+<li>Here&rsquo;s what mine looks like after reassembling the case:</li>
+</ol>
+<p><img src="/blog/images/ergodox_ez_final_with_mouse.png" alt="Final ErgoDox assembly with mouse"></p>
+<p>I decided to forgo one key near the thumb for better mouse placement, as I figured I&rsquo;d be using the trackball a lot. I also debated drilling some holes and having the mouse hang off the bottom fo the ErgoDox a bit so that I could keep the full keyset, but that required more commitment than I was willing to do for the moment, maybe in the future!</p>
+<hr>
+<p>I&rsquo;ve modified <code>drashna</code>'s original code quite a bit, and hopefully improved upon the mouse behavior. One of the tricky things about the trackball is it&rsquo;s very small, so it makes it difficult to get the right sensitivity at the right time. When clicking small UI elements like the <code>X</code> button you want precision, but other times you need to get the mouse to the other side of the screen and don&rsquo;t want to be flicking your thumb 20 times. I&rsquo;m still tweaking the code, but I&rsquo;ve settled on something that seems to work okay for now. The gist is:</p>
+<ol>
+<li>Use an exponential acceleration</li>
+<li>Tier the acceleration to different ranges, so when the trackball returns small values assume the user is trying to be precise and don&rsquo;t over-accelerate</li>
+<li>if the values are in the middle apply a bit more of a multiplier to get the mouse moving more</li>
+<li>if it&rsquo;s a high value assume the user did a giant flick to get across the screen</li>
+</ol>
+<p>This seems to trick a decent balance, although getting the number ranges correct is a bit tricky. I&rsquo;m sure there&rsquo;s smarter solutions to this problem, but this seems to work for now&hellip;</p>
+<p>A couple extras I added are:</p>
+<ul>
+<li>Add a &ldquo;please accelerate a lot right now&rdquo; button that bumps the multiplier to a high value without trying to be smart</li>
+<li>Scroll mode (although drashna already had this) that&rsquo;s dampened a bit, seems to be nicer scrolling on web</li>
+<li>Add support for left/middle/right click/release. The normal ErgoDox mouse bindings seem to send a full mouse click on key press. I wanted something that would simulate a normal mouse button where the release didn&rsquo;t happen until the key was released. These are custom key codes that are sent with the mouse message.</li>
+</ul>
+<p>I&rsquo;ve <a href="https://github.com/laser-turtle/ergodox-ez-trackball">uploaded the modified firmware files here</a>. It&rsquo;s not the best code, but it works! It may require some tweaking for your particular setup. A lot of the acceleration/multipliers depend on how far you tend to flick your thumb. Also, this would be the perfect time to show a video, unfortunately I&rsquo;m still new to the ErgoDox and the video would be me fumbling around trying to remember my key bindings. So maybe sometime in the future!</p>
+
+
+</article>
+
+
+<section class="post-nav">
+    <ul>
+        
+        <li>
+            <a href="/blog/posts/incr-dom-3/"><i class="fa fa-chevron-circle-left"></i> Getting Started With Incr_dom - Part 3</a>
+        </li>
+        
+        
+    </ul>
+</section>
+    
+
+
+
+
+
+</main>
+    <footer>
+        <h6>Copyright © 2019 - Laser Turtle | 
+            Rendered by <a href="https://gohugo.io" title="Hugo">Hugo</a> |
+            <a href="/blog/blogindex.xml">Subscribe</a></h6>
+    </footer>
+</div>
+<script src="/blog/js/scripts.js"></script>
+</body>
+
+</html>
