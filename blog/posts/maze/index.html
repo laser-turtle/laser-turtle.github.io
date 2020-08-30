@@ -194,8 +194,17 @@ Collection<span style="color:#f92672">&lt;</span>NeighborInfo<span style="color:
 </code></pre></div><h4 id="interactive-example">Interactive Example</h4>
 <p>Here is a JavaScript+Canvas (written in OCaml) implementation of a couple algorithms. The link to the code is posted below. It uses an implementation similar to the code shown above.</p>
 <p><a href="https://github.com/laser-turtle/maze-ocaml-js">Code can be found here</a></p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<script src='/blog/js/maze.bc.js' type='text/javascript'></script>
+<div style='display:inline-block'>
+<div id='maze'>
+</div>
+<div style='display:flex; flex-direction:row; justify-content:space-between;'>
+<button id='reset-btn' type='button'>Reset</button>
+<select id='select-algorithm'></select>
+<button id='start-btn' type='button'>Start</button>
+</div>
+</div>
+###### Note: You'll have to click "Reset" after any changes in the drop down for it to take effect.
 <p><strong>Depth First Search</strong> is more or less the &lsquo;Randomized Depth First Search&rsquo; from the wikipedia code above.</p>
 <p><strong>Breadth First Search</strong> is a breadth first search, and as such, generates pretty bad mazes.</p>
 <p><strong>Randomized</strong> is a bit of a combination of the two. It runs depth first search for a bit, then picks another random starting node and runs some more depth first search.</p>
