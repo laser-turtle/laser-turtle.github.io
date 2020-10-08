@@ -6,7 +6,7 @@
     <description>Recent content on A Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright &amp;copy; 2019 - Laser Turtle</copyright>
-    <lastBuildDate>Sat, 29 Aug 2020 21:45:30 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 07 Oct 2020 17:22:15 -0700</lastBuildDate>
     
 	<atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,10 +14,19 @@
     <item>
       <title>About</title>
       <link>/blog/about/</link>
-      <pubDate>Mon, 27 May 2019 21:53:08 -0700</pubDate>
+      <pubDate>Mon, 27 May 2019 21:53:08 +0000</pubDate>
       
       <guid>/blog/about/</guid>
       <description>Mostly a source of nostalgia for myself.</description>
+    </item>
+    
+    <item>
+      <title>Math Battle</title>
+      <link>/blog/posts/math-battle/</link>
+      <pubDate>Wed, 07 Oct 2020 17:22:15 -0700</pubDate>
+      
+      <guid>/blog/posts/math-battle/</guid>
+      <description>A game where you need to write math functions to guide your missile. A player wins when their math function intersects the other players circle. The asteriods were originally supposed to be destructable, but I did not finish it.</description>
     </item>
     
     <item>
