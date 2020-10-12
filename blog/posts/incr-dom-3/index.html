@@ -78,7 +78,10 @@
 </aside>
     
 
-    <p>In this installment of the tutorial we&rsquo;ll get the basics of the Tetris game working. We&rsquo;ll create a 10x24 space board and use the standard pieces. There will be a preview box, score, and line clear animation.</p>
+    <blockquote>
+<p>Note: Incr dom is superceded by a new, much easier to use library called <a href="https://github.com/janestreet/bonsai">Bonsai</a></p>
+</blockquote>
+<p>In this installment of the tutorial we&rsquo;ll get the basics of the Tetris game working. We&rsquo;ll create a 10x24 space board and use the standard pieces. There will be a preview box, score, and line clear animation.</p>
 <h4 id="adding-a-board">Adding A Board</h4>
 <p>So we don&rsquo;t clutter the main <code>tetris.ml</code>, let&rsquo;s create a new file <code>lib/board.ml</code> to store the board model. This will encapsulate both the shapes and the board operations. To start create a type for the cells:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#66d9ef">module</span> <span style="color:#a6e22e">Cell</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">struct</span>
@@ -134,6 +137,9 @@
     Model.<span style="color:#f92672">{</span> model <span style="color:#66d9ef">with</span> current_page <span style="color:#f92672">=</span> new_page <span style="color:#f92672">}</span>
 <span style="color:#f92672">;;</span>
 </code></pre></div><p>But, the board still needs to be drawn on screen. To do that we need to update the <code>new_game_page</code> function to take a board and render the appropriate HTML.</p>
+<blockquote>
+<p>Under construction&hellip;</p>
+</blockquote>
 
 
 </article>
