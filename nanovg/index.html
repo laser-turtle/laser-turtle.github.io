@@ -31,7 +31,7 @@ html, body {
     font-family: 'Emoji';
     font-style: normal;
     font-weight: 100;
-    src: url('./NotoEmoji-Regular.ttf') format('opentype');
+    src: url('./NotoEmoji-Regular.ttf');
 }
 
 @font-face {
@@ -62,11 +62,11 @@ p {
         <img id='img10' src='./images/image10.jpg'></img>
         <img id='img11' src='./images/image11.jpg'></img>
         <img id='img12' src='./images/image12.jpg'></img>
+        <canvas width="800" height="800" id='canvas'></canvas>
         <p style="font-family:Roboto">Hello this is some fonts</p>
         <p style="font-family:Roboto-Bold">Hello this is some fonts</p>
-        <p style="font-family:Emoji">Hello this is some fonts</p>
+        <p style="font-family:Emoji">Hello this is some fonts This is longer chunk of text.\n  \n  Would have used lorem ipsum but she    was busy jumping over the lazy dog with the fox and all the men who came to the aid of the party.🎉</p>
         <p style="font-family:icons">Hello this is some fonts</p>
-        <canvas width="800" height="800" id='canvas'></canvas>
     </body>
     <script type='application/javascript' defer src='./main.bc.js'></script>
 </html>
