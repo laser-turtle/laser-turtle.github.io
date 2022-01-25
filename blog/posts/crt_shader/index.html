@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>CRT Shader - A Blog</title><meta name="Description" content="A blog description"><meta property="og:title" content="CRT Shader" />
+<meta property="og:description" content="Shader CRT Shader, or something.
+ Code Vertex Shader attribute vec2 position; varying vec2 vPosition; void main() { vPosition = position; gl_Position = vec4(position, 0.0, 1.0); } Fragment Shader precision highp float; varying vec2 vPosition; uniform float uTime; uniform sampler2D uSampler; void main() { vec2 ndc = vPosition; // Bend the texture coordinates across a sphere-ish thing // Add some scan-line noise vec2 tpos = vPosition * vec2(0." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/blog/posts/crt_shader/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-04-01T21:49:09-07:00" />
+<meta property="article:modified_time" content="2021-04-01T21:49:09-07:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CRT Shader"/>
+<meta name="twitter:description" content="Shader CRT Shader, or something.
+ Code Vertex Shader attribute vec2 position; varying vec2 vPosition; void main() { vPosition = position; gl_Position = vec4(position, 0.0, 1.0); } Fragment Shader precision highp float; varying vec2 vPosition; uniform float uTime; uniform sampler2D uSampler; void main() { vec2 ndc = vPosition; // Bend the texture coordinates across a sphere-ish thing // Add some scan-line noise vec2 tpos = vPosition * vec2(0."/>
+<meta name="application-name" content="A Blog">
+<meta name="apple-mobile-web-app-title" content="A Blog"><link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/blog/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png"><link rel="manifest" href="/blog/site.webmanifest"><link rel="canonical" href="/blog/posts/crt_shader/" /><link rel="prev" href="/blog/blog/posts/math-battle/" /><link rel="stylesheet" href="/blog/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/blog/css/style.min.css"><link rel="stylesheet" href="/blog/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/blog/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "CRT Shader",
+        "inLanguage": "",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "\/blog\/posts\/crt_shader\/"
+        },"genre": "posts","wordcount":  121 ,
+        "url": "\/blog\/posts\/crt_shader\/","datePublished": "2021-04-01T21:49:09-07:00","dateModified": "2021-04-01T21:49:09-07:00","license": "Copyright \u0026copy; 2022 - Laser Turtle","publisher": {
+            "@type": "Organization",
+            "name": "Author"},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/blog/" title="A Blog">A Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/blog/"> Home </a><a class="menu-item" href="/blog/posts/"> Posts </a><a class="menu-item" href="/blog/about/" title="About"> About </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/blog/" title="A Blog">A Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/blog/" title="">Home</a><a class="menu-item" href="/blog/posts/" title="">Posts</a><a class="menu-item" href="/blog/about/" title="About">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title">CRT Shader</h1><div class="post-meta">
+            <div class="post-meta-line"></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-04-01">2021-04-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;121 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;One minute&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#shader">Shader</a></li>
+    <li><a href="#code">Code</a>
+      <ul>
+        <li><a href="#vertex-shader">Vertex Shader</a></li>
+        <li><a href="#fragment-shader">Fragment Shader</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="shader">Shader</h2>
+<p>CRT Shader, or something.</p>
+<iframe src='/blog/html/crt_shader.html' width='500px' height='300px'></iframe>
+<h2 id="code">Code</h2>
+<h3 id="vertex-shader">Vertex Shader</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="k">attribute</span> <span class="k">vec2</span> <span class="n">position</span><span class="p">;</span>
+<span class="k">varying</span> <span class="k">vec2</span> <span class="n">vPosition</span><span class="p">;</span>
+<span class="k">void</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">vPosition</span> <span class="o">=</span> <span class="n">position</span><span class="p">;</span>
+    <span class="n">gl_Position</span> <span class="o">=</span> <span class="k">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div><h3 id="fragment-shader">Fragment Shader</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="k">precision</span> <span class="k">highp</span> <span class="k">float</span><span class="p">;</span>
+<span class="k">varying</span> <span class="k">vec2</span> <span class="n">vPosition</span><span class="p">;</span>
+
+<span class="k">uniform</span> <span class="k">float</span> <span class="n">uTime</span><span class="p">;</span>
+<span class="k">uniform</span> <span class="k">sampler2D</span> <span class="n">uSampler</span><span class="p">;</span>
+
+<span class="k">void</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">vec2</span> <span class="n">ndc</span> <span class="o">=</span> <span class="n">vPosition</span><span class="p">;</span>
+
+    <span class="c1">// Bend the texture coordinates across a sphere-ish thing</span>
+
+    <span class="c1">// Add some scan-line noise</span>
+    <span class="k">vec2</span> <span class="n">tpos</span> <span class="o">=</span> <span class="n">vPosition</span> <span class="o">*</span> <span class="k">vec2</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">;</span>
+    <span class="n">tpos</span><span class="p">.</span><span class="n">x</span> <span class="o">+=</span> <span class="n">sin</span><span class="p">(</span><span class="n">tpos</span><span class="p">.</span><span class="n">y</span><span class="o">*</span><span class="mf">205.</span> <span class="o">+</span> <span class="n">uTime</span><span class="o">*</span><span class="mf">30.</span><span class="p">)</span><span class="o">*</span><span class="mf">0.00060</span><span class="p">;</span>
+
+    <span class="k">vec4</span> <span class="n">color</span> <span class="o">=</span> <span class="n">texture2D</span><span class="p">(</span><span class="n">uSampler</span><span class="p">,</span> <span class="n">tpos</span><span class="p">);</span>
+
+    <span class="k">const</span> <span class="k">float</span> <span class="n">strip_mix</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
+
+    <span class="c1">// Every other line is faded... interpolation effect</span>
+    <span class="k">float</span> <span class="n">strip</span> <span class="o">=</span> <span class="n">tpos</span><span class="p">.</span><span class="n">t</span> <span class="o">*</span> <span class="n">mix</span><span class="p">(</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">,</span> <span class="n">strip_mix</span><span class="p">);</span>
+    <span class="k">float</span> <span class="n">stripFac</span> <span class="o">=</span> 
+        <span class="mf">1.0</span> <span class="o">+</span> <span class="mf">0.25</span> 
+            <span class="o">*</span> <span class="n">strip_mix</span> 
+            <span class="o">*</span> <span class="p">(</span><span class="n">step</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">strip</span><span class="o">-</span><span class="k">float</span><span class="p">(</span><span class="k">int</span><span class="p">(</span><span class="n">strip</span><span class="p">)))</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">);</span>
+
+    <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="k">vec4</span><span class="p">(</span><span class="n">color</span><span class="p">.</span><span class="n">rgb</span> <span class="o">*</span> <span class="n">stripFac</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-04-01</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/blog/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/blog/posts/math-battle/" class="prev" rel="prev" title="Math Battle"><i class="fas fa-angle-left fa-fw"></i>Math Battle</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/blog/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/blog/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/blog/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":-1},"comment":{}};</script><script type="text/javascript" src="/blog/js/theme.min.js"></script></body>
+</html>

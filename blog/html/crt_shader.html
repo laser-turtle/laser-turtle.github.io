@@ -1,0 +1,55 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script defer src='/blog/js/crt_shader.js'></script>
+    <style>
+        html, body, canvas {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0;
+        }
+    </style>
+    </head>
+    <body onload='setup()'>
+        <script id='vertex-shader' type='x-shader/x-vertex'>
+            attribute vec2 position;
+            varying vec2 vPosition;
+            void main() {
+                vPosition = position;
+                gl_Position = vec4(position, 0.0, 1.0);
+            }
+        </script>
+        <script id='fragment-shader' type='x-shader/x-fragment'>
+            precision highp float;
+            varying vec2 vPosition;
+
+            uniform float uTime;
+            uniform sampler2D uSampler;
+
+            void main() {
+                vec2 ndc = vPosition;
+
+                // Bend the texture coordinates across a sphere-ish thing
+
+                // Add some scan-line noise
+                vec2 tpos = vPosition * vec2(0.5, -0.5) + 0.5;
+                tpos.x += sin(tpos.y*205. + uTime*30.)*0.00060;
+
+                vec4 color = texture2D(uSampler, tpos);
+
+                const float strip_mix = 0.5;
+
+                // Every other line is faded... interpolation effect
+                float strip = tpos.t * mix(50.0, 100.0, strip_mix);
+                float stripFac = 1.0 + 0.25 * strip_mix * (step(0.5, strip-float(int(strip))) - 0.5);
+
+                gl_FragColor = vec4(color.rgb * stripFac, 1);
+            }
+        </script>
+        <img id="backup-image" style="width:100%; display:none;" src="/blog/images/crt_shader.png"></img>
+        <canvas id='glcanvas'>
+        </canvas>
+    </body>
+</html>

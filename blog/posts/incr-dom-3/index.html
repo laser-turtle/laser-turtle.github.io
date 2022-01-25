@@ -1,178 +1,199 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Getting Started With Incr_dom - Part 3 - A Blog</title><meta name="Description" content="A blog description"><meta property="og:title" content="Getting Started With Incr_dom - Part 3" />
+<meta property="og:description" content="Note: Incr dom is superceded by a new, much easier to use library called Bonsai
+ In this installment of the tutorial we&rsquo;ll get the basics of the Tetris game working." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/blog/posts/incr-dom-3/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2019-09-01T14:04:57-07:00" />
+<meta property="article:modified_time" content="2019-09-01T14:04:57-07:00" />
 
-<html lang="en">
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Getting Started With Incr_dom - Part 3"/>
+<meta name="twitter:description" content="Note: Incr dom is superceded by a new, much easier to use library called Bonsai
+ In this installment of the tutorial we&rsquo;ll get the basics of the Tetris game working."/>
+<meta name="application-name" content="A Blog">
+<meta name="apple-mobile-web-app-title" content="A Blog"><link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/blog/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png"><link rel="manifest" href="/blog/site.webmanifest"><link rel="canonical" href="/blog/posts/incr-dom-3/" /><link rel="prev" href="/blog/blog/posts/incr-dom-2/" /><link rel="next" href="/blog/blog/posts/erogodox-ez-trackball/" /><link rel="stylesheet" href="/blog/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/blog/css/style.min.css"><link rel="stylesheet" href="/blog/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/blog/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Getting Started With Incr_dom - Part 3",
+        "inLanguage": "",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "\/blog\/posts\/incr-dom-3\/"
+        },"genre": "posts","wordcount":  469 ,
+        "url": "\/blog\/posts\/incr-dom-3\/","datePublished": "2019-09-01T14:04:57-07:00","dateModified": "2019-09-01T14:04:57-07:00","license": "Copyright \u0026copy; 2022 - Laser Turtle","publisher": {
+            "@type": "Organization",
+            "name": "Author"},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
 
-<head>
-  <title>A Blog</title>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="A blog description" />
-  <meta name="author" content="" />
-  <meta name="generator" content="Hugo 0.64.0" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" />
-  <link rel="stylesheet" type="text/css" href="/blog/css/styles.css" />
-</head>
-
-<body>
-  <div id="container">
-    <header>
-      <h1>
-                <a href="/blog/">A Blog</a>
-            </h1>
-
-      <ul id="social-media">
-             
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/blog/" title="A Blog">A Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/blog/"> Home </a><a class="menu-item" href="/blog/posts/"> Posts </a><a class="menu-item" href="/blog/about/" title="About"> About </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/blog/" title="A Blog">A Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/blog/" title="">Home</a><a class="menu-item" href="/blog/posts/" title="">Posts</a><a class="menu-item" href="/blog/about/" title="About">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title">Getting Started With Incr_dom - Part 3</h1><div class="post-meta">
+            <div class="post-meta-line"></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-09-01">2019-09-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;469 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li></li>
       </ul>
-      
-    </header>
-
-    
-<nav>
-    <ul>
-        
-        <li>
-            <a class="" href="/blog/">
-                <i class="fa-li fa  fa-lg"></i><span>Home</span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="" href="/blog/posts/">
-                <i class="fa-li fa  fa-lg"></i><span>Posts</span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="" href="/blog/about/">
-                <i class="fa-li fa  fa-lg"></i><span>About</span>
-            </a>
-        </li>
-        
-    </ul>
-</nav>
-
-    <main>
-
-
-
-
-<article>
-
-    <h1>Getting Started With Incr_dom - Part 3</h1>
-
-    
-        <aside>
-    <ul>
-        <li>
-            <time class="post-date" datetime="2019-09-01T14:04:57-07:00">Sep 1, 2019</time>
-        </li>
-        
-        
-
-        
-
-        <li>3 min read</li>
-    </ul>
-</aside>
-    
-
-    <blockquote>
-<p>Note: Incr dom is superceded by a new, much easier to use library called <a href="https://github.com/janestreet/bonsai">Bonsai</a></p>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>Note: Incr dom is superceded by a new, much easier to use library called <a href="https://github.com/janestreet/bonsai" target="_blank" rel="noopener noreffer">Bonsai</a></p>
 </blockquote>
 <p>In this installment of the tutorial we&rsquo;ll get the basics of the Tetris game working. We&rsquo;ll create a 10x24 space board and use the standard pieces. There will be a preview box, score, and line clear animation.</p>
 <h4 id="adding-a-board">Adding A Board</h4>
 <p>So we don&rsquo;t clutter the main <code>tetris.ml</code>, let&rsquo;s create a new file <code>lib/board.ml</code> to store the board model. This will encapsulate both the shapes and the board operations. To start create a type for the cells:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#66d9ef">module</span> <span style="color:#a6e22e">Cell</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">struct</span>
-  <span style="color:#66d9ef">type</span> t <span style="color:#f92672">=</span> <span style="color:#a6e22e">S</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">Z</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">T</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">L</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">I</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">O</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">J</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">Empty</span>
-  <span style="color:#f92672">[</span><span style="color:#f92672">@@</span>deriving sexp<span style="color:#f92672">,</span> compare<span style="color:#f92672">]</span>
-<span style="color:#66d9ef">end</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="k">module</span> <span class="nc">Cell</span> <span class="o">=</span> <span class="k">struct</span>
+  <span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="nc">S</span> <span class="o">|</span> <span class="nc">Z</span> <span class="o">|</span> <span class="nc">T</span> <span class="o">|</span> <span class="nc">L</span> <span class="o">|</span> <span class="nc">I</span> <span class="o">|</span> <span class="nc">O</span> <span class="o">|</span> <span class="nc">J</span> <span class="o">|</span> <span class="nc">Empty</span>
+  <span class="o">[@@</span><span class="n">deriving</span> <span class="n">sexp</span><span class="o">,</span> <span class="n">compare</span><span class="o">]</span>
+<span class="k">end</span>
 </code></pre></div><p>Fairly straight forward, we put it in a module to keep the helper functions namespaced. Now we need to create our board representation. We&rsquo;ll use an immutable map because OCaml arrays are mutable. We&rsquo;d have to copy the array each time we made and update, but the map will automatically share as much as possible.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#66d9ef">module</span> <span style="color:#a6e22e">IntPair</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">struct</span>
-  <span style="color:#66d9ef">module</span> <span style="color:#a6e22e">T</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">struct</span>
-    <span style="color:#66d9ef">type</span> t <span style="color:#f92672">=</span> <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">int</span>
-    <span style="color:#f92672">[</span><span style="color:#f92672">@@</span>deriving compare<span style="color:#f92672">,</span> sexp<span style="color:#f92672">]</span>
-  <span style="color:#66d9ef">end</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="k">module</span> <span class="nc">IntPair</span> <span class="o">=</span> <span class="k">struct</span>
+  <span class="k">module</span> <span class="nc">T</span> <span class="o">=</span> <span class="k">struct</span>
+    <span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="kt">int</span> <span class="o">*</span> <span class="kt">int</span>
+    <span class="o">[@@</span><span class="n">deriving</span> <span class="n">compare</span><span class="o">,</span> <span class="n">sexp</span><span class="o">]</span>
+  <span class="k">end</span>
 
-  <span style="color:#66d9ef">include</span> <span style="color:#a6e22e">T</span> 
-  <span style="color:#66d9ef">include</span> Comparable.<span style="color:#a6e22e">Make</span><span style="color:#f92672">(</span><span style="color:#a6e22e">T</span><span style="color:#f92672">)</span>
-<span style="color:#66d9ef">end</span>
+  <span class="k">include</span> <span class="nc">T</span> 
+  <span class="k">include</span> <span class="nn">Comparable</span><span class="p">.</span><span class="nc">Make</span><span class="o">(</span><span class="nc">T</span><span class="o">)</span>
+<span class="k">end</span>
 
-<span style="color:#66d9ef">type</span> t <span style="color:#f92672">=</span> Cell.t IntPair.Map.t
-<span style="color:#f92672">[</span><span style="color:#f92672">@@</span>deriving sexp<span style="color:#f92672">,</span> compare<span style="color:#f92672">]</span>
+<span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="nn">Cell</span><span class="p">.</span><span class="n">t</span> <span class="nn">IntPair</span><span class="p">.</span><span class="nn">Map</span><span class="p">.</span><span class="n">t</span>
+<span class="o">[@@</span><span class="n">deriving</span> <span class="n">sexp</span><span class="o">,</span> <span class="n">compare</span><span class="o">]</span>
 </code></pre></div><p>We wrap up the <code>int * int</code> type in a module so we can derive the <code>Map</code> module without having to deal with all the type variables. Now that we have our board, we need an initial empty board. Let&rsquo;s create a variable to store that:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#66d9ef">let</span> empty_board <span style="color:#f92672">=</span>
-  <span style="color:#66d9ef">let</span> board <span style="color:#f92672">=</span> ref IntPair.Map.empty <span style="color:#66d9ef">in</span>
-  <span style="color:#66d9ef">for</span> x<span style="color:#f92672">=</span>0 <span style="color:#66d9ef">to</span> 9 <span style="color:#66d9ef">do</span>
-    <span style="color:#66d9ef">for</span> y<span style="color:#f92672">=</span>0 <span style="color:#66d9ef">to</span> 23 <span style="color:#66d9ef">do</span>
-      board <span style="color:#f92672">:=</span> IntPair.Map.set <span style="color:#f92672">!</span>board <span style="color:#f92672">~</span>key<span style="color:#f92672">:</span><span style="color:#f92672">(</span>x<span style="color:#f92672">,</span> y<span style="color:#f92672">)</span> <span style="color:#f92672">~</span>data<span style="color:#f92672">:</span>Cell.<span style="color:#a6e22e">Empty</span>
-    <span style="color:#66d9ef">done</span>
-  <span style="color:#66d9ef">done</span><span style="color:#f92672">;</span>
-  <span style="color:#f92672">!</span>board
-<span style="color:#f92672">;;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">empty_board</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="n">board</span> <span class="o">=</span> <span class="n">ref</span> <span class="nn">IntPair</span><span class="p">.</span><span class="nn">Map</span><span class="p">.</span><span class="n">empty</span> <span class="k">in</span>
+  <span class="k">for</span> <span class="n">x</span><span class="o">=</span><span class="n">0</span> <span class="k">to</span> <span class="n">9</span> <span class="k">do</span>
+    <span class="k">for</span> <span class="n">y</span><span class="o">=</span><span class="n">0</span> <span class="k">to</span> <span class="n">23</span> <span class="k">do</span>
+      <span class="n">board</span> <span class="o">:=</span> <span class="nn">IntPair</span><span class="p">.</span><span class="nn">Map</span><span class="p">.</span><span class="n">set</span> <span class="o">!</span><span class="n">board</span> <span class="o">~</span><span class="n">key</span><span class="o">:(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">~</span><span class="n">data</span><span class="o">:</span><span class="nn">Cell</span><span class="p">.</span><span class="nc">Empty</span>
+    <span class="k">done</span>
+  <span class="k">done</span><span class="o">;</span>
+  <span class="o">!</span><span class="n">board</span>
+<span class="o">;;</span>
 
 </code></pre></div><p>Pretty simple, take an empty map and fill it with an entry for every coordinate in our board mapping to the empty cell. Let&rsquo;s now add this to the overall model and try to show it on the <code>New Game</code> screen. In <code>lib/tetris.ml</code> a couple updates are needed. First the <code>Model.t</code> type needs to have a <code>board</code> field. The <code>Model.init</code> function needs to set the board field to <code>Board.empty_board</code>. Lastly, when we <code>ChangePage</code> to the <code>NewGame</code> page we need to reset the board state.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#66d9ef">module</span> <span style="color:#a6e22e">Model</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">struct</span>
-  <span style="color:#75715e">(*</span><span style="color:#75715e"> ... </span><span style="color:#75715e">*)</span>
-  <span style="color:#66d9ef">type</span> t <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
-    current_page <span style="color:#f92672">:</span> page<span style="color:#f92672">;</span>
-    board <span style="color:#f92672">:</span> Board.t<span style="color:#f92672">;</span>
-  <span style="color:#f92672">}</span>
-  <span style="color:#f92672">[</span><span style="color:#f92672">@@</span>deriving sexp<span style="color:#f92672">,</span> compare<span style="color:#f92672">]</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="k">module</span> <span class="nc">Model</span> <span class="o">=</span> <span class="k">struct</span>
+  <span class="c">(* ... *)</span>
+  <span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">current_page</span> <span class="o">:</span> <span class="n">page</span><span class="o">;</span>
+    <span class="n">board</span> <span class="o">:</span> <span class="nn">Board</span><span class="p">.</span><span class="n">t</span><span class="o">;</span>
+  <span class="o">}</span>
+  <span class="o">[@@</span><span class="n">deriving</span> <span class="n">sexp</span><span class="o">,</span> <span class="n">compare</span><span class="o">]</span>
 
-  <span style="color:#66d9ef">let</span> init <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> 
-    current_page <span style="color:#f92672">=</span> <span style="color:#a6e22e">MainMenu</span><span style="color:#f92672">;</span>
-    board <span style="color:#f92672">=</span> Board.empty_board<span style="color:#f92672">;</span>
-  <span style="color:#f92672">}</span>
-  <span style="color:#75715e">(*</span><span style="color:#75715e"> ... </span><span style="color:#75715e">*)</span>
-<span style="color:#66d9ef">end</span>
-<span style="color:#75715e">(*</span><span style="color:#75715e"> ... </span><span style="color:#75715e">*)</span>
-<span style="color:#66d9ef">let</span> apply_action <span style="color:#f92672">(</span>model <span style="color:#f92672">:</span> Model.t<span style="color:#f92672">)</span> <span style="color:#75715e">(*</span><span style="color:#75715e"> ... </span><span style="color:#75715e">*)</span> <span style="color:#f92672">=</span>
-  <span style="color:#66d9ef">match</span> action <span style="color:#66d9ef">with</span>
-  <span style="color:#f92672">|</span> <span style="color:#a6e22e">ChangePage</span> <span style="color:#a6e22e">NewGame</span> <span style="color:#f92672">-&gt;</span>
-    Model.<span style="color:#f92672">{</span> board <span style="color:#f92672">=</span> Board.empty_board<span style="color:#f92672">;</span> current_page <span style="color:#f92672">=</span> <span style="color:#a6e22e">NewGame</span> <span style="color:#f92672">}</span>
+  <span class="k">let</span> <span class="n">init</span> <span class="o">=</span> <span class="o">{</span> 
+    <span class="n">current_page</span> <span class="o">=</span> <span class="nc">MainMenu</span><span class="o">;</span>
+    <span class="n">board</span> <span class="o">=</span> <span class="nn">Board</span><span class="p">.</span><span class="n">empty_board</span><span class="o">;</span>
+  <span class="o">}</span>
+  <span class="c">(* ... *)</span>
+<span class="k">end</span>
+<span class="c">(* ... *)</span>
+<span class="k">let</span> <span class="n">apply_action</span> <span class="o">(</span><span class="n">model</span> <span class="o">:</span> <span class="nn">Model</span><span class="p">.</span><span class="n">t</span><span class="o">)</span> <span class="c">(* ... *)</span> <span class="o">=</span>
+  <span class="k">match</span> <span class="n">action</span> <span class="k">with</span>
+  <span class="o">|</span> <span class="nc">ChangePage</span> <span class="nc">NewGame</span> <span class="o">-&gt;</span>
+    <span class="nn">Model</span><span class="p">.</span><span class="o">{</span> <span class="n">board</span> <span class="o">=</span> <span class="nn">Board</span><span class="p">.</span><span class="n">empty_board</span><span class="o">;</span> <span class="n">current_page</span> <span class="o">=</span> <span class="nc">NewGame</span> <span class="o">}</span>
 
-  <span style="color:#f92672">|</span> <span style="color:#a6e22e">ChangePage</span> new_page <span style="color:#f92672">-&gt;</span>
-    Model.<span style="color:#f92672">{</span> model <span style="color:#66d9ef">with</span> current_page <span style="color:#f92672">=</span> new_page <span style="color:#f92672">}</span>
-<span style="color:#f92672">;;</span>
+  <span class="o">|</span> <span class="nc">ChangePage</span> <span class="n">new_page</span> <span class="o">-&gt;</span>
+    <span class="nn">Model</span><span class="p">.</span><span class="o">{</span> <span class="n">model</span> <span class="k">with</span> <span class="n">current_page</span> <span class="o">=</span> <span class="n">new_page</span> <span class="o">}</span>
+<span class="o">;;</span>
 </code></pre></div><p>But, the board still needs to be drawn on screen. To do that we need to update the <code>new_game_page</code> function to take a board and render the appropriate HTML.</p>
 <blockquote>
 <p>Under construction&hellip;</p>
 </blockquote>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2019-09-01</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
 
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/blog/">Home</a></span>
+        </section>
+    </div>
 
-</article>
-
-
-<section class="post-nav">
-    <ul>
-        
-        <li>
-            <a href="/blog/posts/incr-dom-2/"><i class="fa fa-chevron-circle-left"></i> Getting Started With Incr_dom - Part 2</a>
-        </li>
-        
-        
-        <li>
-            <a href="/blog/posts/erogodox-ez-trackball/">ErogoDox EZ Trackball Mod <i class="fa fa-chevron-circle-right"></i> </a>
-        </li>
-        
-    </ul>
-</section>
-    
-
-
-
-
-
-</main>
-    <footer>
-        <h6>Copyright © 2019 - Laser Turtle | 
-            Rendered by <a href="https://gohugo.io" title="Hugo">Hugo</a> |
-            <a href="/blog/blogindex.xml">Subscribe</a></h6>
-    </footer>
+    <div class="post-nav"><a href="/blog/posts/incr-dom-2/" class="prev" rel="prev" title="Getting Started With Incr_dom - Part 2"><i class="fas fa-angle-left fa-fw"></i>Getting Started With Incr_dom - Part 2</a>
+            <a href="/blog/posts/erogodox-ez-trackball/" class="next" rel="next" title="ErgoDox EZ Trackball Mod">ErgoDox EZ Trackball Mod<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
-<script src="/blog/js/scripts.js"></script>
-</body>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
 
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/blog/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/blog/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/blog/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":-1},"comment":{}};</script><script type="text/javascript" src="/blog/js/theme.min.js"></script></body>
 </html>
