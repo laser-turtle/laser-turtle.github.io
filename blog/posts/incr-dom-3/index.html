@@ -101,59 +101,58 @@
 <p>In this installment of the tutorial we&rsquo;ll get the basics of the Tetris game working. We&rsquo;ll create a 10x24 space board and use the standard pieces. There will be a preview box, score, and line clear animation.</p>
 <h4 id="adding-a-board">Adding A Board</h4>
 <p>So we don&rsquo;t clutter the main <code>tetris.ml</code>, let&rsquo;s create a new file <code>lib/board.ml</code> to store the board model. This will encapsulate both the shapes and the board operations. To start create a type for the cells:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="k">module</span> <span class="nc">Cell</span> <span class="o">=</span> <span class="k">struct</span>
-  <span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="nc">S</span> <span class="o">|</span> <span class="nc">Z</span> <span class="o">|</span> <span class="nc">T</span> <span class="o">|</span> <span class="nc">L</span> <span class="o">|</span> <span class="nc">I</span> <span class="o">|</span> <span class="nc">O</span> <span class="o">|</span> <span class="nc">J</span> <span class="o">|</span> <span class="nc">Empty</span>
-  <span class="o">[@@</span><span class="n">deriving</span> <span class="n">sexp</span><span class="o">,</span> <span class="n">compare</span><span class="o">]</span>
-<span class="k">end</span>
-</code></pre></div><p>Fairly straight forward, we put it in a module to keep the helper functions namespaced. Now we need to create our board representation. We&rsquo;ll use an immutable map because OCaml arrays are mutable. We&rsquo;d have to copy the array each time we made and update, but the map will automatically share as much as possible.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="k">module</span> <span class="nc">IntPair</span> <span class="o">=</span> <span class="k">struct</span>
-  <span class="k">module</span> <span class="nc">T</span> <span class="o">=</span> <span class="k">struct</span>
-    <span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="kt">int</span> <span class="o">*</span> <span class="kt">int</span>
-    <span class="o">[@@</span><span class="n">deriving</span> <span class="n">compare</span><span class="o">,</span> <span class="n">sexp</span><span class="o">]</span>
-  <span class="k">end</span>
-
-  <span class="k">include</span> <span class="nc">T</span> 
-  <span class="k">include</span> <span class="nn">Comparable</span><span class="p">.</span><span class="nc">Make</span><span class="o">(</span><span class="nc">T</span><span class="o">)</span>
-<span class="k">end</span>
-
-<span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="nn">Cell</span><span class="p">.</span><span class="n">t</span> <span class="nn">IntPair</span><span class="p">.</span><span class="nn">Map</span><span class="p">.</span><span class="n">t</span>
-<span class="o">[@@</span><span class="n">deriving</span> <span class="n">sexp</span><span class="o">,</span> <span class="n">compare</span><span class="o">]</span>
-</code></pre></div><p>We wrap up the <code>int * int</code> type in a module so we can derive the <code>Map</code> module without having to deal with all the type variables. Now that we have our board, we need an initial empty board. Let&rsquo;s create a variable to store that:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">empty_board</span> <span class="o">=</span>
-  <span class="k">let</span> <span class="n">board</span> <span class="o">=</span> <span class="n">ref</span> <span class="nn">IntPair</span><span class="p">.</span><span class="nn">Map</span><span class="p">.</span><span class="n">empty</span> <span class="k">in</span>
-  <span class="k">for</span> <span class="n">x</span><span class="o">=</span><span class="n">0</span> <span class="k">to</span> <span class="n">9</span> <span class="k">do</span>
-    <span class="k">for</span> <span class="n">y</span><span class="o">=</span><span class="n">0</span> <span class="k">to</span> <span class="n">23</span> <span class="k">do</span>
-      <span class="n">board</span> <span class="o">:=</span> <span class="nn">IntPair</span><span class="p">.</span><span class="nn">Map</span><span class="p">.</span><span class="n">set</span> <span class="o">!</span><span class="n">board</span> <span class="o">~</span><span class="n">key</span><span class="o">:(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">~</span><span class="n">data</span><span class="o">:</span><span class="nn">Cell</span><span class="p">.</span><span class="nc">Empty</span>
-    <span class="k">done</span>
-  <span class="k">done</span><span class="o">;</span>
-  <span class="o">!</span><span class="n">board</span>
-<span class="o">;;</span>
-
-</code></pre></div><p>Pretty simple, take an empty map and fill it with an entry for every coordinate in our board mapping to the empty cell. Let&rsquo;s now add this to the overall model and try to show it on the <code>New Game</code> screen. In <code>lib/tetris.ml</code> a couple updates are needed. First the <code>Model.t</code> type needs to have a <code>board</code> field. The <code>Model.init</code> function needs to set the board field to <code>Board.empty_board</code>. Lastly, when we <code>ChangePage</code> to the <code>NewGame</code> page we need to reset the board state.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="k">module</span> <span class="nc">Model</span> <span class="o">=</span> <span class="k">struct</span>
-  <span class="c">(* ... *)</span>
-  <span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="o">{</span>
-    <span class="n">current_page</span> <span class="o">:</span> <span class="n">page</span><span class="o">;</span>
-    <span class="n">board</span> <span class="o">:</span> <span class="nn">Board</span><span class="p">.</span><span class="n">t</span><span class="o">;</span>
-  <span class="o">}</span>
-  <span class="o">[@@</span><span class="n">deriving</span> <span class="n">sexp</span><span class="o">,</span> <span class="n">compare</span><span class="o">]</span>
-
-  <span class="k">let</span> <span class="n">init</span> <span class="o">=</span> <span class="o">{</span> 
-    <span class="n">current_page</span> <span class="o">=</span> <span class="nc">MainMenu</span><span class="o">;</span>
-    <span class="n">board</span> <span class="o">=</span> <span class="nn">Board</span><span class="p">.</span><span class="n">empty_board</span><span class="o">;</span>
-  <span class="o">}</span>
-  <span class="c">(* ... *)</span>
-<span class="k">end</span>
-<span class="c">(* ... *)</span>
-<span class="k">let</span> <span class="n">apply_action</span> <span class="o">(</span><span class="n">model</span> <span class="o">:</span> <span class="nn">Model</span><span class="p">.</span><span class="n">t</span><span class="o">)</span> <span class="c">(* ... *)</span> <span class="o">=</span>
-  <span class="k">match</span> <span class="n">action</span> <span class="k">with</span>
-  <span class="o">|</span> <span class="nc">ChangePage</span> <span class="nc">NewGame</span> <span class="o">-&gt;</span>
-    <span class="nn">Model</span><span class="p">.</span><span class="o">{</span> <span class="n">board</span> <span class="o">=</span> <span class="nn">Board</span><span class="p">.</span><span class="n">empty_board</span><span class="o">;</span> <span class="n">current_page</span> <span class="o">=</span> <span class="nc">NewGame</span> <span class="o">}</span>
-
-  <span class="o">|</span> <span class="nc">ChangePage</span> <span class="n">new_page</span> <span class="o">-&gt;</span>
-    <span class="nn">Model</span><span class="p">.</span><span class="o">{</span> <span class="n">model</span> <span class="k">with</span> <span class="n">current_page</span> <span class="o">=</span> <span class="n">new_page</span> <span class="o">}</span>
-<span class="o">;;</span>
-</code></pre></div><p>But, the board still needs to be drawn on screen. To do that we need to update the <code>new_game_page</code> function to take a board and render the appropriate HTML.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">module</span> <span class="nc">Cell</span> <span class="o">=</span> <span class="k">struct</span>
+</span></span><span class="line"><span class="cl">  <span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="nc">S</span> <span class="o">|</span> <span class="nc">Z</span> <span class="o">|</span> <span class="nc">T</span> <span class="o">|</span> <span class="nc">L</span> <span class="o">|</span> <span class="nc">I</span> <span class="o">|</span> <span class="nc">O</span> <span class="o">|</span> <span class="nc">J</span> <span class="o">|</span> <span class="nc">Empty</span>
+</span></span><span class="line"><span class="cl">  <span class="o">[@@</span><span class="n">deriving</span> <span class="n">sexp</span><span class="o">,</span> <span class="n">compare</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></div><p>Fairly straight forward, we put it in a module to keep the helper functions namespaced. Now we need to create our board representation. We&rsquo;ll use an immutable map because OCaml arrays are mutable. We&rsquo;d have to copy the array each time we made and update, but the map will automatically share as much as possible.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">module</span> <span class="nc">IntPair</span> <span class="o">=</span> <span class="k">struct</span>
+</span></span><span class="line"><span class="cl">  <span class="k">module</span> <span class="nc">T</span> <span class="o">=</span> <span class="k">struct</span>
+</span></span><span class="line"><span class="cl">    <span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="kt">int</span> <span class="o">*</span> <span class="kt">int</span>
+</span></span><span class="line"><span class="cl">    <span class="o">[@@</span><span class="n">deriving</span> <span class="n">compare</span><span class="o">,</span> <span class="n">sexp</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">  <span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">include</span> <span class="nc">T</span> 
+</span></span><span class="line"><span class="cl">  <span class="k">include</span> <span class="nn">Comparable</span><span class="p">.</span><span class="nc">Make</span><span class="o">(</span><span class="nc">T</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="nn">Cell</span><span class="p">.</span><span class="n">t</span> <span class="nn">IntPair</span><span class="p">.</span><span class="nn">Map</span><span class="p">.</span><span class="n">t</span>
+</span></span><span class="line"><span class="cl"><span class="o">[@@</span><span class="n">deriving</span> <span class="n">sexp</span><span class="o">,</span> <span class="n">compare</span><span class="o">]</span>
+</span></span></code></pre></div><p>We wrap up the <code>int * int</code> type in a module so we can derive the <code>Map</code> module without having to deal with all the type variables. Now that we have our board, we need an initial empty board. Let&rsquo;s create a variable to store that:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">empty_board</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">  <span class="k">let</span> <span class="n">board</span> <span class="o">=</span> <span class="n">ref</span> <span class="nn">IntPair</span><span class="p">.</span><span class="nn">Map</span><span class="p">.</span><span class="n">empty</span> <span class="k">in</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="n">x</span><span class="o">=</span><span class="n">0</span> <span class="k">to</span> <span class="n">9</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">y</span><span class="o">=</span><span class="n">0</span> <span class="k">to</span> <span class="n">23</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">      <span class="n">board</span> <span class="o">:=</span> <span class="nn">IntPair</span><span class="p">.</span><span class="nn">Map</span><span class="p">.</span><span class="n">set</span> <span class="o">!</span><span class="n">board</span> <span class="o">~</span><span class="n">key</span><span class="o">:(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">~</span><span class="n">data</span><span class="o">:</span><span class="nn">Cell</span><span class="p">.</span><span class="nc">Empty</span>
+</span></span><span class="line"><span class="cl">    <span class="k">done</span>
+</span></span><span class="line"><span class="cl">  <span class="k">done</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">!</span><span class="n">board</span>
+</span></span><span class="line"><span class="cl"><span class="o">;;</span>
+</span></span></code></pre></div><p>Pretty simple, take an empty map and fill it with an entry for every coordinate in our board mapping to the empty cell. Let&rsquo;s now add this to the overall model and try to show it on the <code>New Game</code> screen. In <code>lib/tetris.ml</code> a couple updates are needed. First the <code>Model.t</code> type needs to have a <code>board</code> field. The <code>Model.init</code> function needs to set the board field to <code>Board.empty_board</code>. Lastly, when we <code>ChangePage</code> to the <code>NewGame</code> page we need to reset the board state.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">module</span> <span class="nc">Model</span> <span class="o">=</span> <span class="k">struct</span>
+</span></span><span class="line"><span class="cl">  <span class="c">(* ... *)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">current_page</span> <span class="o">:</span> <span class="n">page</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">board</span> <span class="o">:</span> <span class="nn">Board</span><span class="p">.</span><span class="n">t</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">[@@</span><span class="n">deriving</span> <span class="n">sexp</span><span class="o">,</span> <span class="n">compare</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">let</span> <span class="n">init</span> <span class="o">=</span> <span class="o">{</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">current_page</span> <span class="o">=</span> <span class="nc">MainMenu</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">board</span> <span class="o">=</span> <span class="nn">Board</span><span class="p">.</span><span class="n">empty_board</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="c">(* ... *)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="c">(* ... *)</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="n">apply_action</span> <span class="o">(</span><span class="n">model</span> <span class="o">:</span> <span class="nn">Model</span><span class="p">.</span><span class="n">t</span><span class="o">)</span> <span class="c">(* ... *)</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">  <span class="k">match</span> <span class="n">action</span> <span class="k">with</span>
+</span></span><span class="line"><span class="cl">  <span class="o">|</span> <span class="nc">ChangePage</span> <span class="nc">NewGame</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Model</span><span class="p">.</span><span class="o">{</span> <span class="n">board</span> <span class="o">=</span> <span class="nn">Board</span><span class="p">.</span><span class="n">empty_board</span><span class="o">;</span> <span class="n">current_page</span> <span class="o">=</span> <span class="nc">NewGame</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="o">|</span> <span class="nc">ChangePage</span> <span class="n">new_page</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Model</span><span class="p">.</span><span class="o">{</span> <span class="n">model</span> <span class="k">with</span> <span class="n">current_page</span> <span class="o">=</span> <span class="n">new_page</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">;;</span>
+</span></span></code></pre></div><p>But, the board still needs to be drawn on screen. To do that we need to update the <code>new_game_page</code> function to take a board and render the appropriate HTML.</p>
 <blockquote>
 <p>Under construction&hellip;</p>
 </blockquote>
@@ -185,7 +184,7 @@
 </div>
 </article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.99.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
         </div>
     </footer></div>

@@ -124,86 +124,86 @@
 <h4 id="getting-started">Getting Started</h4>
 <p>The Incr_dom architecture is loosely inspired by <a href="https://elm-lang.org/" target="_blank" rel="noopener noreffer">Elm</a> and <a href="https://reactjs.org/" target="_blank" rel="noopener noreffer">React</a>. This means that applications are split into three main parts. The <code>Model</code>, the <code>Actions</code>, and the <code>View</code>. A standard MVC-ish pattern. The <code>Model</code> is 100% immutable, and the application can only use <code>Actions</code> to effect change in the <code>Model</code>&rsquo;s data. There&rsquo;s a special <code>State</code> sub-module that can be used for stateful data, but we shouldn&rsquo;t need that just yet. Let&rsquo;s get started!</p>
 <p>Create a new file in the <code>lib</code> folder called <code>tetris.ml</code> with the following contents:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="k">open</span> <span class="nc">Incr_dom</span>
-
-<span class="k">module</span> <span class="nc">Model</span> <span class="o">=</span> <span class="k">struct</span>
-  <span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="kt">unit</span>
-  <span class="o">[@@</span><span class="n">deriving</span> <span class="n">sexp</span><span class="o">,</span> <span class="n">compare</span><span class="o">]</span>
-
-  <span class="k">let</span> <span class="n">init</span> <span class="o">=</span> <span class="bp">()</span>
-
-  <span class="k">let</span> <span class="n">cutoff</span> <span class="n">t1</span> <span class="n">t2</span> <span class="o">=</span>
-    <span class="n">compare</span> <span class="n">t1</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">0</span>
-<span class="k">end</span>
-
-<span class="k">module</span> <span class="nc">Action</span> <span class="o">=</span> <span class="k">struct</span>
-  <span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="kt">unit</span>
-  <span class="o">[@@</span><span class="n">deriving</span> <span class="n">sexp</span><span class="o">]</span>
-<span class="k">end</span>
-
-<span class="k">module</span> <span class="nc">State</span> <span class="o">=</span> <span class="k">struct</span>
-  <span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="kt">unit</span>
-<span class="k">end</span>
-
-<span class="k">let</span> <span class="n">on_startup</span> <span class="o">~</span><span class="n">schedule_action</span><span class="o">:_</span> <span class="o">_</span> <span class="o">=</span>
-  <span class="nn">Async_kernel</span><span class="p">.</span><span class="n">return</span> <span class="bp">()</span>
-
-<span class="k">let</span> <span class="n">apply_action</span> <span class="o">(</span><span class="n">model</span> <span class="o">:</span> <span class="nn">Model</span><span class="p">.</span><span class="n">t</span><span class="o">)</span> <span class="o">(</span><span class="n">action</span> <span class="o">:</span> <span class="nn">Action</span><span class="p">.</span><span class="n">t</span><span class="o">)</span> <span class="o">_</span> <span class="o">~</span><span class="n">schedule_action</span> <span class="o">=</span>
-  <span class="n">model</span>
-<span class="o">;;</span>
-
-<span class="k">let</span> <span class="n">view</span> <span class="n">model</span> <span class="o">~</span><span class="n">inject</span> <span class="o">=</span>
-  <span class="k">let</span> <span class="k">open</span> <span class="nn">Incr</span><span class="p">.</span><span class="nc">Let_syntax</span> <span class="k">in</span>
-  <span class="k">let</span><span class="o">%</span><span class="n">map</span> <span class="n">model</span> <span class="o">=</span> <span class="n">model</span> <span class="k">in</span>
-  <span class="nn">Vdom</span><span class="p">.</span><span class="nn">Node</span><span class="p">.</span><span class="o">(</span><span class="n">div</span> <span class="bp">[]</span> <span class="o">[</span><span class="n">text</span> <span class="s2">&#34;Hello World!&#34;</span><span class="o">])</span>
-<span class="o">;;</span>
-
-<span class="k">let</span> <span class="n">create</span> <span class="n">model</span> <span class="o">~</span><span class="n">old_model</span><span class="o">:_</span> <span class="o">~</span><span class="n">inject</span> <span class="o">=</span>
-  <span class="k">let</span> <span class="k">open</span> <span class="nn">Incr</span><span class="p">.</span><span class="nc">Let_syntax</span> <span class="k">in</span>
-  <span class="k">let</span><span class="o">%</span><span class="n">map</span> <span class="n">apply_action</span> <span class="o">=</span>
-    <span class="k">let</span><span class="o">%</span><span class="n">map</span> <span class="n">model</span> <span class="o">=</span> <span class="n">model</span> <span class="k">in</span>
-    <span class="n">apply_action</span> <span class="n">model</span>
-  <span class="ow">and</span> <span class="n">view</span> <span class="o">=</span> <span class="n">view</span> <span class="n">model</span> <span class="o">~</span><span class="n">inject</span>
-  <span class="ow">and</span> <span class="n">model</span> <span class="o">=</span> <span class="n">model</span> <span class="k">in</span>
-  <span class="nn">Component</span><span class="p">.</span><span class="n">create</span> <span class="o">~</span><span class="n">apply_action</span> <span class="n">model</span> <span class="n">view</span>
-<span class="o">;;</span>
-</code></pre></div><p>There&rsquo;s a decent amount of boilerplate to go over here. The <code>[@@deriving sexp, compare]</code> are the syntax extensions talked about earlier. It&rsquo;s an attribute that does some codegen by those preprocessors so we don&rsquo;t have to write the comparison or serialization to <a href="https://en.wikipedia.org/wiki/S-expression" target="_blank" rel="noopener noreffer">S-expressions</a>. Similarly the <code>let%map</code> code is another syntax extension that makes working with monads easier. More can be learned <a href="https://blog.janestreet.com/let-syntax-and-why-you-should-use-it/" target="_blank" rel="noopener noreffer">here</a>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">open</span> <span class="nc">Incr_dom</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">module</span> <span class="nc">Model</span> <span class="o">=</span> <span class="k">struct</span>
+</span></span><span class="line"><span class="cl">  <span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="kt">unit</span>
+</span></span><span class="line"><span class="cl">  <span class="o">[@@</span><span class="n">deriving</span> <span class="n">sexp</span><span class="o">,</span> <span class="n">compare</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">let</span> <span class="n">init</span> <span class="o">=</span> <span class="bp">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">let</span> <span class="n">cutoff</span> <span class="n">t1</span> <span class="n">t2</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="n">compare</span> <span class="n">t1</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">0</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">module</span> <span class="nc">Action</span> <span class="o">=</span> <span class="k">struct</span>
+</span></span><span class="line"><span class="cl">  <span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="kt">unit</span>
+</span></span><span class="line"><span class="cl">  <span class="o">[@@</span><span class="n">deriving</span> <span class="n">sexp</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">module</span> <span class="nc">State</span> <span class="o">=</span> <span class="k">struct</span>
+</span></span><span class="line"><span class="cl">  <span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="kt">unit</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="n">on_startup</span> <span class="o">~</span><span class="n">schedule_action</span><span class="o">:_</span> <span class="o">_</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">  <span class="nn">Async_kernel</span><span class="p">.</span><span class="n">return</span> <span class="bp">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="n">apply_action</span> <span class="o">(</span><span class="n">model</span> <span class="o">:</span> <span class="nn">Model</span><span class="p">.</span><span class="n">t</span><span class="o">)</span> <span class="o">(</span><span class="n">action</span> <span class="o">:</span> <span class="nn">Action</span><span class="p">.</span><span class="n">t</span><span class="o">)</span> <span class="o">_</span> <span class="o">~</span><span class="n">schedule_action</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">  <span class="n">model</span>
+</span></span><span class="line"><span class="cl"><span class="o">;;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="n">view</span> <span class="n">model</span> <span class="o">~</span><span class="n">inject</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">  <span class="k">let</span> <span class="k">open</span> <span class="nn">Incr</span><span class="p">.</span><span class="nc">Let_syntax</span> <span class="k">in</span>
+</span></span><span class="line"><span class="cl">  <span class="k">let</span><span class="o">%</span><span class="n">map</span> <span class="n">model</span> <span class="o">=</span> <span class="n">model</span> <span class="k">in</span>
+</span></span><span class="line"><span class="cl">  <span class="nn">Vdom</span><span class="p">.</span><span class="nn">Node</span><span class="p">.</span><span class="o">(</span><span class="n">div</span> <span class="bp">[]</span> <span class="o">[</span><span class="n">text</span> <span class="s2">&#34;Hello World!&#34;</span><span class="o">])</span>
+</span></span><span class="line"><span class="cl"><span class="o">;;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="n">create</span> <span class="n">model</span> <span class="o">~</span><span class="n">old_model</span><span class="o">:_</span> <span class="o">~</span><span class="n">inject</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">  <span class="k">let</span> <span class="k">open</span> <span class="nn">Incr</span><span class="p">.</span><span class="nc">Let_syntax</span> <span class="k">in</span>
+</span></span><span class="line"><span class="cl">  <span class="k">let</span><span class="o">%</span><span class="n">map</span> <span class="n">apply_action</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span><span class="o">%</span><span class="n">map</span> <span class="n">model</span> <span class="o">=</span> <span class="n">model</span> <span class="k">in</span>
+</span></span><span class="line"><span class="cl">    <span class="n">apply_action</span> <span class="n">model</span>
+</span></span><span class="line"><span class="cl">  <span class="ow">and</span> <span class="n">view</span> <span class="o">=</span> <span class="n">view</span> <span class="n">model</span> <span class="o">~</span><span class="n">inject</span>
+</span></span><span class="line"><span class="cl">  <span class="ow">and</span> <span class="n">model</span> <span class="o">=</span> <span class="n">model</span> <span class="k">in</span>
+</span></span><span class="line"><span class="cl">  <span class="nn">Component</span><span class="p">.</span><span class="n">create</span> <span class="o">~</span><span class="n">apply_action</span> <span class="n">model</span> <span class="n">view</span>
+</span></span><span class="line"><span class="cl"><span class="o">;;</span>
+</span></span></code></pre></div><p>There&rsquo;s a decent amount of boilerplate to go over here. The <code>[@@deriving sexp, compare]</code> are the syntax extensions talked about earlier. It&rsquo;s an attribute that does some codegen by those preprocessors so we don&rsquo;t have to write the comparison or serialization to <a href="https://en.wikipedia.org/wiki/S-expression" target="_blank" rel="noopener noreffer">S-expressions</a>. Similarly the <code>let%map</code> code is another syntax extension that makes working with monads easier. More can be learned <a href="https://blog.janestreet.com/let-syntax-and-why-you-should-use-it/" target="_blank" rel="noopener noreffer">here</a>.</p>
 <p>Starting from the top, the <code>Model</code> module has a basic model of <code>type t = unit</code> for now to make the compiler happy. It also has an <code>init</code> variable representing the initial state. The <code>cutoff</code> function is what Incr_dom uses to determine if the model has changed. This result determines if the incremental computations need to be recomputed.</p>
 <p>In the <code>Actions</code> module there&rsquo;s not much happening. We make a default <code>type t = unit</code> like the <code>Model</code> to make the compiler happy. The <code>[@@deriving sexp]</code> is because the serialization functions are required by the interface.</p>
 <p>We won&rsquo;t be using the <code>State</code> module and it will stay as this simple implementation. It&rsquo;s only here because it&rsquo;s also required by the Incr_dom application interface.</p>
 <p>The <code>on_startup</code> function gives an opportunity to setup state and asynchronous functions. It&rsquo;s useful for kicking off refresh actions or timers when the application loads. We won&rsquo;t need it for the moment.</p>
 <p>Next is <code>apply_action</code> which takes an <code>Action.t</code>, updates the model, and then returns a new model. Since we have no actions or model at the moment, it returns the passed in model.</p>
 <p>The <code>view</code> function is what generates the virtual-dom of our application. It takes in a <code>Model.t Incr.t</code> which is the model lifted into the Incremental monad. Since we need to return a <code>Vdom.Node.t Incr.t</code> we need to <code>map</code> the <code>Model.t Incr.t</code> to <code>Vdom.Node.t</code> hence the <code>let%map model = model in</code> code. This makes it so the value of the <code>let</code> body is the mapped value and handles lifting it back up into an <code>Incr.t</code>. Really it&rsquo;s calling <code>Incr.map</code> and putting all the code in the right places. It only makes things look nicer and avoid the endless nested <code>&gt;&gt;= &gt;&gt;|</code> operators. For example we could have written the code in the following ways:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">view</span> <span class="n">model</span> <span class="o">~</span><span class="n">inject</span> <span class="o">=</span>
-  <span class="nn">Incr</span><span class="p">.</span><span class="n">map</span> <span class="n">model</span> <span class="o">~</span><span class="n">f</span><span class="o">:(</span><span class="k">fun</span> <span class="n">model</span> <span class="o">-&gt;</span>
-      <span class="nn">Vdom</span><span class="p">.</span><span class="nn">Node</span><span class="p">.</span><span class="n">div</span> <span class="bp">[]</span> <span class="bp">[]</span>
-  <span class="o">)</span>
-</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">view</span> <span class="n">model</span> <span class="o">~</span><span class="n">inject</span> <span class="o">=</span>
-  <span class="k">let</span> <span class="k">open</span> <span class="nc">Incr</span> <span class="k">in</span>
-  <span class="n">model</span> <span class="o">&gt;&gt;|</span> <span class="k">fun</span> <span class="n">model</span> <span class="o">-&gt;</span>
-      <span class="nn">Vdom</span><span class="p">.</span><span class="nn">Node</span><span class="p">.</span><span class="n">div</span> <span class="bp">[]</span> <span class="bp">[]</span>
-</code></pre></div><p>Which doesn&rsquo;t seem too bad right now, but gets much uglier and messier when we start projecting properties out of the model to be incrementalized. So we&rsquo;ll stick with the <code>let%map</code> for now as it&rsquo;s the one we want in the end.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">view</span> <span class="n">model</span> <span class="o">~</span><span class="n">inject</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">  <span class="nn">Incr</span><span class="p">.</span><span class="n">map</span> <span class="n">model</span> <span class="o">~</span><span class="n">f</span><span class="o">:(</span><span class="k">fun</span> <span class="n">model</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nn">Vdom</span><span class="p">.</span><span class="nn">Node</span><span class="p">.</span><span class="n">div</span> <span class="bp">[]</span> <span class="bp">[]</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">view</span> <span class="n">model</span> <span class="o">~</span><span class="n">inject</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">  <span class="k">let</span> <span class="k">open</span> <span class="nc">Incr</span> <span class="k">in</span>
+</span></span><span class="line"><span class="cl">  <span class="n">model</span> <span class="o">&gt;&gt;|</span> <span class="k">fun</span> <span class="n">model</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nn">Vdom</span><span class="p">.</span><span class="nn">Node</span><span class="p">.</span><span class="n">div</span> <span class="bp">[]</span> <span class="bp">[]</span>
+</span></span></code></pre></div><p>Which doesn&rsquo;t seem too bad right now, but gets much uglier and messier when we start projecting properties out of the model to be incrementalized. So we&rsquo;ll stick with the <code>let%map</code> for now as it&rsquo;s the one we want in the end.</p>
 <p>Lastly, we have the complicated <code>create</code> function. This ultimately calls the <code>Component.create</code> function which bundles up our state into something the Incr_dom framework can use. The complication of this method stems from flexibility. The reasoning is <a href="https://blog.janestreet.com/what-the-interns-have-wrought-2018/" target="_blank" rel="noopener noreffer">here</a> (see &lsquo;Streamlining Incr_dom&rsquo;). To summarize, it lets you share and incrementalize your application state more flexibly between the <code>Model</code>, <code>Action</code>, and <code>view</code>. In our case we don&rsquo;t really need much sharing, so we do the minimum to split things up.</p>
 <p>There&rsquo;s two more steps before we have a baseline application up and running. We need to edit the <code>bin/main.ml</code> file to initialize the Incr_dom framework with our module, and create our <code>index.html</code> file. Open <code>bin/main.ml</code> and change its contents to:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="k">open</span> <span class="nc">Incr_dom</span>
-
-<span class="k">let</span> <span class="bp">()</span> <span class="o">=</span>
-    <span class="nn">Start_app</span><span class="p">.</span><span class="n">start</span>
-        <span class="o">(</span><span class="k">module</span> <span class="nn">Incr_dom_tetris</span><span class="p">.</span><span class="nc">Tetris</span><span class="o">)</span>
-        <span class="o">~</span><span class="n">bind_to_element_with_id</span><span class="o">:</span><span class="s2">&#34;app&#34;</span>
-        <span class="o">~</span><span class="n">initial_model</span><span class="o">:(</span><span class="nn">Incr_dom_tetris</span><span class="p">.</span><span class="nn">Tetris</span><span class="p">.</span><span class="nn">Model</span><span class="p">.</span><span class="n">init</span><span class="o">)</span>
-</code></pre></div><p>It&rsquo;s pretty straightforward. We want to create an app that uses our <code>Tetris</code> module and attaches it to the <code>app</code> element on our webpage. Now we need to create that <code>index.html</code>. Create <code>index.html</code> in the root of the project with the following contents:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="cp">&lt;!DOCTYPE&gt;</span>
-<span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&#34;en&#34;</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
-        <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&#34;utf-8&#34;</span><span class="p">&gt;</span>
-        <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#39;_build/default/bin/main.bc.js&#39;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#39;text/javascript&#39;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-    <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
-        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#39;app&#39;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
-<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
-</code></pre></div><p>Now all that&rsquo;s left is to build the project! Run <code>dune build bin/main.bc.js</code>. This will compile the javascript version of our code. You can also compile the native version using <code>dune build bin/main.exe</code> which is not super useful because it won&rsquo;t have the javascript environment. But it is useful if we use a different <code>bin</code> module, for example our test executable can be native and call into our <code>Tetris</code> library for testing.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">open</span> <span class="nc">Incr_dom</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="bp">()</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">Start_app</span><span class="p">.</span><span class="n">start</span>
+</span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="k">module</span> <span class="nn">Incr_dom_tetris</span><span class="p">.</span><span class="nc">Tetris</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">~</span><span class="n">bind_to_element_with_id</span><span class="o">:</span><span class="s2">&#34;app&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">~</span><span class="n">initial_model</span><span class="o">:(</span><span class="nn">Incr_dom_tetris</span><span class="p">.</span><span class="nn">Tetris</span><span class="p">.</span><span class="nn">Model</span><span class="p">.</span><span class="n">init</span><span class="o">)</span>
+</span></span></code></pre></div><p>It&rsquo;s pretty straightforward. We want to create an app that uses our <code>Tetris</code> module and attaches it to the <code>app</code> element on our webpage. Now we need to create that <code>index.html</code>. Create <code>index.html</code> in the root of the project with the following contents:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="cp">&lt;!DOCTYPE&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&#34;en&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&#34;utf-8&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#39;_build/default/bin/main.bc.js&#39;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#39;text/javascript&#39;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#39;app&#39;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>Now all that&rsquo;s left is to build the project! Run <code>dune build bin/main.bc.js</code>. This will compile the javascript version of our code. You can also compile the native version using <code>dune build bin/main.exe</code> which is not super useful because it won&rsquo;t have the javascript environment. But it is useful if we use a different <code>bin</code> module, for example our test executable can be native and call into our <code>Tetris</code> library for testing.</p>
 <p>After building you should be able to open <code>index.html</code> and see <code>Hello World!</code> on the screen. If you open the console you&rsquo;ll see something like:</p>
 <pre tabindex="0"><code>Incr_dom action logging is disabled by default.
 To start logging actions, type startLogging()
@@ -252,7 +252,7 @@ To stop logging actions, type stopLogging()
 </div>
 </article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.99.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
         </div>
     </footer></div>

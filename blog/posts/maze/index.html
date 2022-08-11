@@ -129,91 +129,90 @@
 </code></pre><p>Backtracking occurs when there are no more unvisited neighbors of the current cell. In that case the algorithm pops cells from the stack until it finds a cell with an unvisited neighbor from which a new branch is started.</p>
 <hr>
 <p>Some slightly lower-level pseudo code</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="k">struct</span> <span class="nc">Vertex</span> <span class="p">{</span>
-    <span class="kt">bool</span> <span class="n">left_edge</span>   <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-    <span class="kt">bool</span> <span class="n">right_edge</span>  <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-    <span class="kt">bool</span> <span class="n">top_edge</span>    <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-    <span class="kt">bool</span> <span class="n">bottom_edge</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-    <span class="kt">bool</span> <span class="n">visited</span>     <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-<span class="p">};</span>
-
-<span class="k">enum</span> <span class="nc">Direction</span> <span class="p">{</span>
-    <span class="n">Left</span><span class="p">,</span> <span class="n">Right</span><span class="p">,</span> <span class="n">Top</span><span class="p">,</span> <span class="n">Bottom</span>
-<span class="p">}</span>
-
-<span class="k">struct</span> <span class="nc">NeighborInfo</span> <span class="p">{</span>
-    <span class="n">Vertex</span> <span class="n">vertex</span><span class="p">;</span>
-    <span class="n">Direction</span> <span class="n">direction</span><span class="p">;</span>
-<span class="p">};</span>
-
-<span class="k">struct</span> <span class="nc">Maze</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">width</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">height</span><span class="p">;</span>
-    <span class="n">Vertex</span> <span class="n">vertices</span><span class="p">[</span><span class="n">width</span><span class="p">][</span><span class="n">height</span><span class="p">];</span>
-<span class="p">};</span>
-
-<span class="n">Maze</span> <span class="nf">BuildMaze</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// Queue, list, vector, etc
-</span><span class="c1"></span>    <span class="c1">// depends on pick algorithm
-</span><span class="c1"></span>    <span class="n">Collection</span><span class="o">&lt;</span><span class="n">Vertex</span><span class="o">&gt;</span> <span class="n">activeSet</span><span class="p">;</span> 
-
-    <span class="n">Maze</span> <span class="n">maze</span> <span class="o">=</span> <span class="p">{</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">Vertex</span><span class="p">[</span><span class="n">width</span><span class="p">][</span><span class="n">height</span><span class="p">]</span> <span class="p">};</span>
-
-    <span class="n">Point</span> <span class="n">start_loc</span> <span class="o">=</span> <span class="p">{</span> <span class="n">random_int</span><span class="p">(</span><span class="n">width</span><span class="p">),</span> <span class="n">random_int</span><span class="p">(</span><span class="n">height</span><span class="p">)</span> <span class="p">};</span>
-
-    <span class="n">activeSet</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">maze</span><span class="p">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">loc</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">loc</span><span class="p">.</span><span class="n">y</span><span class="p">]);</span>
-    <span class="n">maze</span><span class="p">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">loc</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">loc</span><span class="p">.</span><span class="n">y</span><span class="p">].</span><span class="n">visited</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-
-    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">activeSet</span><span class="p">.</span><span class="n">is_empty</span><span class="p">())</span> <span class="p">{</span>
-        <span class="n">Vertex</span> <span class="n">picked</span> <span class="o">=</span> <span class="n">pick</span><span class="p">(</span><span class="n">activeSet</span><span class="p">);</span>
-
-        <span class="n">Collection</span><span class="o">&lt;</span><span class="n">NeighborInfo</span><span class="o">&gt;</span> <span class="n">neighbors</span> <span class="o">=</span> <span class="n">getNeighbors</span><span class="p">(</span><span class="n">maze</span><span class="p">,</span> <span class="n">picked</span><span class="p">);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">neighbors</span><span class="p">.</span><span class="n">is_empty</span><span class="p">())</span> <span class="p">{</span>
-            <span class="n">activeSet</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="n">picked</span><span class="p">);</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="n">NeighborInfo</span> <span class="n">ni</span> <span class="o">=</span> <span class="n">pickNeighbor</span><span class="p">(</span><span class="n">neighbors</span><span class="p">);</span>
-            <span class="n">ni</span><span class="p">.</span><span class="n">vertex</span><span class="p">.</span><span class="n">visited</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-            <span class="n">setEdges</span><span class="p">(</span><span class="n">picked</span><span class="p">,</span> <span class="n">ni</span><span class="p">);</span>
-            <span class="n">activeSet</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">ni</span><span class="p">.</span><span class="n">vertex</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">setEdges</span><span class="p">(</span><span class="n">Vertex</span> <span class="n">picked</span><span class="p">,</span> <span class="n">NeighborInfo</span> <span class="n">info</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">direction</span> <span class="o">==</span> <span class="n">Left</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">picked</span><span class="p">.</span><span class="n">left</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-        <span class="n">info</span><span class="p">.</span><span class="n">right</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">direction</span> <span class="o">==</span> <span class="n">Right</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">picked</span><span class="p">.</span><span class="n">right</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-        <span class="n">info</span><span class="p">.</span><span class="n">left</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="p">...</span>
-<span class="p">}</span>
-
-<span class="n">NeighborInfo</span> <span class="nf">pickNeighbor</span><span class="p">(</span><span class="n">Collection</span><span class="o">&lt;</span><span class="n">NeighborInfo</span><span class="o">&gt;</span> <span class="n">neighbors</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">neighbors</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">random_int</span><span class="p">(</span><span class="n">neighbors</span><span class="p">.</span><span class="n">length</span><span class="p">()));</span>
-<span class="p">}</span>
-
-<span class="n">Collection</span><span class="o">&lt;</span><span class="n">NeighborInfo</span><span class="o">&gt;</span> <span class="n">getNeighbors</span><span class="p">(</span><span class="n">Maze</span> <span class="n">maze</span><span class="p">,</span> <span class="n">Vertex</span> <span class="n">picked</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="c1">// Get Left, Right, Top, Bottom neighbors,
-</span><span class="c1"></span>    <span class="c1">// but only if they&#39;re not visited.
-</span><span class="c1"></span>    <span class="n">Collection</span><span class="o">&lt;</span><span class="n">NeighborInfo</span><span class="o">&gt;</span> <span class="n">neighbors</span><span class="p">;</span>
-    <span class="n">Vertex</span> <span class="n">left</span> <span class="o">=</span> <span class="n">getNeighbor</span><span class="p">(</span><span class="n">maze</span><span class="p">,</span> <span class="n">picked</span><span class="p">,</span> <span class="n">Left</span><span class="p">);</span> 
-    <span class="n">Vertex</span> <span class="n">right</span> <span class="o">=</span> <span class="n">getNeighbor</span><span class="p">(</span><span class="n">maze</span><span class="p">,</span> <span class="n">picked</span><span class="p">,</span> <span class="n">Right</span><span class="p">);</span>
-    <span class="p">...</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">left</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">left</span><span class="p">.</span><span class="n">visited</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">neighbors</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">NeighborInfo</span><span class="p">{</span><span class="n">left</span><span class="p">,</span> <span class="n">Left</span><span class="p">}));</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">right</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">right</span><span class="p">.</span><span class="n">visited</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">neighbors</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">NeighborInfo</span><span class="p">{</span><span class="n">right</span><span class="p">,</span> <span class="n">Right</span><span class="p">});</span>
-    <span class="p">}</span>
-    <span class="p">...</span>
-    <span class="k">return</span> <span class="n">neighbors</span><span class="p">;</span>
-<span class="p">}</span>
-
-</code></pre></div><h2 id="interactive-example">Interactive Example</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Vertex</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">left_edge</span>   <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">right_edge</span>  <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">top_edge</span>    <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">bottom_edge</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">visited</span>     <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">enum</span> <span class="nc">Direction</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Left</span><span class="p">,</span> <span class="n">Right</span><span class="p">,</span> <span class="n">Top</span><span class="p">,</span> <span class="n">Bottom</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">NeighborInfo</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Vertex</span> <span class="n">vertex</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Direction</span> <span class="n">direction</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Maze</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">width</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">height</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Vertex</span> <span class="n">vertices</span><span class="p">[</span><span class="n">width</span><span class="p">][</span><span class="n">height</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Maze</span> <span class="nf">BuildMaze</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Queue, list, vector, etc
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// depends on pick algorithm
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Collection</span><span class="o">&lt;</span><span class="n">Vertex</span><span class="o">&gt;</span> <span class="n">activeSet</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Maze</span> <span class="n">maze</span> <span class="o">=</span> <span class="p">{</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">Vertex</span><span class="p">[</span><span class="n">width</span><span class="p">][</span><span class="n">height</span><span class="p">]</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Point</span> <span class="n">start_loc</span> <span class="o">=</span> <span class="p">{</span> <span class="n">random_int</span><span class="p">(</span><span class="n">width</span><span class="p">),</span> <span class="n">random_int</span><span class="p">(</span><span class="n">height</span><span class="p">)</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">activeSet</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">maze</span><span class="p">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">loc</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">loc</span><span class="p">.</span><span class="n">y</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">maze</span><span class="p">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">loc</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">loc</span><span class="p">.</span><span class="n">y</span><span class="p">].</span><span class="n">visited</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">activeSet</span><span class="p">.</span><span class="n">is_empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Vertex</span> <span class="n">picked</span> <span class="o">=</span> <span class="n">pick</span><span class="p">(</span><span class="n">activeSet</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">Collection</span><span class="o">&lt;</span><span class="n">NeighborInfo</span><span class="o">&gt;</span> <span class="n">neighbors</span> <span class="o">=</span> <span class="n">getNeighbors</span><span class="p">(</span><span class="n">maze</span><span class="p">,</span> <span class="n">picked</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">neighbors</span><span class="p">.</span><span class="n">is_empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">activeSet</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="n">picked</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">NeighborInfo</span> <span class="n">ni</span> <span class="o">=</span> <span class="n">pickNeighbor</span><span class="p">(</span><span class="n">neighbors</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ni</span><span class="p">.</span><span class="n">vertex</span><span class="p">.</span><span class="n">visited</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">setEdges</span><span class="p">(</span><span class="n">picked</span><span class="p">,</span> <span class="n">ni</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">activeSet</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">ni</span><span class="p">.</span><span class="n">vertex</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">setEdges</span><span class="p">(</span><span class="n">Vertex</span> <span class="n">picked</span><span class="p">,</span> <span class="n">NeighborInfo</span> <span class="n">info</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">direction</span> <span class="o">==</span> <span class="n">Left</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">picked</span><span class="p">.</span><span class="n">left</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">info</span><span class="p">.</span><span class="n">right</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">direction</span> <span class="o">==</span> <span class="n">Right</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">picked</span><span class="p">.</span><span class="n">right</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">info</span><span class="p">.</span><span class="n">left</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">NeighborInfo</span> <span class="nf">pickNeighbor</span><span class="p">(</span><span class="n">Collection</span><span class="o">&lt;</span><span class="n">NeighborInfo</span><span class="o">&gt;</span> <span class="n">neighbors</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">neighbors</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">random_int</span><span class="p">(</span><span class="n">neighbors</span><span class="p">.</span><span class="n">length</span><span class="p">()));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Collection</span><span class="o">&lt;</span><span class="n">NeighborInfo</span><span class="o">&gt;</span> <span class="n">getNeighbors</span><span class="p">(</span><span class="n">Maze</span> <span class="n">maze</span><span class="p">,</span> <span class="n">Vertex</span> <span class="n">picked</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Get Left, Right, Top, Bottom neighbors,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// but only if they&#39;re not visited.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Collection</span><span class="o">&lt;</span><span class="n">NeighborInfo</span><span class="o">&gt;</span> <span class="n">neighbors</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Vertex</span> <span class="n">left</span> <span class="o">=</span> <span class="n">getNeighbor</span><span class="p">(</span><span class="n">maze</span><span class="p">,</span> <span class="n">picked</span><span class="p">,</span> <span class="n">Left</span><span class="p">);</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">Vertex</span> <span class="n">right</span> <span class="o">=</span> <span class="n">getNeighbor</span><span class="p">(</span><span class="n">maze</span><span class="p">,</span> <span class="n">picked</span><span class="p">,</span> <span class="n">Right</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">...</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">left</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">left</span><span class="p">.</span><span class="n">visited</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">neighbors</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">NeighborInfo</span><span class="p">{</span><span class="n">left</span><span class="p">,</span> <span class="n">Left</span><span class="p">}));</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">right</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">right</span><span class="p">.</span><span class="n">visited</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">neighbors</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">NeighborInfo</span><span class="p">{</span><span class="n">right</span><span class="p">,</span> <span class="n">Right</span><span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">...</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">neighbors</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="interactive-example">Interactive Example</h2>
 <p>Here is a JavaScript+Canvas (written in OCaml) implementation of a couple algorithms. The link to the code is posted below. It uses an implementation similar to the code shown above.</p>
 <h3 id="code">Code</h3>
 <p><a href="https://github.com/laser-turtle/maze-ocaml-js" target="_blank" rel="noopener noreffer">Code can be found here</a></p>
@@ -259,7 +258,7 @@
 </div>
 </article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.99.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
         </div>
     </footer></div>

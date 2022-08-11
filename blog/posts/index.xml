@@ -3,7 +3,14 @@
         <title>All Posts - A Blog</title>
         <link>/blog/posts/</link>
         <description>All Posts | A Blog</description>
-        <generator>Hugo -- gohugo.io</generator><copyright>Copyright &amp;copy; 2022 - Laser Turtle</copyright><lastBuildDate>Thu, 01 Apr 2021 21:49:09 -0700</lastBuildDate><atom:link href="/blog/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><copyright>Copyright &amp;copy; 2022 - Laser Turtle</copyright><lastBuildDate>Fri, 05 Aug 2022 12:34:56 -0700</lastBuildDate><atom:link href="/blog/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Build A Compiler</title>
+    <link>/blog/posts/build-a-compiler/</link>
+    <pubDate>Fri, 05 Aug 2022 12:34:56 -0700</pubDate>
+    <author>Author</author>
+    <guid>/blog/posts/build-a-compiler/</guid>
+    <description><![CDATA[Introduction This post will cover how to build a native compiler for a very simple language. It&rsquo;ll start small by building a native compiler for a small calculator language. Later installments will add on to this base with more advanced features like arrays, structs, functions, strings, and more.]]></description>
+</item><item>
     <title>CRT Shader</title>
     <link>/blog/posts/crt_shader/</link>
     <pubDate>Thu, 01 Apr 2021 21:49:09 -0700</pubDate>
