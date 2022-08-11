@@ -94,9 +94,9 @@
         <li><a href="#parser">Parser</a></li>
         <li><a href="#interpreter">Interpreter</a></li>
         <li><a href="#code-generation">Code Generation</a></li>
-        <li><a href="#conclusion">Conclusion</a></li>
       </ul>
     </li>
+    <li><a href="#conclusion">Conclusion</a></li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="introduction">Introduction</h2>
@@ -560,7 +560,7 @@ f:  51                      push   rcx
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="n">gen_code</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="n">write_elf</span>
 </span></span></code></pre></div><p>With this, we have a working compiler. It can take an expression from user input to generating an executable!</p>
-<h3 id="conclusion">Conclusion</h3>
+<h2 id="conclusion">Conclusion</h2>
 <p>This was the first step to making a more advanced compiler. This compiler generates code for a very simple arithmetic language and outputs an ELF file using x86-64 instructions to compute the result. Future installments will add onto this compiler with more advanced features like arrays, structs, functions, strings, and more. Check out the full code base <a href="https://github.com/laser-turtle/calc-compiler" target="_blank" rel="noopener noreffer">here</a> to read any of the omitted parts.</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
