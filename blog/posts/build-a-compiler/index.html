@@ -27,7 +27,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "\/blog\/posts\/build-a-compiler\/"
-        },"genre": "posts","wordcount":  3538 ,
+        },"genre": "posts","wordcount":  3577 ,
         "url": "\/blog\/posts\/build-a-compiler\/","datePublished": "2022-08-05T12:34:56-07:00","dateModified": "2022-08-05T12:34:56-07:00","license": "Copyright \u0026copy; 2022 - Laser Turtle","publisher": {
             "@type": "Organization",
             "name": "Author"},"author": {
@@ -77,7 +77,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title">Build A Compiler</h1><div class="post-meta">
             <div class="post-meta-line"></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-08-05">2022-08-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;3538 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-08-05">2022-08-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;3577 words&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;17 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -435,7 +435,14 @@ Explained:
   LOAD           0x0000000000000000 0x0000000000801000 0x0000000000801000
                  0x0000000000000104 0x0000000000000104   W     0x1000
 </code></pre><p>They&rsquo;re pretty similar, the main difference being the flags. We can see one has <code>R E</code>, meaning read-only, executable, and the other <code>W</code> meaning it maps writable memory. An annotated hex dump of the first section is shown below:</p>
-<pre tabindex="0"><code>[01 00 00 00] ........... 1 = Loadable segment
+<pre tabindex="0"><code>Hex Dump
+00000040: 0100 0000 0500 0000 0000 0000 0000 0000  ................
+00000050: 0010 4000 0000 0000 0010 4000 0000 0000  ..@.......@.....
+00000060: de00 0000 0000 0000 de00 0000 0000 0000  ................
+00000070: 0010 0000 0000 0000                      ........
+
+Explained:
+[01 00 00 00] ........... 1 = Loadable segment
 [05 00 00 00] ........... 5 = Read-only + Executable
 [00 00 00 00 00 00 00 00] File offset, 0 to load aligned in memory
 [00 10 40 00 00 00 00 00] Virtual address to load at
