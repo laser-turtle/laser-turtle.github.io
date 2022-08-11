@@ -27,7 +27,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "\/blog\/posts\/build-a-compiler\/"
-        },"genre": "posts","wordcount":  3577 ,
+        },"genre": "posts","wordcount":  3578 ,
         "url": "\/blog\/posts\/build-a-compiler\/","datePublished": "2022-08-05T12:34:56-07:00","dateModified": "2022-08-05T12:34:56-07:00","license": "Copyright \u0026copy; 2022 - Laser Turtle","publisher": {
             "@type": "Organization",
             "name": "Author"},"author": {
@@ -77,7 +77,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title">Build A Compiler</h1><div class="post-meta">
             <div class="post-meta-line"></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-08-05">2022-08-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;3577 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-08-05">2022-08-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;3578 words&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;17 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -452,7 +452,7 @@ Explained:
 [00 00 00 00] ........... Flags
 [00 10] ................. Alignment (4096)
 </code></pre><h4 id="generate-code">Generate Code</h4>
-<p>To generate code we need to walk the tree and output a list of x86-64 instructions. To make this easier the tree can be normalized so that a post-order traversal over the tree will instruction generation easy. Normalize in this case means to make it so each operation has only two children, unlike now where the AST allows any number of children. Take the example from above:</p>
+<p>To generate code we need to walk the tree and output a list of x86-64 instructions. To make this easier the tree can be normalized so that a post-order traversal over the tree will make instruction generation easy. Normalize in this case means to make it so each operation has only two children, unlike now where the AST allows any number of children. Take the example from above:</p>
 <pre tabindex="0"><code>Input: (+ 1 (* 2 3 4) 5) 
 
 AST:
