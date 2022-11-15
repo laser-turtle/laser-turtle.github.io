@@ -3,7 +3,15 @@
         <title>All Posts - A Blog</title>
         <link>/blog/posts/</link>
         <description>All Posts | A Blog</description>
-        <generator>Hugo -- gohugo.io</generator><copyright>Copyright &amp;copy; 2022 - Laser Turtle</copyright><lastBuildDate>Fri, 05 Aug 2022 12:34:56 -0700</lastBuildDate><atom:link href="/blog/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><copyright>Copyright &amp;copy; 2022 - Laser Turtle</copyright><lastBuildDate>Sun, 13 Nov 2022 12:34:56 -0700</lastBuildDate><atom:link href="/blog/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Build A Compiler - Variables</title>
+    <link>/blog/posts/build-a-compiler-2-variables/</link>
+    <pubDate>Sun, 13 Nov 2022 12:34:56 -0700</pubDate>
+    <author>Author</author>
+    <guid>/blog/posts/build-a-compiler-2-variables/</guid>
+    <description><![CDATA[Note: This is the second part of the series, post 1 can be found here
+ Introduction This installment of the build-a-compiler series will cover global variables, and multi-expression programs.]]></description>
+</item><item>
     <title>Build A Compiler</title>
     <link>/blog/posts/build-a-compiler/</link>
     <pubDate>Fri, 05 Aug 2022 12:34:56 -0700</pubDate>

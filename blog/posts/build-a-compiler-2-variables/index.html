@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Build A Compiler - Variables - A Blog</title><meta name="Description" content="A blog description"><meta property="og:title" content="Build A Compiler - Variables" />
+<meta property="og:description" content="Note: This is the second part of the series, post 1 can be found here
+ Introduction This installment of the build-a-compiler series will cover global variables, and multi-expression programs." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/blog/posts/build-a-compiler-2-variables/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-11-13T12:34:56-07:00" />
+<meta property="article:modified_time" content="2022-11-13T12:34:56-07:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Build A Compiler - Variables"/>
+<meta name="twitter:description" content="Note: This is the second part of the series, post 1 can be found here
+ Introduction This installment of the build-a-compiler series will cover global variables, and multi-expression programs."/>
+<meta name="application-name" content="A Blog">
+<meta name="apple-mobile-web-app-title" content="A Blog"><link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/blog/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png"><link rel="manifest" href="/blog/site.webmanifest"><link rel="canonical" href="/blog/posts/build-a-compiler-2-variables/" /><link rel="prev" href="/blog/blog/posts/build-a-compiler/" /><link rel="stylesheet" href="/blog/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/blog/css/style.min.css"><link rel="stylesheet" href="/blog/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/blog/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Build A Compiler - Variables",
+        "inLanguage": "",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "\/blog\/posts\/build-a-compiler-2-variables\/"
+        },"genre": "posts","wordcount":  1413 ,
+        "url": "\/blog\/posts\/build-a-compiler-2-variables\/","datePublished": "2022-11-13T12:34:56-07:00","dateModified": "2022-11-13T12:34:56-07:00","license": "Copyright \u0026copy; 2022 - Laser Turtle","publisher": {
+            "@type": "Organization",
+            "name": "Author"},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/blog/" title="A Blog">A Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/blog/"> Home </a><a class="menu-item" href="/blog/posts/"> Posts </a><a class="menu-item" href="/blog/about/" title="About"> About </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/blog/" title="A Blog">A Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/blog/" title="">Home</a><a class="menu-item" href="/blog/posts/" title="">Posts</a><a class="menu-item" href="/blog/about/" title="About">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title">Build A Compiler - Variables</h1><div class="post-meta">
+            <div class="post-meta-line"></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-11-13">2022-11-13</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1413 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;7 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#storage">Storage</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#implementation">Implementation</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>Note: This is the second part of the series, post 1 can be found <a href="/blog/posts/build-a-compiler" rel="">here</a></p>
+</blockquote>
+<h2 id="introduction">Introduction</h2>
+<p>This installment of the build-a-compiler series will cover global variables, and multi-expression programs. Currently the compiler is a glorified calculator, but adding the ability to store calculations for later use will bring us one step closer to a full programming language. The full code for this article is available <a href="https://github.com/laser-turtle/calc-compiler/tree/variables" target="_blank" rel="noopener noreffer">here</a>, note that it&rsquo;s under the <code>variables</code> branch.</p>
+<h2 id="storage">Storage</h2>
+<p>Currently the simple calculator language has no way to save computations for later use. This makes it very difficult to write larger computations, or computations that have common sub-expressions. Thankfully this is a solved problem, we can implement <em>variables</em> to save and recall previous computations.</p>
+<p>For our implementation of variables, we&rsquo;ll need to introduce two new concepts to our calculator language, <em>definitions</em> and <em>variable references</em>. A <em>definition</em> will create a new variable name (or assign an existing one) as well as initialize it. <em>Variable references</em> will recall an existing definition. See the program below for an example of two variable definitions, and two varaible references:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-lisp" data-lang="lisp"><span class="line"><span class="cl"><span class="p">(</span><span class="nv">define</span> <span class="nv">x</span> <span class="mi">10</span><span class="p">)</span> <span class="c1">; definition 1</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nv">define</span> <span class="nv">y</span> <span class="mi">20</span><span class="p">)</span> <span class="c1">; definition 2</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">+</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>       <span class="c1">; reference x, reference y</span>
+</span></span></code></pre></div><h4 id="definitions">Definitions</h4>
+<p><strong>Definitions</strong> will use a new syntax:</p>
+<pre>(define <i>name</i> <i>expression</i>)</pre>
+<p>Where name can be any identifier (we&rsquo;re deferring to <a href="https://ocaml.org/p/base/v0.15.0/doc/Base/Sexp/index.html#val-of_string" target="_blank" rel="noopener noreffer">Base.Sexp</a> from Jane Street here for what constitutes as a valid identifier), and expression is any expression, except another define, for initializing the variable value. The following are all valid defines:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-lisp" data-lang="lisp"><span class="line"><span class="cl"><span class="p">(</span><span class="nv">define</span> <span class="nv">x</span> <span class="mi">10</span><span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-lisp" data-lang="lisp"><span class="line"><span class="cl"><span class="p">(</span><span class="nv">define</span> <span class="nv">x</span> <span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nv">define</span> <span class="nv">y</span> <span class="nv">x</span><span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-lisp" data-lang="lisp"><span class="line"><span class="cl"><span class="p">(</span><span class="nv">define</span> <span class="nv">x</span> <span class="p">(</span><span class="nf">+</span> <span class="mi">10</span> <span class="p">(</span><span class="nf">*</span> <span class="mi">20</span> <span class="mi">30</span><span class="p">)))</span>
+</span></span></code></pre></div><p>A redefinition of a name will use that new value from that point onward in the program, but leave old references with the old value.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-lisp" data-lang="lisp"><span class="line"><span class="cl"><span class="p">(</span><span class="nv">define</span> <span class="nv">x</span> <span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nv">define</span> <span class="nv">y</span> <span class="nv">x</span><span class="p">)</span>  <span class="c1">; y = 10</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nv">define</span> <span class="nv">x</span> <span class="mi">20</span><span class="p">)</span> <span class="c1">; x = 20 - redefined</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">+</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>       <span class="c1">; x + y = 30</span>
+</span></span></code></pre></div><h4 id="variable-references">Variable References</h4>
+<p><strong>Variable references</strong> will use a defined name in place of an expression to recall that definition&rsquo;s value. See examples below:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-lisp" data-lang="lisp"><span class="line"><span class="cl"><span class="p">(</span><span class="nv">define</span> <span class="nv">x</span> <span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">+</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-lisp" data-lang="lisp"><span class="line"><span class="cl"><span class="p">(</span><span class="nv">define</span> <span class="nv">x</span> <span class="p">(</span><span class="nf">*</span> <span class="mi">10</span> <span class="mi">20</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nv">define</span> <span class="nv">y</span> <span class="p">(</span><span class="nf">+</span> <span class="nv">x</span> <span class="mi">5</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">+</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+</span></span></code></pre></div><p>Variables should be defined before they are used in an expression.</p>
+<h4 id="multi-line-programs">Multi-line programs</h4>
+<p>One other addition to the language is that it&rsquo;s now multi-expression. It will support having one expression per line, in order to allow definitions followed by usages. Only the very last expression will be used as the output of the program. So the following program will have a result of <code>20</code>, where the computation of <code>30</code> before is thrown away:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-lisp" data-lang="lisp"><span class="line"><span class="cl"><span class="p">(</span><span class="nv">define</span> <span class="nv">x</span> <span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nv">define</span> <span class="nv">y</span> <span class="mi">20</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">+</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="c1">; x + y = 30, thrown away</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">+</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)</span> <span class="c1">; x + x = 20, program result</span>
+</span></span></code></pre></div><h2 id="implementation">Implementation</h2>
+<p>To implement this we will need to do a number of things:</p>
+<ul>
+<li>Update the syntax of the language</li>
+<li>Update our AST</li>
+<li>Reserve storage space for the variable values</li>
+<li>Save the computations into storage</li>
+<li>Recall the computations</li>
+</ul>
+<h4 id="updating-syntax">Updating Syntax</h4>
+<p>To make life simpler, especially now that multiple expressions will be supported, switching over to a more robust parser is useful. Since the real meat of the compiler is turning text into executable bytes, this will let us iterate on the syntax faster. This means we can delete all the tokenizing code, and replace it with <a href="https://ocaml.org/p/core/v0.15.1/doc/Core/Sexp/index.html#val-of_string_many" target="_blank" rel="noopener noreffer">Core.Sexp.of_string_many</a> which will take a string and parse it into a list of S-expressions:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="c">(* S-expression type *)</span>
+</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="nc">Atom</span> <span class="k">of</span> <span class="kt">string</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">List</span> <span class="k">of</span> <span class="n">t</span>
+</span></span></code></pre></div><p>The structure of a <code>define</code> will be:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="nc">List</span> <span class="o">[</span><span class="nc">Atom</span> <span class="s2">&#34;define&#34;</span><span class="o">;</span> <span class="nc">Atom</span> <span class="n">name</span><span class="o">;</span> <span class="n">exp</span><span class="o">]</span>
+</span></span></code></pre></div><p>Variables need no special syntax, we&rsquo;ll differentiate them by assuming it&rsquo;s a variable if it&rsquo;s an <code>Atom</code> that&rsquo;s not a number. E.g.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="nc">Atom</span> <span class="s2">&#34;10&#34;</span> <span class="c">(* a number *)</span>
+</span></span><span class="line"><span class="cl"><span class="nc">Atom</span> <span class="s2">&#34;x&#34;</span>  <span class="c">(* a variable *)</span>
+</span></span></code></pre></div><p>Here&rsquo;s the excerpt from building the AST:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl">  <span class="c">(* Variable definition *)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">|</span> <span class="nc">List</span> <span class="o">[</span><span class="nc">Atom</span> <span class="s2">&#34;define&#34;</span><span class="o">;</span> <span class="nc">Atom</span> <span class="n">var</span><span class="o">;</span> <span class="n">exp</span><span class="o">]</span> <span class="o">::</span> <span class="n">rest</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">     <span class="k">let</span> <span class="k">value</span><span class="o">,</span> <span class="o">_</span> <span class="o">=</span> <span class="n">parse_exp</span> <span class="bp">[]</span> <span class="o">[</span><span class="n">exp</span><span class="o">]</span> <span class="k">in</span>
+</span></span><span class="line"><span class="cl">     <span class="k">let</span> <span class="n">exp</span> <span class="o">=</span> <span class="nc">Def</span> <span class="o">(</span><span class="n">var</span><span class="o">,</span> <span class="nn">List</span><span class="p">.</span><span class="n">hd_exn</span> <span class="k">value</span><span class="o">)</span> <span class="k">in</span>
+</span></span><span class="line"><span class="cl">     <span class="n">parse_top_level</span> <span class="o">(</span><span class="n">exp</span> <span class="o">::</span> <span class="n">acc</span><span class="o">)</span> <span class="n">rest</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="o">|</span> <span class="nc">List</span> <span class="o">(</span><span class="nc">Atom</span> <span class="s2">&#34;define&#34;</span> <span class="o">::</span> <span class="o">_)</span> <span class="o">::</span> <span class="o">_</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">     <span class="n">failwith</span> <span class="s2">&#34;Error with define&#34;</span>
+</span></span></code></pre></div><h4 id="abstract-syntax-tree">Abstract Syntax Tree</h4>
+<p>The AST will need some updates as well:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">type</span> <span class="n">op</span> <span class="o">=</span> <span class="nc">Add</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="nc">Sub</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="nc">Mul</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="nc">Div</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="n">exp</span> <span class="o">=</span> <span class="nc">Op</span> <span class="k">of</span> <span class="n">op</span> <span class="o">*</span> <span class="n">exp</span> <span class="kt">list</span>
+</span></span><span class="line"><span class="cl">         <span class="o">|</span> <span class="nc">Num</span> <span class="k">of</span> <span class="kt">int</span>
+</span></span><span class="line"><span class="cl">         <span class="o">|</span> <span class="nc">Def</span> <span class="k">of</span> <span class="kt">string</span> <span class="o">*</span> <span class="n">exp</span> <span class="c">(* New - define *)</span>
+</span></span><span class="line"><span class="cl">         <span class="o">|</span> <span class="nc">Var</span> <span class="k">of</span> <span class="kt">string</span>       <span class="c">(* New - variable reference *)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="n">ast</span> <span class="o">=</span> <span class="n">exp</span> <span class="kt">list</span>
+</span></span></code></pre></div><p>Two new expression types have been added, <code>Def</code> which represents a definition, and <code>Var</code> which represents a variable reference.</p>
+<h4 id="reserve-storage">Reserve Storage</h4>
+<p>There also needs to be some location in memory for each variable. To keep things simple each variable will be 8 bytes in size, representing a 64-bit integer. We&rsquo;ll need to read the program to find all the unique variable definitions and reserve a slot for each one. We say unique, because new definitions with the same name can overwrite the old location without issue.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">sizeof</span> <span class="o">(_</span> <span class="o">:</span> <span class="n">exp</span><span class="o">)</span> <span class="o">=</span> <span class="n">8</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="n">location_info</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">locations</span> <span class="o">:</span> <span class="o">(</span><span class="kt">string</span><span class="o">,</span> <span class="kt">int</span><span class="o">)</span> <span class="nn">Base</span><span class="p">.</span><span class="nn">Hashtbl</span><span class="p">.</span><span class="n">t</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">total_size</span> <span class="o">:</span> <span class="kt">int</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="n">allocate_variables</span> <span class="o">(</span><span class="n">ast</span> <span class="o">:</span> <span class="n">ast</span><span class="o">)</span> <span class="o">:</span> <span class="n">location_info</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="c">(* Read the number of top-level defines, and
+</span></span></span><span class="line"><span class="cl"><span class="c">       allocate a spot for each one of them *)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="n">offset</span> <span class="o">=</span> <span class="n">ref</span> <span class="nn">Elf</span><span class="p">.</span><span class="n">base_data_address</span> <span class="k">in</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="n">total_size</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">0</span> <span class="k">in</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="n">locations</span> <span class="o">=</span> <span class="nn">Hashtbl</span><span class="p">.</span><span class="nn">Poly</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span> <span class="k">in</span>
+</span></span><span class="line"><span class="cl">    <span class="nn">List</span><span class="p">.</span><span class="n">iter</span> <span class="o">~</span><span class="n">f</span><span class="o">:(</span><span class="k">function</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="nc">Def</span> <span class="o">(</span><span class="n">var</span><span class="o">,</span> <span class="n">exp</span><span class="o">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nn">Hashtbl</span><span class="p">.</span><span class="n">update</span> <span class="n">locations</span> <span class="n">var</span> <span class="o">~</span><span class="n">f</span><span class="o">:(</span><span class="k">function</span>
+</span></span><span class="line"><span class="cl">                <span class="o">|</span> <span class="nc">Some</span> <span class="n">o</span> <span class="o">-&gt;</span> <span class="n">o</span>
+</span></span><span class="line"><span class="cl">                <span class="o">|</span> <span class="nc">None</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">let</span> <span class="n">sz</span> <span class="o">=</span> <span class="n">sizeof</span> <span class="n">exp</span> <span class="k">in</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">let</span> <span class="n">off</span> <span class="o">=</span> <span class="o">!</span><span class="n">offset</span> <span class="k">in</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">offset</span> <span class="o">:=</span> <span class="o">!</span><span class="n">offset</span> <span class="o">+</span> <span class="n">sz</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">total_size</span> <span class="o">:=</span> <span class="o">!</span><span class="n">total_size</span> <span class="o">+</span> <span class="n">sz</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">off</span>
+</span></span><span class="line"><span class="cl">            <span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="bp">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span> <span class="n">ast</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">{</span> <span class="n">locations</span><span class="o">;</span> <span class="n">total_size</span> <span class="o">=</span> <span class="o">!</span><span class="n">total_size</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">;;</span>
+</span></span></code></pre></div><p>The <code>Elf.base_data_address</code> represents the starting location for our data. Recall that the ELF file defines two sections, one marked as <code>R+X</code> at 0x401000 and one marked as <code>W</code> starting at 0x801000, but they actually reference the same underlying data in the ELF file. This means we can prepend the instruction area with space for the data and adjust our entry point to be after the reserved data location. See the illustration below:</p>
+<pre tabindex="0"><code>ELF
++-------------------------+
+| Data                    |
+| 0x0000000000000000      |
++-------------------------+
+| Code                    |
+| mov RCX, 0xA            |
+| push RCX                |
+| ...                     |
++-------------------------+
+</code></pre><pre tabindex="0"><code>Memory
++-------------------------+
+| 0x401000            R+X |
++-------------------------+
+|    ~~Header Info~~      |
+| 0x0000000000000000      |
+| 0x0000000000000000      |
+| mov RCX, 0xA            | &lt;- Entry 0x4010b8
+| push RCX                |
++~~~~~~~~~~~~~~~~~~~~~~~~~+
+|                         |
++~~~~~~~~~~~~~~~~~~~~~~~~~+
+| 0x801000              W |
++-------------------------+
+|    ~~ Header Info ~~    |
+| 0x0000000000000000      | &lt;- Data start 0x8010b0
+| 0x0000000000000000      | &lt;- Second variable location
+| mov RCX, 0xA            |
+| push RCX                |
++-------------------------+
+</code></pre><p>The mapping looks like this because the two sections in our ELF file are specified such that the entire ELF file is mapped to the addresses <code>0x401000</code> and <code>0x801000</code> with different permissions. A normal executable would have the sections padded and mapped to different areas without this overlapping code and data. We did this for simplicity in our case, to keep the ELF file small and the mappings easy.</p>
+<h4 id="save-computations">Save Computations</h4>
+<p>With each variable mapped to a location in memory, we need to implement the code-gen that will save a definition. This is pretty straight forward because we have a stack machine, and have already have the <code>SAVE</code> instruction available. Excerpt below:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="o">|</span> <span class="nc">Def</span> <span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">exp</span><span class="o">)</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="n">v</span> <span class="o">=</span> <span class="n">compute</span> <span class="bp">[]</span> <span class="n">exp</span> <span class="k">in</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="n">loc</span> <span class="o">=</span> <span class="nn">Hashtbl</span><span class="p">.</span><span class="nn">Poly</span><span class="p">.</span><span class="n">find_exn</span> <span class="n">locations</span> <span class="n">name</span> <span class="k">in</span>
+</span></span><span class="line"><span class="cl">    <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="n">save</span> <span class="o">~</span><span class="n">src</span><span class="o">:</span><span class="nc">RCX</span> <span class="o">~</span><span class="n">addr</span><span class="o">:</span><span class="n">loc</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pop</span> <span class="nc">RCX</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="o">@</span> <span class="n">v</span>
+</span></span></code></pre></div><p>First the initialization expression is ran, and because it&rsquo;s a stack machine, the result will be saved to the top of the stack. We then pop the top of the stack and use the <code>SAVE</code> instruction to store the value into the location defined by the <code>allocate_variables</code> map.</p>
+<h4 id="recall-computations">Recall Computations</h4>
+<p>Loading saved variables is even easier, we move the value from memory into a register and then push the register.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="o">|</span> <span class="nc">Var</span> <span class="n">name</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="n">loc</span> <span class="o">=</span> <span class="nn">Hashtbl</span><span class="p">.</span><span class="nn">Poly</span><span class="p">.</span><span class="n">find_exn</span> <span class="n">locations</span> <span class="n">name</span> <span class="k">in</span>
+</span></span><span class="line"><span class="cl">    <span class="o">[</span><span class="n">push</span> <span class="nc">RCX</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">load</span> <span class="o">~</span><span class="n">dst</span><span class="o">:</span><span class="nc">RCX</span> <span class="o">~</span><span class="n">addr</span><span class="o">:</span><span class="n">loc</span><span class="o">]</span>
+</span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
+<p>These are the high-level changes that were needed to add variable support to the language. It&rsquo;s a simple concept, needing only two new primitives, <code>DEF</code>, and <code>VAR</code>. These changes add new functionality that was impossible before, and show how the existing AST and code-gen can be modified with new features. Later installments will be more involved, requiring larger changes, and new intermediate representations. Stay tuned for the next installment.</p>
+<br>
+<p>Code available <a href="https://github.com/laser-turtle/calc-compiler/tree/variables" target="_blank" rel="noopener noreffer">here</a>.</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-11-13</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/blog/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/blog/posts/build-a-compiler/" class="prev" rel="prev" title="Build A Compiler"><i class="fas fa-angle-left fa-fw"></i>Build A Compiler</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.99.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/blog/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/blog/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/blog/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":-1},"comment":{}};</script><script type="text/javascript" src="/blog/js/theme.min.js"></script></body>
+</html>

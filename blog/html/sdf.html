@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script defer src='/blog/js/sdf_shader.js'></script>
+    <style>
+        html, body, canvas {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0;
+        }
+    </style>
+    </head>
+    <body onload='setup(false)'>
+        <script id='vertex-shader' type='x-shader/x-vertex'>
+            attribute vec2 position;
+            varying vec2 vPosition;
+            void main() {
+                vPosition = position;
+                gl_Position = vec4(position, 0.0, 1.0);
+            }
+        </script>
+        <script id='fragment-shader' type='x-shader/x-fragment'>
+            precision highp float;
+            varying vec2 vPosition;
+
+            uniform float uTime;
+            uniform vec2 res;
+
+            float circle(vec2 p, float r) {
+                return length(p) - r;
+            }
+
+            float smooth_union(float d1, float d2, float k) {
+                float h = clamp( 0.5 + 0.5*(d2-d1)/k, 0.0, 1.0 );
+                return mix( d2, d1, h ) - k*h*(1.0-h);
+            }
+
+            void main() {
+                float ratio = res.x/res.y;
+                vec2 p = vPosition;
+                p.x *= -ratio;
+
+                float d1 = circle(p, 0.5);
+                float d2 = circle(p + vec2(0.4, 0.1), 0.5);
+                float d = smooth_union(d1, d2, 0.1);
+
+                vec3 col = (d > 0.) ? vec3(0) : vec3(1, 0, 0);
+                // col += 0.8 + 0.3*cos(80.0*d);
+
+                gl_FragColor = vec4(col, 1);
+            }
+        </script>
+        <canvas width="500px" height="300px" id='glcanvas'>
+        </canvas>
+    </body>
+</html>
