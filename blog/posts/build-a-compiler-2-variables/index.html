@@ -7,20 +7,19 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
         <title>Build A Compiler - Variables - A Blog</title><meta name="Description" content="A blog description"><meta property="og:title" content="Build A Compiler - Variables" />
 <meta property="og:description" content="Note: This is the second part of the series, post 1 can be found here
- Introduction This installment of the build-a-compiler series will cover global variables, and multi-expression programs." />
+Introduction This installment of the build-a-compiler series will cover global variables, and multi-expression programs. Currently the compiler is a glorified calculator, but adding the ability to store calculations for later use will bring us one step closer to a full programming language." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/blog/posts/build-a-compiler-2-variables/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-11-13T12:34:56-07:00" />
-<meta property="article:modified_time" content="2022-11-13T12:34:56-07:00" />
-
+<meta property="article:published_time" content="2022-11-14T12:34:56-07:00" />
+<meta property="article:modified_time" content="2022-11-14T12:34:56-07:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Build A Compiler - Variables"/>
 <meta name="twitter:description" content="Note: This is the second part of the series, post 1 can be found here
- Introduction This installment of the build-a-compiler series will cover global variables, and multi-expression programs."/>
+Introduction This installment of the build-a-compiler series will cover global variables, and multi-expression programs. Currently the compiler is a glorified calculator, but adding the ability to store calculations for later use will bring us one step closer to a full programming language."/>
 <meta name="application-name" content="A Blog">
 <meta name="apple-mobile-web-app-title" content="A Blog"><link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/blog/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png"><link rel="manifest" href="/blog/site.webmanifest"><link rel="canonical" href="/blog/posts/build-a-compiler-2-variables/" /><link rel="prev" href="/blog/blog/posts/build-a-compiler/" /><link rel="stylesheet" href="/blog/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/blog/css/style.min.css"><link rel="stylesheet" href="/blog/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/blog/lib/animate/animate.min.css"><script type="application/ld+json">
+        <link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png"><link rel="manifest" href="/blog/site.webmanifest"><link rel="canonical" href="/blog/posts/build-a-compiler-2-variables/" /><link rel="prev" href="/blog/blog/posts/build-a-compiler/" /><link rel="next" href="/blog/blog/posts/quasi-random/" /><link rel="stylesheet" href="/blog/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/blog/css/style.min.css"><link rel="stylesheet" href="/blog/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/blog/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -30,7 +29,7 @@
             "@type": "WebPage",
             "@id": "\/blog\/posts\/build-a-compiler-2-variables\/"
         },"genre": "posts","wordcount":  1413 ,
-        "url": "\/blog\/posts\/build-a-compiler-2-variables\/","datePublished": "2022-11-13T12:34:56-07:00","dateModified": "2022-11-13T12:34:56-07:00","license": "Copyright \u0026copy; 2022 - Laser Turtle","publisher": {
+        "url": "\/blog\/posts\/build-a-compiler-2-variables\/","datePublished": "2022-11-14T12:34:56-07:00","dateModified": "2022-11-14T12:34:56-07:00","license": "Copyright \u0026copy; 2022 - Laser Turtle","publisher": {
             "@type": "Organization",
             "name": "Author"},"author": {
                 "@type": "Person",
@@ -46,7 +45,7 @@
             <a href="/blog/" title="A Blog">A Blog</a>
         </div>
         <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/blog/"> Home </a><a class="menu-item" href="/blog/posts/"> Posts </a><a class="menu-item" href="/blog/about/" title="About"> About </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+            <div class="menu-inner"><a class="menu-item" href="/blog/"> Home </a><a class="menu-item" href="/blog/art/" title="Art"> Art </a><a class="menu-item" href="/blog/posts/"> Posts </a><a class="menu-item" href="/blog/about/" title="About"> About </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
                     <i class="fas fa-adjust fa-fw"></i>
                 </a>
             </div>
@@ -62,7 +61,7 @@
                 <span></span><span></span><span></span>
             </div>
         </div>
-        <div class="menu" id="menu-mobile"><a class="menu-item" href="/blog/" title="">Home</a><a class="menu-item" href="/blog/posts/" title="">Posts</a><a class="menu-item" href="/blog/about/" title="About">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/blog/" title="">Home</a><a class="menu-item" href="/blog/art/" title="Art">Art</a><a class="menu-item" href="/blog/posts/" title="">Posts</a><a class="menu-item" href="/blog/about/" title="About">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
                 <i class="fas fa-adjust fa-fw"></i>
             </a></div>
     </div>
@@ -79,7 +78,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title">Build A Compiler - Variables</h1><div class="post-meta">
             <div class="post-meta-line"></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-11-13">2022-11-13</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1413 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-11-14">2022-11-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1413 words&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;7 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -184,7 +183,7 @@
 </span></span></code></pre></div><p>Two new expression types have been added, <code>Def</code> which represents a definition, and <code>Var</code> which represents a variable reference.</p>
 <h4 id="reserve-storage">Reserve Storage</h4>
 <p>There also needs to be some location in memory for each variable. To keep things simple each variable will be 8 bytes in size, representing a 64-bit integer. We&rsquo;ll need to read the program to find all the unique variable definitions and reserve a slot for each one. We say unique, because new definitions with the same name can overwrite the old location without issue.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">sizeof</span> <span class="o">(_</span> <span class="o">:</span> <span class="n">exp</span><span class="o">)</span> <span class="o">=</span> <span class="n">8</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">sizeof</span> <span class="o">(_</span> <span class="o">:</span> <span class="n">exp</span><span class="o">)</span> <span class="o">=</span> <span class="mi">8</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="n">location_info</span> <span class="o">=</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">locations</span> <span class="o">:</span> <span class="o">(</span><span class="kt">string</span><span class="o">,</span> <span class="kt">int</span><span class="o">)</span> <span class="nn">Base</span><span class="p">.</span><span class="nn">Hashtbl</span><span class="p">.</span><span class="n">t</span><span class="o">;</span>
@@ -195,7 +194,7 @@
 </span></span><span class="line"><span class="cl">    <span class="c">(* Read the number of top-level defines, and
 </span></span></span><span class="line"><span class="cl"><span class="c">       allocate a spot for each one of them *)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="n">offset</span> <span class="o">=</span> <span class="n">ref</span> <span class="nn">Elf</span><span class="p">.</span><span class="n">base_data_address</span> <span class="k">in</span>
-</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="n">total_size</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">0</span> <span class="k">in</span>
+</span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="n">total_size</span> <span class="o">=</span> <span class="n">ref</span> <span class="mi">0</span> <span class="k">in</span>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="n">locations</span> <span class="o">=</span> <span class="nn">Hashtbl</span><span class="p">.</span><span class="nn">Poly</span><span class="p">.</span><span class="n">create</span> <span class="bp">()</span> <span class="k">in</span>
 </span></span><span class="line"><span class="cl">    <span class="nn">List</span><span class="p">.</span><span class="n">iter</span> <span class="o">~</span><span class="n">f</span><span class="o">:(</span><span class="k">function</span>
 </span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="nc">Def</span> <span class="o">(</span><span class="n">var</span><span class="o">,</span> <span class="n">exp</span><span class="o">)</span> <span class="o">-&gt;</span>
@@ -269,7 +268,7 @@
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-11-13</span>
+                <span>Updated on 2022-11-14</span>
             </div>
             <div class="post-info-license"></div>
         </div>
@@ -288,12 +287,13 @@
         </section>
     </div>
 
-    <div class="post-nav"><a href="/blog/posts/build-a-compiler/" class="prev" rel="prev" title="Build A Compiler"><i class="fas fa-angle-left fa-fw"></i>Build A Compiler</a></div>
+    <div class="post-nav"><a href="/blog/posts/build-a-compiler/" class="prev" rel="prev" title="Build A Compiler"><i class="fas fa-angle-left fa-fw"></i>Build A Compiler</a>
+            <a href="/blog/posts/quasi-random/" class="next" rel="next" title="Quasirandom Sequences">Quasirandom Sequences<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.99.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.111.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
         </div>
     </footer></div>
 

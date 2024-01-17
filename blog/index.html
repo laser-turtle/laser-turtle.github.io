@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="">
     <head>
-	<meta name="generator" content="Hugo 0.99.1" />
+	<meta name="generator" content="Hugo 0.111.3">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
@@ -10,7 +10,6 @@
 <meta property="og:description" content="A blog description" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="/blog/" />
-
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="A Blog"/>
 <meta name="twitter:description" content="A blog description"/>
@@ -33,7 +32,7 @@
             <a href="/blog/" title="A Blog">A Blog</a>
         </div>
         <div class="menu">
-            <div class="menu-inner"><a class="menu-item active" href="/blog/"> Home </a><a class="menu-item" href="/blog/posts/"> Posts </a><a class="menu-item" href="/blog/about/" title="About"> About </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+            <div class="menu-inner"><a class="menu-item active" href="/blog/"> Home </a><a class="menu-item" href="/blog/art/" title="Art"> Art </a><a class="menu-item" href="/blog/posts/"> Posts </a><a class="menu-item" href="/blog/about/" title="About"> About </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
                     <i class="fas fa-adjust fa-fw"></i>
                 </a>
             </div>
@@ -49,7 +48,7 @@
                 <span></span><span></span><span></span>
             </div>
         </div>
-        <div class="menu" id="menu-mobile"><a class="menu-item" href="/blog/" title="">Home</a><a class="menu-item" href="/blog/posts/" title="">Posts</a><a class="menu-item" href="/blog/about/" title="About">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/blog/" title="">Home</a><a class="menu-item" href="/blog/art/" title="Art">Art</a><a class="menu-item" href="/blog/posts/" title="">Posts</a><a class="menu-item" href="/blog/about/" title="About">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
                 <i class="fas fa-adjust fa-fw"></i>
             </a></div>
     </div>
@@ -63,9 +62,14 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/blog/posts/quasi-random/">Quasirandom Sequences</a>
+    </h1><div class="post-meta">&nbsp;<span class="post-publish"><time datetime="2023-05-01">2023-05-01</time></span></div><div class="content">Introduction I saw a Hacker News post the other day about Fibonacci hashing and through that rabbit hole found out about this article on qausirandom sequences. It&rsquo;s a fantastic article, but this mini-post will serve to highlight some cool takeaways I got from reading that post.</div><div class="post-footer">
+        <a href="/blog/posts/quasi-random/">Read More</a></div>
+</article>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/blog/posts/build-a-compiler-2-variables/">Build A Compiler - Variables</a>
-    </h1><div class="post-meta">&nbsp;<span class="post-publish"><time datetime="2022-11-13">2022-11-13</time></span></div><div class="content">Note: This is the second part of the series, post 1 can be found here
- Introduction This installment of the build-a-compiler series will cover global variables, and multi-expression programs.</div><div class="post-footer">
+    </h1><div class="post-meta">&nbsp;<span class="post-publish"><time datetime="2022-11-14">2022-11-14</time></span></div><div class="content">Note: This is the second part of the series, post 1 can be found here
+Introduction This installment of the build-a-compiler series will cover global variables, and multi-expression programs. Currently the compiler is a glorified calculator, but adding the ability to store calculations for later use will bring us one step closer to a full programming language.</div><div class="post-footer">
         <a href="/blog/posts/build-a-compiler-2-variables/">Read More</a></div>
 </article>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
@@ -76,7 +80,7 @@
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/blog/posts/crt_shader/">CRT Shader</a>
     </h1><div class="post-meta">&nbsp;<span class="post-publish"><time datetime="2021-04-01">2021-04-01</time></span></div><div class="content">Shader CRT Shader, or something.
- Code Vertex Shader attribute vec2 position; varying vec2 vPosition; void main() { vPosition = position; gl_Position = vec4(position, 0.0, 1.0); } Fragment Shader precision highp float; varying vec2 vPosition; uniform float uTime; uniform sampler2D uSampler; void main() { vec2 ndc = vPosition; // Bend the texture coordinates across a sphere-ish thing // Add some scan-line noise vec2 tpos = vPosition * vec2(0.</div><div class="post-footer">
+Code Vertex Shader attribute vec2 position; varying vec2 vPosition; void main() { vPosition = position; gl_Position = vec4(position, 0.0, 1.0); } Fragment Shader precision highp float; varying vec2 vPosition; uniform float uTime; uniform sampler2D uSampler; void main() { vec2 ndc = vPosition; // Bend the texture coordinates across a sphere-ish thing // Add some scan-line noise vec2 tpos = vPosition * vec2(0.</div><div class="post-footer">
         <a href="/blog/posts/crt_shader/">Read More</a></div>
 </article>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
@@ -92,19 +96,19 @@
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/blog/posts/incr-dom-3/">Getting Started With Incr_dom - Part 3</a>
     </h1><div class="post-meta">&nbsp;<span class="post-publish"><time datetime="2019-09-01">2019-09-01</time></span></div><div class="content">Note: Incr dom is superceded by a new, much easier to use library called Bonsai
- In this installment of the tutorial we&rsquo;ll get the basics of the Tetris game working.</div><div class="post-footer">
+In this installment of the tutorial we&rsquo;ll get the basics of the Tetris game working.</div><div class="post-footer">
         <a href="/blog/posts/incr-dom-3/">Read More</a></div>
 </article>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/blog/posts/incr-dom-2/">Getting Started With Incr_dom - Part 2</a>
     </h1><div class="post-meta">&nbsp;<span class="post-publish"><time datetime="2019-08-31">2019-08-31</time></span></div><div class="content">Note: Incr dom is superceded by a new, much easier to use library called Bonsai
- This installment will add the basic frame of the single page application. We&rsquo;ll create a menu and be able to navigate between the various pages.</div><div class="post-footer">
+This installment will add the basic frame of the single page application. We&rsquo;ll create a menu and be able to navigate between the various pages.</div><div class="post-footer">
         <a href="/blog/posts/incr-dom-2/">Read More</a></div>
 </article>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/blog/posts/incr-dom/">Getting Started With Incr_dom - Part 1</a>
     </h1><div class="post-meta">&nbsp;<span class="post-publish"><time datetime="2019-08-25">2019-08-25</time></span></div><div class="content">Note: Incr dom is superceded by a new, much easier to use library called Bonsai
- Incr_dom is a library created by Jane Street for building web applications using OCaml.</div><div class="post-footer">
+Incr_dom is a library created by Jane Street for building web applications using OCaml. The interesting thing about Incr_dom is it&rsquo;s built on another one of Jane Street&rsquo;s libraries, called Incremental.</div><div class="post-footer">
         <a href="/blog/posts/incr-dom/">Read More</a></div>
 </article>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
@@ -112,17 +116,18 @@
     </h1><div class="post-meta">&nbsp;<span class="post-publish"><time datetime="2019-05-27">2019-05-27</time></span></div><div class="content">Introduction This is part of an old program series I&rsquo;ll be writing up. During college I was into Computer Graphics, Compilers, Operating Systems, anything that got to the &ldquo;heart&rdquo; of practical computing.</div><div class="post-footer">
         <a href="/blog/posts/maze/">Read More</a></div>
 </article>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/blog/posts/ocaml-is-cool/">OCaml is Cool</a>
-    </h1><div class="post-meta">&nbsp;<span class="post-publish"><time datetime="2019-05-27">2019-05-27</time></span></div><div class="content">Note: This is a filler document
- Why is OCaml cool? It&rsquo;s statically typed, compiles fast, immutable by default, expressive. Below is the basic OCaml hello world.
-let _ = print_endline &#34;Hello World!</div><div class="post-footer">
-        <a href="/blog/posts/ocaml-is-cool/">Read More</a></div>
-</article>
-</div></div>
+<ul class="pagination"><li class="page-item active">
+                    <span class="page-link">
+                        <a href="/blog/">1</a>
+                    </span>
+                </li><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/blog/page/2/">2</a>
+                    </span>
+                </li></ul></div></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.99.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.111.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
         </div>
     </footer></div>
 

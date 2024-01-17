@@ -7,16 +7,15 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
         <title>Getting Started With Incr_dom - Part 3 - A Blog</title><meta name="Description" content="A blog description"><meta property="og:title" content="Getting Started With Incr_dom - Part 3" />
 <meta property="og:description" content="Note: Incr dom is superceded by a new, much easier to use library called Bonsai
- In this installment of the tutorial we&rsquo;ll get the basics of the Tetris game working." />
+In this installment of the tutorial we&rsquo;ll get the basics of the Tetris game working." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/blog/posts/incr-dom-3/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2019-09-01T14:04:57-07:00" />
 <meta property="article:modified_time" content="2019-09-01T14:04:57-07:00" />
-
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Getting Started With Incr_dom - Part 3"/>
 <meta name="twitter:description" content="Note: Incr dom is superceded by a new, much easier to use library called Bonsai
- In this installment of the tutorial we&rsquo;ll get the basics of the Tetris game working."/>
+In this installment of the tutorial we&rsquo;ll get the basics of the Tetris game working."/>
 <meta name="application-name" content="A Blog">
 <meta name="apple-mobile-web-app-title" content="A Blog"><link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/blog/favicon-32x32.png">
@@ -46,7 +45,7 @@
             <a href="/blog/" title="A Blog">A Blog</a>
         </div>
         <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/blog/"> Home </a><a class="menu-item" href="/blog/posts/"> Posts </a><a class="menu-item" href="/blog/about/" title="About"> About </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+            <div class="menu-inner"><a class="menu-item" href="/blog/"> Home </a><a class="menu-item" href="/blog/art/" title="Art"> Art </a><a class="menu-item" href="/blog/posts/"> Posts </a><a class="menu-item" href="/blog/about/" title="About"> About </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
                     <i class="fas fa-adjust fa-fw"></i>
                 </a>
             </div>
@@ -62,7 +61,7 @@
                 <span></span><span></span><span></span>
             </div>
         </div>
-        <div class="menu" id="menu-mobile"><a class="menu-item" href="/blog/" title="">Home</a><a class="menu-item" href="/blog/posts/" title="">Posts</a><a class="menu-item" href="/blog/about/" title="About">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/blog/" title="">Home</a><a class="menu-item" href="/blog/art/" title="Art">Art</a><a class="menu-item" href="/blog/posts/" title="">Posts</a><a class="menu-item" href="/blog/about/" title="About">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
                 <i class="fas fa-adjust fa-fw"></i>
             </a></div>
     </div>
@@ -121,8 +120,8 @@
 </span></span></code></pre></div><p>We wrap up the <code>int * int</code> type in a module so we can derive the <code>Map</code> module without having to deal with all the type variables. Now that we have our board, we need an initial empty board. Let&rsquo;s create a variable to store that:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">empty_board</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">  <span class="k">let</span> <span class="n">board</span> <span class="o">=</span> <span class="n">ref</span> <span class="nn">IntPair</span><span class="p">.</span><span class="nn">Map</span><span class="p">.</span><span class="n">empty</span> <span class="k">in</span>
-</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="n">x</span><span class="o">=</span><span class="n">0</span> <span class="k">to</span> <span class="n">9</span> <span class="k">do</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">y</span><span class="o">=</span><span class="n">0</span> <span class="k">to</span> <span class="n">23</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span> <span class="k">to</span> <span class="mi">9</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span> <span class="k">to</span> <span class="mi">23</span> <span class="k">do</span>
 </span></span><span class="line"><span class="cl">      <span class="n">board</span> <span class="o">:=</span> <span class="nn">IntPair</span><span class="p">.</span><span class="nn">Map</span><span class="p">.</span><span class="n">set</span> <span class="o">!</span><span class="n">board</span> <span class="o">~</span><span class="n">key</span><span class="o">:(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">~</span><span class="n">data</span><span class="o">:</span><span class="nn">Cell</span><span class="p">.</span><span class="nc">Empty</span>
 </span></span><span class="line"><span class="cl">    <span class="k">done</span>
 </span></span><span class="line"><span class="cl">  <span class="k">done</span><span class="o">;</span>
@@ -184,8 +183,8 @@
 </div>
 </article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.99.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.111.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
         </div>
     </footer></div>
 

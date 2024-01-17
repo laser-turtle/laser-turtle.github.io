@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+    </head>
+    <body>
+        <div>
+            <div>
+                <canvas width="250px" height="250px" id='r2'>
+                </canvas>
+                <canvas width="250px" height="250px" id='r3'>
+                </canvas>
+                <canvas width="250px" height="250px" id='h1'>
+                </canvas>
+            </div>
+            <div>
+                <canvas width="250px" height="250px" id='r4'>
+                </canvas>
+                <canvas width="250px" height="250px" id='r5'>
+                </canvas>
+                <canvas width="250px" height="250px" id='h2'>
+                </canvas>
+            </div>
+        </div>
+    </body>
+    <script type='text/javascript'>
+        function setCanvasHiDPI(canvas) {
+            const w = canvas.width;
+            const h = canvas.height;
+            const dpi = window.devicePixelRatio;
+            canvas.width = canvas.width * dpi;
+            canvas.height = canvas.height * dpi;
+            canvas.style.width = w + "px"
+            canvas.style.height = h + "px";
+        }
+
+        // z[i+1] = (z[i] + alpha) % 1
+        // g = 1.6180339887498948482
+        // g changes per number of dimensions
+        // g = sqrt
+        // alpha  = 1. / g
+        // alpha2 = 1. / (g*g)
+        // alpha3 = 1. / (g*g*g)
+
+        function createR2Generator() {
+            const g = 1.32471795724474602596;
+            const alpha1 = 1. / g;
+            const alpha2 = 1. / (g*g);
+
+            const state = {
+                n: Math.random() * 100000000
+            };
+
+            function randPoint() {
+                const x = (0.5 + alpha1*state.n) % 1;
+                const y = (0.5 + alpha2*state.n) % 1;
+                ++state.n;
+
+                return [x, y];
+            }
+
+            return randPoint;
+        }
+
+        const points = [
+            { color: 'black', count: 500 }
+        ]
+
+        const points2 = [
+            { color: 'blue', count: 200 },
+            { color: 'orange', count: 150 },
+            { color: 'red', count: 125 },
+            { color: 'yellow', count: 10 },
+        ]
+
+        function drawPoints(canvasId, randPoint, points) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+
+            setCanvasHiDPI(canvas);
+
+            function circle(x, y, radius) {
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, 2*Math.PI);
+                ctx.stroke();
+                ctx.fill();
+            }
+
+            function placePoints(pt) {
+                const radius = 2.5;
+                ctx.fillStyle = pt.color;
+                ctx.strokeStyle = 'black';
+                ctx.strokeWidth = .5;
+                for (let i = 0; i < pt.count; ++i) {
+                    const [x, y] = randPoint();
+
+                    const px = x * (canvas.width - radius*2) + radius;
+                    const py = y * (canvas.height - radius*2) + radius;
+
+                    circle(px, py, radius);
+                }
+            }
+
+            points.forEach((pt) => {
+                placePoints(pt);
+            });
+        }
+
+        function hexagons() {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+
+            setCanvasHiDPI(canvas);
+        }
+
+        function mathRandom() {
+            return [Math.random(), Math.random()];
+        }
+
+        drawPoints('r2', createR2Generator(), points);
+        drawPoints('r3', mathRandom, points);
+        drawPoints('r4', createR2Generator(), points2);
+        drawPoints('r5', mathRandom, points2);
+    </script>
+</html>

@@ -3,14 +3,21 @@
         <title>All Posts - A Blog</title>
         <link>/blog/posts/</link>
         <description>All Posts | A Blog</description>
-        <generator>Hugo -- gohugo.io</generator><copyright>Copyright &amp;copy; 2022 - Laser Turtle</copyright><lastBuildDate>Sun, 13 Nov 2022 12:34:56 -0700</lastBuildDate><atom:link href="/blog/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><copyright>Copyright &amp;copy; 2022 - Laser Turtle</copyright><lastBuildDate>Mon, 01 May 2023 12:34:56 -0700</lastBuildDate><atom:link href="/blog/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Quasirandom Sequences</title>
+    <link>/blog/posts/quasi-random/</link>
+    <pubDate>Mon, 01 May 2023 12:34:56 -0700</pubDate>
+    <author>Author</author>
+    <guid>/blog/posts/quasi-random/</guid>
+    <description><![CDATA[Introduction I saw a Hacker News post the other day about Fibonacci hashing and through that rabbit hole found out about this article on qausirandom sequences. It&rsquo;s a fantastic article, but this mini-post will serve to highlight some cool takeaways I got from reading that post.]]></description>
+</item><item>
     <title>Build A Compiler - Variables</title>
     <link>/blog/posts/build-a-compiler-2-variables/</link>
-    <pubDate>Sun, 13 Nov 2022 12:34:56 -0700</pubDate>
+    <pubDate>Mon, 14 Nov 2022 12:34:56 -0700</pubDate>
     <author>Author</author>
     <guid>/blog/posts/build-a-compiler-2-variables/</guid>
     <description><![CDATA[Note: This is the second part of the series, post 1 can be found here
- Introduction This installment of the build-a-compiler series will cover global variables, and multi-expression programs.]]></description>
+Introduction This installment of the build-a-compiler series will cover global variables, and multi-expression programs. Currently the compiler is a glorified calculator, but adding the ability to store calculations for later use will bring us one step closer to a full programming language.]]></description>
 </item><item>
     <title>Build A Compiler</title>
     <link>/blog/posts/build-a-compiler/</link>
@@ -25,7 +32,7 @@
     <author>Author</author>
     <guid>/blog/posts/crt_shader/</guid>
     <description><![CDATA[Shader CRT Shader, or something.
- Code Vertex Shader attribute vec2 position; varying vec2 vPosition; void main() { vPosition = position; gl_Position = vec4(position, 0.0, 1.0); } Fragment Shader precision highp float; varying vec2 vPosition; uniform float uTime; uniform sampler2D uSampler; void main() { vec2 ndc = vPosition; // Bend the texture coordinates across a sphere-ish thing // Add some scan-line noise vec2 tpos = vPosition * vec2(0.]]></description>
+Code Vertex Shader attribute vec2 position; varying vec2 vPosition; void main() { vPosition = position; gl_Position = vec4(position, 0.0, 1.0); } Fragment Shader precision highp float; varying vec2 vPosition; uniform float uTime; uniform sampler2D uSampler; void main() { vec2 ndc = vPosition; // Bend the texture coordinates across a sphere-ish thing // Add some scan-line noise vec2 tpos = vPosition * vec2(0.]]></description>
 </item><item>
     <title>Math Battle</title>
     <link>/blog/posts/math-battle/</link>
@@ -47,7 +54,7 @@
     <author>Author</author>
     <guid>/blog/posts/incr-dom-3/</guid>
     <description><![CDATA[Note: Incr dom is superceded by a new, much easier to use library called Bonsai
- In this installment of the tutorial we&rsquo;ll get the basics of the Tetris game working.]]></description>
+In this installment of the tutorial we&rsquo;ll get the basics of the Tetris game working.]]></description>
 </item><item>
     <title>Getting Started With Incr_dom - Part 2</title>
     <link>/blog/posts/incr-dom-2/</link>
@@ -55,7 +62,7 @@
     <author>Author</author>
     <guid>/blog/posts/incr-dom-2/</guid>
     <description><![CDATA[Note: Incr dom is superceded by a new, much easier to use library called Bonsai
- This installment will add the basic frame of the single page application. We&rsquo;ll create a menu and be able to navigate between the various pages.]]></description>
+This installment will add the basic frame of the single page application. We&rsquo;ll create a menu and be able to navigate between the various pages.]]></description>
 </item><item>
     <title>Getting Started With Incr_dom - Part 1</title>
     <link>/blog/posts/incr-dom/</link>
@@ -63,7 +70,7 @@
     <author>Author</author>
     <guid>/blog/posts/incr-dom/</guid>
     <description><![CDATA[Note: Incr dom is superceded by a new, much easier to use library called Bonsai
- Incr_dom is a library created by Jane Street for building web applications using OCaml.]]></description>
+Incr_dom is a library created by Jane Street for building web applications using OCaml. The interesting thing about Incr_dom is it&rsquo;s built on another one of Jane Street&rsquo;s libraries, called Incremental.]]></description>
 </item><item>
     <title>Maze Program</title>
     <link>/blog/posts/maze/</link>
@@ -71,14 +78,5 @@
     <author>Author</author>
     <guid>/blog/posts/maze/</guid>
     <description><![CDATA[Introduction This is part of an old program series I&rsquo;ll be writing up. During college I was into Computer Graphics, Compilers, Operating Systems, anything that got to the &ldquo;heart&rdquo; of practical computing.]]></description>
-</item><item>
-    <title>OCaml is Cool</title>
-    <link>/blog/posts/ocaml-is-cool/</link>
-    <pubDate>Mon, 27 May 2019 21:45:30 -0700</pubDate>
-    <author>Author</author>
-    <guid>/blog/posts/ocaml-is-cool/</guid>
-    <description><![CDATA[Note: This is a filler document
- Why is OCaml cool? It&rsquo;s statically typed, compiles fast, immutable by default, expressive. Below is the basic OCaml hello world.
-let _ = print_endline &#34;Hello World!]]></description>
 </item></channel>
 </rss>
