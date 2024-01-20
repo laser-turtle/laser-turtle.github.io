@@ -3,5 +3,12 @@
         <title>Categories - Category - A Blog</title>
         <link>/blog/categories/</link>
         <description>Categories - Category - A Blog</description>
-        <generator>Hugo -- gohugo.io</generator><copyright>Copyright &amp;copy; 2022 - Laser Turtle</copyright><atom:link href="/blog/categories/" rel="self" type="application/rss+xml" /></channel>
+        <generator>Hugo -- gohugo.io</generator><copyright>Copyright &amp;copy; 2022 - Laser Turtle</copyright><lastBuildDate>Wed, 01 Feb 2023 00:00:00 -0700</lastBuildDate><atom:link href="/blog/categories/" rel="self" type="application/rss+xml" /><item>
+    <title>art</title>
+    <link>/blog/categories/art/</link>
+    <pubDate>Wed, 01 Feb 2023 00:00:00 -0700</pubDate>
+    <author>Author</author>
+    <guid>/blog/categories/art/</guid>
+    <description><![CDATA[]]></description>
+</item></channel>
 </rss>

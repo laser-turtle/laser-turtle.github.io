@@ -1,0 +1,42 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>All art - A Blog</title>
+        <link>/blog/art/</link>
+        <description>All art | A Blog</description>
+        <generator>Hugo -- gohugo.io</generator><copyright>Copyright &amp;copy; 2022 - Laser Turtle</copyright><lastBuildDate>Wed, 01 Feb 2023 00:00:00 -0700</lastBuildDate><atom:link href="/blog/art/" rel="self" type="application/rss+xml" /><item>
+    <title>Art 1</title>
+    <link>/blog/art/art1/</link>
+    <pubDate>Wed, 01 Feb 2023 00:00:00 -0700</pubDate>
+    <author>Author</author>
+    <guid>/blog/art/art1/</guid>
+    <description><![CDATA[ ]]></description>
+</item><item>
+    <title>Art 2</title>
+    <link>/blog/art/art2/</link>
+    <pubDate>Tue, 31 Jan 2023 00:00:00 -0700</pubDate>
+    <author>Author</author>
+    <guid>/blog/art/art2/</guid>
+    <description><![CDATA[ ]]></description>
+</item><item>
+    <title>Art 3</title>
+    <link>/blog/art/art3/</link>
+    <pubDate>Mon, 30 Jan 2023 00:00:00 -0700</pubDate>
+    <author>Author</author>
+    <guid>/blog/art/art3/</guid>
+    <description><![CDATA[ ]]></description>
+</item><item>
+    <title>Art 4</title>
+    <link>/blog/art/art4/</link>
+    <pubDate>Sun, 29 Jan 2023 00:00:00 -0700</pubDate>
+    <author>Author</author>
+    <guid>/blog/art/art4/</guid>
+    <description><![CDATA[ ]]></description>
+</item><item>
+    <title>Art 5</title>
+    <link>/blog/art/art5/</link>
+    <pubDate>Sat, 28 Jan 2023 00:00:00 -0700</pubDate>
+    <author>Author</author>
+    <guid>/blog/art/art5/</guid>
+    <description><![CDATA[ ![](/images/art/cube lights.png) ]]></description>
+</item></channel>
+</rss>
