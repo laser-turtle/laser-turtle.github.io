@@ -1,28 +1,32 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>Build A Compiler - A Blog</title><meta name="Description" content="A blog description"><meta property="og:title" content="Build A Compiler" />
-<meta property="og:description" content="Introduction This post will cover how to build a native compiler for a very simple language. It&rsquo;ll start small by building a native compiler for a small calculator language. Later installments will add on to this base with more advanced features like arrays, structs, functions, strings, and more." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="/blog/posts/build-a-compiler/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-08-05T12:34:56-07:00" />
-<meta property="article:modified_time" content="2022-08-05T12:34:56-07:00" />
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Build A Compiler"/>
-<meta name="twitter:description" content="Introduction This post will cover how to build a native compiler for a very simple language. It&rsquo;ll start small by building a native compiler for a small calculator language. Later installments will add on to this base with more advanced features like arrays, structs, functions, strings, and more."/>
+        <title>Build A Compiler - A Blog</title><meta name="Description" content="A blog description"><meta property="og:url" content="/blog/posts/build-a-compiler/">
+  <meta property="og:site_name" content="A Blog">
+  <meta property="og:title" content="Build A Compiler">
+  <meta property="og:description" content="Introduction This post will cover how to build a native compiler for a very simple language. It’ll start small by building a native compiler for a small calculator language. Later installments will add on to this base with more advanced features like arrays, structs, functions, strings, and more.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2022-08-05T12:34:56-07:00">
+    <meta property="article:modified_time" content="2022-08-05T12:34:56-07:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Build A Compiler">
+  <meta name="twitter:description" content="Introduction This post will cover how to build a native compiler for a very simple language. It’ll start small by building a native compiler for a small calculator language. Later installments will add on to this base with more advanced features like arrays, structs, functions, strings, and more.">
 <meta name="application-name" content="A Blog">
 <meta name="apple-mobile-web-app-title" content="A Blog"><link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/blog/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png"><link rel="manifest" href="/blog/site.webmanifest"><link rel="canonical" href="/blog/posts/build-a-compiler/" /><link rel="prev" href="/blog/blog/posts/crt_shader/" /><link rel="next" href="/blog/blog/posts/build-a-compiler-2-variables/" /><link rel="stylesheet" href="/blog/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/blog/css/style.min.css"><link rel="stylesheet" href="/blog/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/blog/lib/animate/animate.min.css"><script type="application/ld+json">
+        <link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png"><link rel="manifest" href="/blog/site.webmanifest"><link rel="canonical" href="/blog/posts/build-a-compiler/" /><link rel="prev" href="/blog/posts/crt_shader/" /><link rel="next" href="/blog/posts/build-a-compiler-2-variables/" /><link rel="stylesheet" href="/blog/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/blog/css/style.min.css"><link rel="stylesheet" href="/blog/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/blog/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
         "headline": "Build A Compiler",
-        "inLanguage": "",
+        "inLanguage": "en",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "\/blog\/posts\/build-a-compiler\/"
@@ -149,10 +153,10 @@ This means we need to take a string like <code>(+ 2 (* 2 2))</code> and parse it
 would become the following AST:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="o">[</span>
 </span></span><span class="line"><span class="cl">  <span class="nc">Op</span> <span class="o">(</span><span class="nc">Add</span><span class="o">,</span> <span class="o">[</span>
-</span></span><span class="line"><span class="cl">    <span class="nc">Num</span> <span class="mi">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">Num</span> <span class="n">1</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">    <span class="nc">Op</span> <span class="o">(</span><span class="nc">Mul</span><span class="o">,</span> <span class="o">[</span>
-</span></span><span class="line"><span class="cl">      <span class="nc">Num</span> <span class="mi">2</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">      <span class="nc">Num</span> <span class="mi">3</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Num</span> <span class="n">2</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">      <span class="nc">Num</span> <span class="n">3</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">    <span class="o">])</span>
 </span></span><span class="line"><span class="cl">  <span class="o">]</span>
 </span></span><span class="line"><span class="cl"><span class="o">]</span>
@@ -349,27 +353,27 @@ add       30
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="n">mov_r</span> <span class="o">~</span><span class="n">src</span> <span class="o">~</span><span class="n">dst</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">   <span class="k">let</span> <span class="n">reg</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">       <span class="k">match</span> <span class="n">src</span><span class="o">,</span> <span class="n">dst</span> <span class="k">with</span>
-</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RAX</span><span class="o">,</span> <span class="nc">RAX</span> <span class="o">-&gt;</span> <span class="mh">0xc0</span>
-</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RAX</span><span class="o">,</span> <span class="nc">RBX</span> <span class="o">-&gt;</span> <span class="mh">0xd8</span>
-</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RAX</span><span class="o">,</span> <span class="nc">RCX</span> <span class="o">-&gt;</span> <span class="mh">0xc8</span>
-</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RAX</span><span class="o">,</span> <span class="nc">RDX</span> <span class="o">-&gt;</span> <span class="mh">0xd0</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RAX</span><span class="o">,</span> <span class="nc">RAX</span> <span class="o">-&gt;</span> <span class="n">0xc0</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RAX</span><span class="o">,</span> <span class="nc">RBX</span> <span class="o">-&gt;</span> <span class="n">0xd8</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RAX</span><span class="o">,</span> <span class="nc">RCX</span> <span class="o">-&gt;</span> <span class="n">0xc8</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RAX</span><span class="o">,</span> <span class="nc">RDX</span> <span class="o">-&gt;</span> <span class="n">0xd0</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RBX</span><span class="o">,</span> <span class="nc">RAX</span> <span class="o">-&gt;</span> <span class="mh">0xc3</span>
-</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RBX</span><span class="o">,</span> <span class="nc">RBX</span> <span class="o">-&gt;</span> <span class="mh">0xdb</span>
-</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RBX</span><span class="o">,</span> <span class="nc">RCX</span> <span class="o">-&gt;</span> <span class="mh">0xcb</span>
-</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RBX</span><span class="o">,</span> <span class="nc">RDX</span> <span class="o">-&gt;</span> <span class="mh">0xd3</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RBX</span><span class="o">,</span> <span class="nc">RAX</span> <span class="o">-&gt;</span> <span class="n">0xc3</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RBX</span><span class="o">,</span> <span class="nc">RBX</span> <span class="o">-&gt;</span> <span class="n">0xdb</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RBX</span><span class="o">,</span> <span class="nc">RCX</span> <span class="o">-&gt;</span> <span class="n">0xcb</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RBX</span><span class="o">,</span> <span class="nc">RDX</span> <span class="o">-&gt;</span> <span class="n">0xd3</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RCX</span><span class="o">,</span> <span class="nc">RAX</span> <span class="o">-&gt;</span> <span class="mh">0xc1</span>
-</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RCX</span><span class="o">,</span> <span class="nc">RBX</span> <span class="o">-&gt;</span> <span class="mh">0xd9</span>
-</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RCX</span><span class="o">,</span> <span class="nc">RCX</span> <span class="o">-&gt;</span> <span class="mh">0xc9</span>
-</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RCX</span><span class="o">,</span> <span class="nc">RDX</span> <span class="o">-&gt;</span> <span class="mh">0xd1</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RCX</span><span class="o">,</span> <span class="nc">RAX</span> <span class="o">-&gt;</span> <span class="n">0xc1</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RCX</span><span class="o">,</span> <span class="nc">RBX</span> <span class="o">-&gt;</span> <span class="n">0xd9</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RCX</span><span class="o">,</span> <span class="nc">RCX</span> <span class="o">-&gt;</span> <span class="n">0xc9</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RCX</span><span class="o">,</span> <span class="nc">RDX</span> <span class="o">-&gt;</span> <span class="n">0xd1</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RDX</span><span class="o">,</span> <span class="nc">RAX</span> <span class="o">-&gt;</span> <span class="mh">0xc2</span>
-</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RDX</span><span class="o">,</span> <span class="nc">RBX</span> <span class="o">-&gt;</span> <span class="mh">0xda</span>
-</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RDX</span><span class="o">,</span> <span class="nc">RCX</span> <span class="o">-&gt;</span> <span class="mh">0xca</span>
-</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RDX</span><span class="o">,</span> <span class="nc">RDX</span> <span class="o">-&gt;</span> <span class="mh">0xd2</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RDX</span><span class="o">,</span> <span class="nc">RAX</span> <span class="o">-&gt;</span> <span class="n">0xc2</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RDX</span><span class="o">,</span> <span class="nc">RBX</span> <span class="o">-&gt;</span> <span class="n">0xda</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RDX</span><span class="o">,</span> <span class="nc">RCX</span> <span class="o">-&gt;</span> <span class="n">0xca</span>
+</span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RDX</span><span class="o">,</span> <span class="nc">RDX</span> <span class="o">-&gt;</span> <span class="n">0xd2</span>
 </span></span><span class="line"><span class="cl">   <span class="k">in</span>
-</span></span><span class="line"><span class="cl">   <span class="o">[</span><span class="mh">0x48</span><span class="o">;</span> <span class="mh">0x89</span><span class="o">;</span> <span class="n">reg</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">   <span class="o">[</span><span class="n">0x48</span><span class="o">;</span> <span class="n">0x89</span><span class="o">;</span> <span class="n">reg</span><span class="o">]</span>
 </span></span><span class="line"><span class="cl"><span class="o">;;</span>
 </span></span></code></pre></div><h4 id="elf">ELF</h4>
 <p>In order to have the OS run our code we need to create what&rsquo;s called an ELF file. It contains information that tells the operating system how to load and run our code. There&rsquo;s three main parts to an ELF file. The <strong>File Header</strong>, <strong>Program Header</strong>, and <strong>Section Header</strong>. We won&rsquo;t be using the section header, so we&rsquo;ll only talk about the file and program headers. More information can be found on <a href="https://en.wikipedia.org/wiki/Executable_and_Linkable_Format#" target="_blank" rel="noopener noreffer">wikipedia</a>.</p>
@@ -536,7 +540,7 @@ f:  51                      push   rcx
 </span></span><span class="line"><span class="cl">        <span class="k">let</span> <span class="n">v</span> <span class="o">=</span> <span class="n">compute</span> <span class="bp">[]</span> <span class="n">exp</span> <span class="k">in</span>
 </span></span><span class="line"><span class="cl">        <span class="o">[</span><span class="n">push</span> <span class="nc">RAX</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">        <span class="n">add</span> <span class="o">~</span><span class="n">dst</span><span class="o">:</span><span class="nc">RAX</span> <span class="o">~</span><span class="n">src</span><span class="o">:</span><span class="nc">RBX</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">        <span class="n">mov_const</span> <span class="o">~</span><span class="n">dst</span><span class="o">:</span><span class="nc">RBX</span> <span class="o">~</span><span class="n">const</span><span class="o">:</span><span class="mi">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mov_const</span> <span class="o">~</span><span class="n">dst</span><span class="o">:</span><span class="nc">RBX</span> <span class="o">~</span><span class="n">const</span><span class="o">:</span><span class="n">1</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">        <span class="n">not</span> <span class="nc">RAX</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">        <span class="n">pop</span> <span class="nc">RAX</span><span class="o">]</span> <span class="o">@</span> <span class="n">v</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="nc">Op</span> <span class="o">(</span><span class="nc">Add</span><span class="o">,</span> <span class="n">exps</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">do_op</span> <span class="n">add</span> <span class="n">exps</span>
@@ -596,7 +600,7 @@ f:  51                      push   rcx
 </div>
 </article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.111.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.126.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
         </div>
     </footer></div>
