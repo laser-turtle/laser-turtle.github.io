@@ -47,7 +47,7 @@ It&rsquo;ll start small by building a native compiler for a small calculator lan
 <iframe src='/html/crt_shader.html' width='500px' height='300px'></iframe>
 <h2 id="code">Code</h2>
 <h3 id="vertex-shader">Vertex Shader</h3>
-<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
     <div class="code-header language-glsl">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
