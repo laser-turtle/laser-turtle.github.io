@@ -4,11 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
         <title>Build A Compiler - A Blog</title><meta name="Description" content="A blog description"><meta property="og:url" content="/blog/posts/build-a-compiler/">
   <meta property="og:site_name" content="A Blog">
   <meta property="og:title" content="Build A Compiler">
-  <meta property="og:description" content="Introduction This post will cover how to build a native compiler for a very simple language. It’ll start small by building a native compiler for a small calculator language. Later installments will add on to this base with more advanced features like arrays, structs, functions, strings, and more.">
+  <meta property="og:description" content="Introduction This post will cover how to build a native compiler for a very simple language. It’ll start small by building a native compiler for a small calculator language. Later installments will add on to this base with more advanced features like arrays, structs, functions, strings, and more. Some code and explanation will be omitted for brevity, but the full working code base can be found here.">
   <meta property="og:locale" content="en">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -17,11 +16,14 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Build A Compiler">
-  <meta name="twitter:description" content="Introduction This post will cover how to build a native compiler for a very simple language. It’ll start small by building a native compiler for a small calculator language. Later installments will add on to this base with more advanced features like arrays, structs, functions, strings, and more.">
+  <meta name="twitter:description" content="Introduction This post will cover how to build a native compiler for a very simple language. It’ll start small by building a native compiler for a small calculator language. Later installments will add on to this base with more advanced features like arrays, structs, functions, strings, and more. Some code and explanation will be omitted for brevity, but the full working code base can be found here.">
 <meta name="application-name" content="A Blog">
-<meta name="apple-mobile-web-app-title" content="A Blog"><link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico" />
+<meta name="apple-mobile-web-app-title" content="A Blog">
+<meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/blog/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png"><link rel="manifest" href="/blog/site.webmanifest"><link rel="canonical" href="/blog/posts/build-a-compiler/" /><link rel="prev" href="/blog/posts/crt_shader/" /><link rel="next" href="/blog/posts/build-a-compiler-2-variables/" /><link rel="stylesheet" href="/blog/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/blog/css/style.min.css"><link rel="stylesheet" href="/blog/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/blog/lib/animate/animate.min.css"><script type="application/ld+json">
+        <link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png"><link rel="mask-icon" href="/blog/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/blog/site.webmanifest"><link rel="canonical" href="/blog/posts/build-a-compiler/" /><link rel="prev" href="/blog/posts/crt_shader/" /><link rel="next" href="/blog/posts/build-a-compiler-2-variables/" /><link rel="stylesheet" href="/blog/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -33,13 +35,13 @@
         },"genre": "posts","wordcount":  3578 ,
         "url": "\/blog\/posts\/build-a-compiler\/","datePublished": "2022-08-05T12:34:56-07:00","dateModified": "2022-08-05T12:34:56-07:00","license": "Copyright \u0026copy; 2022 - Laser Turtle","publisher": {
             "@type": "Organization",
-            "name": "Author"},"author": {
+            "name": ""},"author": {
                 "@type": "Person",
                 "name": "Author"
             },"description": ""
     }
     </script></head>
-    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script>(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
 
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
@@ -47,10 +49,9 @@
             <a href="/blog/" title="A Blog">A Blog</a>
         </div>
         <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/blog/"> Home </a><a class="menu-item" href="/blog/art/"> Art </a><a class="menu-item" href="/blog/posts/"> Posts </a><a class="menu-item" href="/blog/about/" title="About"> About </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                    <i class="fas fa-adjust fa-fw"></i>
-                </a>
-            </div>
+            <div class="menu-inner"><a class="menu-item" href="/blog/"> Home </a><a class="menu-item" href="/blog/posts/blender"> Art </a><a class="menu-item" href="/blog/posts/"> Posts </a><a class="menu-item" href="/blog/about/" title="About"> About </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
         </div>
     </div>
 </header><header class="mobile" id="header-mobile">
@@ -63,29 +64,22 @@
                 <span></span><span></span><span></span>
             </div>
         </div>
-        <div class="menu" id="menu-mobile"><a class="menu-item" href="/blog/" title="">Home</a><a class="menu-item" href="/blog/art/" title="">Art</a><a class="menu-item" href="/blog/posts/" title="">Posts</a><a class="menu-item" href="/blog/about/" title="About">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                <i class="fas fa-adjust fa-fw"></i>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/blog/" title="">Home</a><a class="menu-item" href="/blog/posts/blender" title="">Art</a><a class="menu-item" href="/blog/posts/" title="">Posts</a><a class="menu-item" href="/blog/about/" title="About">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
             </a></div>
     </div>
-</header>
-<div class="search-dropdown desktop">
-    <div id="search-dropdown-desktop"></div>
-</div>
-<div class="search-dropdown mobile">
-    <div id="search-dropdown-mobile"></div>
-</div>
-<main class="main">
+</header><main class="main">
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title">Build A Compiler</h1><div class="post-meta">
             <div class="post-meta-line"></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-08-05">2022-08-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;3578 words&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;17 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  kept="">
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-08-05">2022-08-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3578 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;17 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
-                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
@@ -104,42 +98,67 @@
 </nav></div>
             </div><div class="content" id="content"><h2 id="introduction">Introduction</h2>
 <p>This post will cover how to build a native compiler for a very simple language.
-It&rsquo;ll start small by building a native compiler for a small calculator language. Later installments will add on to this base with more advanced features like arrays, structs, functions, strings, and more. Some code and explanation will be omitted for brevity, but the full working code base can be found <a href="https://github.com/laser-turtle/calc-compiler" target="_blank" rel="noopener noreffer">here</a>.</p>
+It&rsquo;ll start small by building a native compiler for a small calculator language. Later installments will add on to this base with more advanced features like arrays, structs, functions, strings, and more. Some code and explanation will be omitted for brevity, but the full working code base can be found <a href="https://github.com/laser-turtle/calc-compiler" target="_blank" rel="noopener noreffer ">here</a>.</p>
 <p>This post will use OCaml as the implementation language for the compiler. It should be
 fairly straight forward to use another language of choice.</p>
 <h2 id="calculator-language">Calculator Language</h2>
 <p>The initial language will be a calculator language. There are two main parts to the language.
 Operators, and Numbers. An Operator is one of:</p>
-<pre tabindex="0"><code>+ : addition of numbers 
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><pre tabindex="0"><code>+ : addition of numbers 
 - : subtraction of numbers
 * : multiplication of numbers
-/ : division of numbers
-</code></pre><p>and a Number is a non-negative integer.</p>
+/ : division of numbers</code></pre></div>
+<p>and a Number is a non-negative integer.</p>
 <p>The language supports nesting of operators and is written using prefix notation. All operators will
 be wrapped in parentheses to prevent any ambiguity. For example the  calculation of: <code>2 + (2 * 2)</code>
 would be written as <code>(+ 2 (* 2 2))</code>, or in tree form:</p>
-<pre tabindex="0"><code>   +
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><pre tabindex="0"><code>   +
   / \
  2   *
     / \
-   2   2
-</code></pre><p>This means evaluation would proceed from the leaves to the root:</p>
+   2   2</code></pre></div>
+<p>This means evaluation would proceed from the leaves to the root:</p>
 <p><strong>Step 1</strong>:</p>
-<pre tabindex="0"><code>   *
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><pre tabindex="0"><code>   *
   / \   =&gt;  4
- 2   2
-</code></pre><p><strong>Step 2</strong>:</p>
-<pre tabindex="0"><code>   +
+ 2   2</code></pre></div>
+<p><strong>Step 2</strong>:</p>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><pre tabindex="0"><code>   +
   / \   =&gt; 6
- 2   4
-</code></pre><h2 id="calculator-compiler">Calculator Compiler</h2>
+ 2   4</code></pre></div>
+<h2 id="calculator-compiler">Calculator Compiler</h2>
 <p>In this section we&rsquo;ll be setting up the skeleton for the rest of the compiler to build on. In later sections
 we&rsquo;ll build on this initial compiler so that it can compile a more complicated language.</p>
 <h3 id="lexer">Lexer</h3>
 <p>The first step of our compiler will be to turn the string of user input into a format more suitable for evaluation.
-This means we need to take a string like <code>(+ 2 (* 2 2))</code> and parse it into something called an <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree" target="_blank" rel="noopener noreffer">Abstract Syntax Tree</a> (AST).</p>
+This means we need to take a string like <code>(+ 2 (* 2 2))</code> and parse it into something called an <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree" target="_blank" rel="noopener noreffer ">Abstract Syntax Tree</a> (AST).</p>
 <p>In OCaml our AST will have the following type:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">type</span> <span class="n">op</span> <span class="o">=</span> <span class="nc">Add</span>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">type</span> <span class="n">op</span> <span class="o">=</span> <span class="nc">Add</span>
 </span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="nc">Sub</span>
 </span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="nc">Mul</span>
 </span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="nc">Div</span>
@@ -147,11 +166,16 @@ This means we need to take a string like <code>(+ 2 (* 2 2))</code> and parse it
 </span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="n">exp</span> <span class="o">=</span> <span class="nc">Op</span> <span class="k">of</span> <span class="n">op</span> <span class="o">*</span> <span class="n">exp</span> <span class="kt">list</span>
 </span></span><span class="line"><span class="cl">         <span class="o">|</span> <span class="nc">Num</span> <span class="k">of</span> <span class="kt">int</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="n">ast</span> <span class="o">=</span> <span class="n">exp</span> <span class="kt">list</span>
-</span></span></code></pre></div><p>We&rsquo;ll consider it an error to have parentheses with only one element or just a number, for example:
+</span></span><span class="line"><span class="cl"><span class="k">type</span> <span class="n">ast</span> <span class="o">=</span> <span class="n">exp</span> <span class="kt">list</span></span></span></code></pre></div></div>
+<p>We&rsquo;ll consider it an error to have parentheses with only one element or just a number, for example:
 <code>(4)</code>, <code>(+)</code>, or <code>()</code> would throw an error. Valid input would be something like <code>(+ 1 (* 2 3))</code> which
 would become the following AST:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="o">[</span>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="o">[</span>
 </span></span><span class="line"><span class="cl">  <span class="nc">Op</span> <span class="o">(</span><span class="nc">Add</span><span class="o">,</span> <span class="o">[</span>
 </span></span><span class="line"><span class="cl">    <span class="nc">Num</span> <span class="n">1</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">    <span class="nc">Op</span> <span class="o">(</span><span class="nc">Mul</span><span class="o">,</span> <span class="o">[</span>
@@ -159,19 +183,29 @@ would become the following AST:</p>
 </span></span><span class="line"><span class="cl">      <span class="nc">Num</span> <span class="n">3</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">    <span class="o">])</span>
 </span></span><span class="line"><span class="cl">  <span class="o">]</span>
-</span></span><span class="line"><span class="cl"><span class="o">]</span>
-</span></span></code></pre></div><p>The first step in typical compiler is to parse the string into tokens, then turn the tokens into our
+</span></span><span class="line"><span class="cl"><span class="o">]</span></span></span></code></pre></div></div>
+<p>The first step in typical compiler is to parse the string into tokens, then turn the tokens into our
 AST. We&rsquo;ll use the following type for tokens:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">type</span> <span class="n">token</span> <span class="o">=</span> <span class="nc">LParen</span>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">type</span> <span class="n">token</span> <span class="o">=</span> <span class="nc">LParen</span>
 </span></span><span class="line"><span class="cl">           <span class="o">|</span> <span class="nc">RParen</span>
 </span></span><span class="line"><span class="cl">           <span class="o">|</span> <span class="nc">Int</span> <span class="k">of</span> <span class="kt">int</span>
-</span></span><span class="line"><span class="cl">           <span class="o">|</span> <span class="nc">String</span> <span class="k">of</span> <span class="kt">string</span>
-</span></span></code></pre></div><p>We&rsquo;ll be using basic library functions instead of a parser generator or
-a parser combinator library like <a href="https://github.com/inhabitedtype/angstrom" target="_blank" rel="noopener noreffer">Angstrom</a>. It should also be noted that we&rsquo;re parsing <a href="https://en.wikipedia.org/wiki/S-expression" target="_blank" rel="noopener noreffer">s-expressions</a>, which is already implemented by existing libraries like <a href="https://github.com/janestreet/parsexp" target="_blank" rel="noopener noreffer">parsexp</a>.</p>
+</span></span><span class="line"><span class="cl">           <span class="o">|</span> <span class="nc">String</span> <span class="k">of</span> <span class="kt">string</span></span></span></code></pre></div></div>
+<p>We&rsquo;ll be using basic library functions instead of a parser generator or
+a parser combinator library like <a href="https://github.com/inhabitedtype/angstrom" target="_blank" rel="noopener noreffer ">Angstrom</a>. It should also be noted that we&rsquo;re parsing <a href="https://en.wikipedia.org/wiki/S-expression" target="_blank" rel="noopener noreffer ">s-expressions</a>, which is already implemented by existing libraries like <a href="https://github.com/janestreet/parsexp" target="_blank" rel="noopener noreffer ">parsexp</a>.</p>
 <p>The basic approach will be purely functional, turning our input string into
 a list of characters and then turning that list of characters into a list of
 tokens. Let&rsquo;s first take a look at the top-level parsing function:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="c">(** Turn a string into a token list *)</span>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="c">(** Turn a string into a token list *)</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="n">tokenize</span> <span class="o">(</span><span class="n">input</span> <span class="o">:</span> <span class="kt">string</span><span class="o">)</span> <span class="o">:</span> <span class="n">token</span> <span class="kt">list</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="n">chars</span> <span class="o">=</span> <span class="nn">String</span><span class="p">.</span><span class="n">to_list</span> <span class="n">input</span> <span class="k">in</span>
 </span></span><span class="line"><span class="cl">
@@ -203,10 +237,15 @@ tokens. Let&rsquo;s first take a look at the top-level parsing function:</p>
 </span></span><span class="line"><span class="cl">    <span class="c">(* Run the loop *)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">chars</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="n">loop</span> <span class="bp">[]</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">rev</span>
-</span></span></code></pre></div><p>It&rsquo;s pretty straight forward. We look at each character and make a decision on what to do. If it&rsquo;s white space we skip it. If it&rsquo;s a digit, we call a helper function to parse it into an integer. If it&rsquo;s any other character we assume it&rsquo;s a string and call another helper function.</p>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">rev</span></span></span></code></pre></div></div>
+<p>It&rsquo;s pretty straight forward. We look at each character and make a decision on what to do. If it&rsquo;s white space we skip it. If it&rsquo;s a digit, we call a helper function to parse it into an integer. If it&rsquo;s any other character we assume it&rsquo;s a string and call another helper function.</p>
 <p>The <code>parse_int</code> function looks like:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="c">(* Parse a single integer *)</span>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="c">(* Parse a single integer *)</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="n">parse_int</span> <span class="n">lst</span> <span class="o">=</span> 
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="k">rec</span> <span class="n">loop</span> <span class="n">acc</span> <span class="o">=</span> <span class="k">function</span>
 </span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="o">(</span><span class="sc">&#39;0&#39;</span><span class="o">..</span><span class="sc">&#39;9&#39;</span> <span class="k">as</span> <span class="n">digit</span><span class="o">)</span> <span class="o">::</span> <span class="n">rest</span> <span class="o">-&gt;</span> 
@@ -217,10 +256,15 @@ tokens. Let&rsquo;s first take a look at the top-level parsing function:</p>
 </span></span><span class="line"><span class="cl">            <span class="k">let</span> <span class="n">num</span> <span class="o">=</span> <span class="nn">String</span><span class="p">.</span><span class="n">of_char_list</span> <span class="o">(</span><span class="nn">List</span><span class="p">.</span><span class="n">rev</span> <span class="n">acc</span><span class="o">)</span> <span class="k">in</span>
 </span></span><span class="line"><span class="cl">            <span class="nc">Int</span> <span class="o">(</span><span class="nn">Int</span><span class="p">.</span><span class="n">of_string</span> <span class="n">num</span><span class="o">),</span> <span class="n">rest</span>
 </span></span><span class="line"><span class="cl">    <span class="k">in</span>
-</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="bp">[]</span> <span class="n">lst</span>
-</span></span></code></pre></div><p>It follows the same pattern as the top-level loop. It builds an accumulator list of digits and when it gets to a non-digit or the empty string, the accumulator gets transformed back into a string and then <code>Int.of_string</code> turns it into an integer.</p>
+</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="bp">[]</span> <span class="n">lst</span></span></span></code></pre></div></div>
+<p>It follows the same pattern as the top-level loop. It builds an accumulator list of digits and when it gets to a non-digit or the empty string, the accumulator gets transformed back into a string and then <code>Int.of_string</code> turns it into an integer.</p>
 <p>The <code>parse_string</code> helper function is very similar:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">string_of_chars</span> <span class="n">chars</span> <span class="o">=</span>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">string_of_chars</span> <span class="n">chars</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="n">str</span> <span class="o">=</span> <span class="nn">String</span><span class="p">.</span><span class="n">of_char_list</span> <span class="o">(</span><span class="nn">List</span><span class="p">.</span><span class="n">rev</span> <span class="n">chars</span><span class="o">)</span> <span class="k">in</span>
 </span></span><span class="line"><span class="cl">    <span class="nc">String</span> <span class="n">str</span>
 </span></span><span class="line"><span class="cl">
@@ -236,19 +280,29 @@ tokens. Let&rsquo;s first take a look at the top-level parsing function:</p>
 </span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="n">hd</span> <span class="o">::</span> <span class="n">rest</span> <span class="o">-&gt;</span> 
 </span></span><span class="line"><span class="cl">            <span class="n">loop</span> <span class="o">(</span><span class="n">hd</span> <span class="o">::</span> <span class="n">acc</span><span class="o">)</span> <span class="n">rest</span>
 </span></span><span class="line"><span class="cl">    <span class="k">in</span>
-</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="bp">[]</span> <span class="n">lst</span>
-</span></span></code></pre></div><p>As long as the next character is not a digit, paren, or whitespace it accumulates a list of characters and then turns that accumulator into a string.</p>
+</span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="bp">[]</span> <span class="n">lst</span></span></span></code></pre></div></div>
+<p>As long as the next character is not a digit, paren, or whitespace it accumulates a list of characters and then turns that accumulator into a string.</p>
 <h3 id="parser">Parser</h3>
 <p>Now we need to turn this list of tokens into an AST. The basic approach is very similar to the <code>tokenize</code> method from the previous section. We&rsquo;ll consume an expression until we cannot consume it anymore, returning the tail of the list that is unparsed. For any malformed input we&rsquo;ll throw an exception.</p>
 <p>To start, the simplest function is parsing an operator kind:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">parse_op</span> <span class="o">=</span> <span class="k">function</span>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">parse_op</span> <span class="o">=</span> <span class="k">function</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="s2">&#34;+&#34;</span> <span class="o">-&gt;</span> <span class="nc">Add</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="s2">&#34;-&#34;</span> <span class="o">-&gt;</span> <span class="nc">Sub</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="s2">&#34;*&#34;</span> <span class="o">-&gt;</span> <span class="nc">Mul</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="s2">&#34;/&#34;</span> <span class="o">-&gt;</span> <span class="nc">Div</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">failwith</span> <span class="s2">&#34;Invalid op&#34;</span>
-</span></span></code></pre></div><p>Next we will need to have a set of mutually recursive functions. One for parsing an expression, and one for parsing an operator. This is because operators can contain expressions and vice-versa.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">tokens_to_ast</span> <span class="o">(</span><span class="n">lst</span> <span class="o">:</span> <span class="n">token</span> <span class="kt">list</span><span class="o">)</span> <span class="o">:</span> <span class="n">ast</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">failwith</span> <span class="s2">&#34;Invalid op&#34;</span></span></span></code></pre></div></div>
+<p>Next we will need to have a set of mutually recursive functions. One for parsing an expression, and one for parsing an operator. This is because operators can contain expressions and vice-versa.</p>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">tokens_to_ast</span> <span class="o">(</span><span class="n">lst</span> <span class="o">:</span> <span class="n">token</span> <span class="kt">list</span><span class="o">)</span> <span class="o">:</span> <span class="n">ast</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="k">rec</span> <span class="n">parse_operator</span> <span class="o">(</span><span class="n">lst</span> <span class="o">:</span> <span class="n">token</span> <span class="kt">list</span><span class="o">)</span> <span class="o">:</span> <span class="n">exp</span> <span class="o">*</span> <span class="n">token</span> <span class="kt">list</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">        <span class="k">match</span> <span class="n">lst</span> <span class="k">with</span>
 </span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="nc">String</span> <span class="n">s</span> <span class="o">::</span> <span class="n">rest</span> <span class="o">-&gt;</span>
@@ -287,12 +341,17 @@ tokens. Let&rsquo;s first take a look at the top-level parsing function:</p>
 </span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">failwith</span> <span class="s2">&#34;Error parsing input&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="k">in</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">parse_exp</span> <span class="bp">[]</span> <span class="n">lst</span> <span class="o">|&gt;</span> <span class="n">fst</span>
-</span></span></code></pre></div><p>When an LParen is seen, we know this is the start of an operator, so we call out to the <code>parse_operator</code> method. That method in turn keeps calling <code>parse_exp</code> until it sees an RParen.</p>
+</span></span><span class="line"><span class="cl">    <span class="n">parse_exp</span> <span class="bp">[]</span> <span class="n">lst</span> <span class="o">|&gt;</span> <span class="n">fst</span></span></span></code></pre></div></div>
+<p>When an LParen is seen, we know this is the start of an operator, so we call out to the <code>parse_operator</code> method. That method in turn keeps calling <code>parse_exp</code> until it sees an RParen.</p>
 <h3 id="interpreter">Interpreter</h3>
 <p>Before doing code-gen we should figure out how to calculate a result from an AST. This AST technically supports multiple expressions in a row, but we&rsquo;ll only return the last result. In later sections when we add side effects and variables, these ignored expressions will be more useful.</p>
 <p>The evaluator is very simple. We do a bottom-up traversal where the root becomes our result.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">eval</span> <span class="o">(</span><span class="n">ast</span> <span class="o">:</span> <span class="n">ast</span><span class="o">)</span> <span class="o">=</span>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">eval</span> <span class="o">(</span><span class="n">ast</span> <span class="o">:</span> <span class="n">ast</span><span class="o">)</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="c">(* Only return the last expression&#39;s result *)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="n">last</span> <span class="o">=</span> <span class="nn">List</span><span class="p">.</span><span class="n">last_exn</span> <span class="n">ast</span> <span class="k">in</span>
 </span></span><span class="line"><span class="cl">
@@ -309,22 +368,32 @@ tokens. Let&rsquo;s first take a look at the top-level parsing function:</p>
 </span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="nc">Num</span> <span class="n">num</span> <span class="o">-&gt;</span> <span class="n">num</span>
 </span></span><span class="line"><span class="cl">    <span class="k">in</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">compute</span> <span class="n">last</span>
-</span></span></code></pre></div><h3 id="code-generation">Code Generation</h3>
+</span></span><span class="line"><span class="cl">    <span class="n">compute</span> <span class="n">last</span></span></span></code></pre></div></div>
+<h3 id="code-generation">Code Generation</h3>
 <p>Now that we have an AST and can evaluate the AST to a result, we need to think about how we can translate this into machine instructions. Ideally, we&rsquo;d figure out a way to translate our <code>eval</code> function directly into machine code that the CPU could run and produce the same result. Unfortunately this part is very machine and OS specific, so a decision will have to be made on the platform target first.</p>
-<p>For this example we&rsquo;ll use x86 64-bit and Linux. This means we&rsquo;ll need to understand the <a href="https://en.wikipedia.org/wiki/Executable_and_Linkable_Format" target="_blank" rel="noopener noreffer">Executable and Linkable Format</a> (ELF) specification, as well as <a href="https://en.wikipedia.org/wiki/X86_instruction_listings" target="_blank" rel="noopener noreffer">which CPU instructions</a> from the x86-64 <a href="https://en.wikipedia.org/wiki/Instruction_set_architecture" target="_blank" rel="noopener noreffer">ISA</a> we should use.</p>
+<p>For this example we&rsquo;ll use x86 64-bit and Linux. This means we&rsquo;ll need to understand the <a href="https://en.wikipedia.org/wiki/Executable_and_Linkable_Format" target="_blank" rel="noopener noreffer ">Executable and Linkable Format</a> (ELF) specification, as well as <a href="https://en.wikipedia.org/wiki/X86_instruction_listings" target="_blank" rel="noopener noreffer ">which CPU instructions</a> from the x86-64 <a href="https://en.wikipedia.org/wiki/Instruction_set_architecture" target="_blank" rel="noopener noreffer ">ISA</a> we should use.</p>
 <h4 id="evaluation-method">Evaluation Method</h4>
 <p>Before deciding what instructions to use, we need to know what operations need to happen in order to evaluate an AST. Much like our <code>eval</code> code above we&rsquo;d like to start at the leaves and work through the tree left to right, bottom to top. Let&rsquo;s do an example:</p>
-<pre tabindex="0"><code>Input: (+ 1 (* 2 3 4) 5) 
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><pre tabindex="0"><code>Input: (+ 1 (* 2 3 4) 5) 
 
 AST:
     +___
    / \   \
   1   *   5
      /|\
-    2 3 4
-</code></pre><p>For a stack based approach we could evaluate the tree in the following order:</p>
-<pre tabindex="0"><code>Code      Stack
+    2 3 4</code></pre></div>
+<p>For a stack based approach we could evaluate the tree in the following order:</p>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><pre tabindex="0"><code>Code      Stack
 ===============
 push 1    1
 
@@ -337,15 +406,20 @@ mul       1 24
 add       25
 
 push 5    25 5
-add       30
-</code></pre><p>So now we more or less know the order we want to do our operations in, and what kinds of operations are needed from the x86-64 instruction set.</p>
+add       30</code></pre></div>
+<p>So now we more or less know the order we want to do our operations in, and what kinds of operations are needed from the x86-64 instruction set.</p>
 <h4 id="instructions">Instructions</h4>
 <p>There&rsquo;s a number of operations that are required in this calculator language: addition, subtraction, multiplication, and division. As well as stack operations like push and pop. This means we need to go look at the instruction specification and see if the x86-64 ISA supports these operations, and how they work.</p>
-<p>Taking a look at <a href="https://en.wikipedia.org/wiki/X86_instruction_listings" target="_blank" rel="noopener noreffer">here</a>, and doing some digging, the following instructions can be found: <code>mov</code> <code>add</code> <code>sub</code> <code>imul</code> <code>idiv</code> <code>push</code> <code>pop</code>. These should be enough to get started on the code generation.</p>
-<p>We will also need a way to encode these instructions into raw bytes. We&rsquo;ll do this by creating a function to generate each of the instructions. This will make it easier so we don&rsquo;t need to deal with raw bytes directly. You can use <a href="https://defuse.ca/online-x86-assembler.htm#disassembly" target="_blank" rel="noopener noreffer">this website</a> to play around with the various instructions and their decodings/encodings.</p>
-<p>Below is an example instruction function. <a href="https://github.com/laser-turtle/calc-compiler/blob/main/lib/instructions.ml" target="_blank" rel="noopener noreffer">View the code</a> to see all of them.</p>
+<p>Taking a look at <a href="https://en.wikipedia.org/wiki/X86_instruction_listings" target="_blank" rel="noopener noreffer ">here</a>, and doing some digging, the following instructions can be found: <code>mov</code> <code>add</code> <code>sub</code> <code>imul</code> <code>idiv</code> <code>push</code> <code>pop</code>. These should be enough to get started on the code generation.</p>
+<p>We will also need a way to encode these instructions into raw bytes. We&rsquo;ll do this by creating a function to generate each of the instructions. This will make it easier so we don&rsquo;t need to deal with raw bytes directly. You can use <a href="https://defuse.ca/online-x86-assembler.htm#disassembly" target="_blank" rel="noopener noreffer ">this website</a> to play around with the various instructions and their decodings/encodings.</p>
+<p>Below is an example instruction function. <a href="https://github.com/laser-turtle/calc-compiler/blob/main/lib/instructions.ml" target="_blank" rel="noopener noreffer ">View the code</a> to see all of them.</p>
 <p><strong>MOV</strong></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">type</span> <span class="n">arg</span> <span class="o">=</span> <span class="nc">RAX</span>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">type</span> <span class="n">arg</span> <span class="o">=</span> <span class="nc">RAX</span>
 </span></span><span class="line"><span class="cl">         <span class="o">|</span> <span class="nc">RDX</span>
 </span></span><span class="line"><span class="cl">         <span class="o">|</span> <span class="nc">RBX</span>
 </span></span><span class="line"><span class="cl">         <span class="o">|</span> <span class="nc">RCX</span>
@@ -374,13 +448,18 @@ add       30
 </span></span><span class="line"><span class="cl">       <span class="o">|</span> <span class="nc">RDX</span><span class="o">,</span> <span class="nc">RDX</span> <span class="o">-&gt;</span> <span class="n">0xd2</span>
 </span></span><span class="line"><span class="cl">   <span class="k">in</span>
 </span></span><span class="line"><span class="cl">   <span class="o">[</span><span class="n">0x48</span><span class="o">;</span> <span class="n">0x89</span><span class="o">;</span> <span class="n">reg</span><span class="o">]</span>
-</span></span><span class="line"><span class="cl"><span class="o">;;</span>
-</span></span></code></pre></div><h4 id="elf">ELF</h4>
-<p>In order to have the OS run our code we need to create what&rsquo;s called an ELF file. It contains information that tells the operating system how to load and run our code. There&rsquo;s three main parts to an ELF file. The <strong>File Header</strong>, <strong>Program Header</strong>, and <strong>Section Header</strong>. We won&rsquo;t be using the section header, so we&rsquo;ll only talk about the file and program headers. More information can be found on <a href="https://en.wikipedia.org/wiki/Executable_and_Linkable_Format#" target="_blank" rel="noopener noreffer">wikipedia</a>.</p>
+</span></span><span class="line"><span class="cl"><span class="o">;;</span></span></span></code></pre></div></div>
+<h4 id="elf">ELF</h4>
+<p>In order to have the OS run our code we need to create what&rsquo;s called an ELF file. It contains information that tells the operating system how to load and run our code. There&rsquo;s three main parts to an ELF file. The <strong>File Header</strong>, <strong>Program Header</strong>, and <strong>Section Header</strong>. We won&rsquo;t be using the section header, so we&rsquo;ll only talk about the file and program headers. More information can be found on <a href="https://en.wikipedia.org/wiki/Executable_and_Linkable_Format#" target="_blank" rel="noopener noreffer ">wikipedia</a>.</p>
 <h5 id="file-header">File Header</h5>
-<p>The file header contains metadata about the ELF file, like what machine type is expected, where the other headers are located, entry points, etc. Wikipedia has a great table on the ELF page linked above. Especially <a href="https://upload.wikimedia.org/wikipedia/commons/e/e4/ELF_Executable_and_Linkable_Format_diagram_by_Ange_Albertini.png" target="_blank" rel="noopener noreffer">this image</a>. Most of the fields are constant values, or simple offsets and sizes. You can use the <a href="https://man7.org/linux/man-pages/man1/readelf.1.html" target="_blank" rel="noopener noreffer">readelf</a> tool to dissect ELF files. The <code>-l -S -h</code> flags are particularly useful for viewing the different headers.</p>
+<p>The file header contains metadata about the ELF file, like what machine type is expected, where the other headers are located, entry points, etc. Wikipedia has a great table on the ELF page linked above. Especially <a href="https://upload.wikimedia.org/wikipedia/commons/e/e4/ELF_Executable_and_Linkable_Format_diagram_by_Ange_Albertini.png" target="_blank" rel="noopener noreffer ">this image</a>. Most of the fields are constant values, or simple offsets and sizes. You can use the <a href="https://man7.org/linux/man-pages/man1/readelf.1.html" target="_blank" rel="noopener noreffer ">readelf</a> tool to dissect ELF files. The <code>-l -S -h</code> flags are particularly useful for viewing the different headers.</p>
 <p>Here&rsquo;s the output of <code>readelf</code> for the executable we&rsquo;ll be making:</p>
-<pre tabindex="0"><code>ELF Header:
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><pre tabindex="0"><code>ELF Header:
   Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00 
   Class:                             ELF64
   Data:                              2&#39;s complement, little endian
@@ -399,9 +478,14 @@ add       30
   Number of program headers:         2
   Size of section headers:           0 (bytes)
   Number of section headers:         0
-  Section header string table index: 0
-</code></pre><p>This is the file header. And here is an annotated hex dump of that header:</p>
-<pre tabindex="0"><code>Hex Dump
+  Section header string table index: 0</code></pre></div>
+<p>This is the file header. And here is an annotated hex dump of that header:</p>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><pre tabindex="0"><code>Hex Dump
 00000000: 7f45 4c46 0201 0100 0000 0000 0000 0000  .ELF............
 00000010: 0200 3e00 0100 0000 b810 4000 0000 0000  ..&gt;.......@.....
 00000020: 4000 0000 0000 0000 0000 0000 0000 0000  @...............
@@ -426,19 +510,29 @@ Explained:
 [02 00] ................. There are two program headers
 [00 00] ................. Section headers are 0-bytes in size
 [00 00] ................. There are 0 section headers
-[00.00] ................. There is no section header table
-</code></pre><h5 id="program-header">Program Header</h5>
+[00.00] ................. There is no section header table</code></pre></div>
+<h5 id="program-header">Program Header</h5>
 <p>There are two program headers in our ELF file. One for the code, and one for the data. The reason for two is each one has a specific set of flags that control the permissions on the memory. For example we can say that one section has executable permissions, but is read only, and the other section contains writable data. This isn&rsquo;t required, we could easily throw everything in a section that has all the permissions, but it&rsquo;s helpful for debugging and security. If we accidentally try overwritting our code with data, we will get a segmentation fault and the program will crash. This is preferrable to execution continuing and returning the wrong result, making it hard to trace the issue.</p>
 <p>Below is the dump of the program headers from the <code>readelf -l</code> tool:</p>
-<pre tabindex="0"><code>Program Headers:
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><pre tabindex="0"><code>Program Headers:
   Type           Offset             VirtAddr           PhysAddr
                  FileSiz            MemSiz              Flags  Align
   LOAD           0x0000000000000000 0x0000000000401000 0x0000000000401000
                  0x0000000000000104 0x0000000000000104  R E    0x1000
   LOAD           0x0000000000000000 0x0000000000801000 0x0000000000801000
-                 0x0000000000000104 0x0000000000000104   W     0x1000
-</code></pre><p>They&rsquo;re pretty similar, the main difference being the flags. We can see one has <code>R E</code>, meaning read-only, executable, and the other <code>W</code> meaning it maps writable memory. An annotated hex dump of the first section is shown below:</p>
-<pre tabindex="0"><code>Hex Dump
+                 0x0000000000000104 0x0000000000000104   W     0x1000</code></pre></div>
+<p>They&rsquo;re pretty similar, the main difference being the flags. We can see one has <code>R E</code>, meaning read-only, executable, and the other <code>W</code> meaning it maps writable memory. An annotated hex dump of the first section is shown below:</p>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><pre tabindex="0"><code>Hex Dump
 00000040: 0100 0000 0500 0000 0000 0000 0000 0000  ................
 00000050: 0010 4000 0000 0000 0010 4000 0000 0000  ..@.......@.....
 00000060: de00 0000 0000 0000 de00 0000 0000 0000  ................
@@ -453,10 +547,15 @@ Explained:
 [04 01 00 00] ........... Size in the file (bytes)
 [04 01 00 00] ........... Size in memory (bytes)
 [00 00 00 00] ........... Flags
-[00 10] ................. Alignment (4096)
-</code></pre><h4 id="generate-code">Generate Code</h4>
+[00 10] ................. Alignment (4096)</code></pre></div>
+<h4 id="generate-code">Generate Code</h4>
 <p>To generate code we need to walk the tree and output a list of x86-64 instructions. To make this easier the tree can be normalized so that a post-order traversal over the tree will make instruction generation easy. Normalize in this case means to make it so each operation has only two children, unlike now where the AST allows any number of children. Take the example from above:</p>
-<pre tabindex="0"><code>Input: (+ 1 (* 2 3 4) 5) 
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><pre tabindex="0"><code>Input: (+ 1 (* 2 3 4) 5) 
 
 AST:
     +___
@@ -474,9 +573,14 @@ Normalized:
     / \
    *   4
   / \
-2    3
-</code></pre><p>This allows us to operate on the tree left-to-right and keep nested operations in proper order. We would generate the following instruction stream for this tree:</p>
-<pre tabindex="0"><code>0:  48 c7 c1 01 00 00 00    mov    rcx,0x1
+2    3</code></pre></div>
+<p>This allows us to operate on the tree left-to-right and keep nested operations in proper order. We would generate the following instruction stream for this tree:</p>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><pre tabindex="0"><code>0:  48 c7 c1 01 00 00 00    mov    rcx,0x1
 7:  51                      push   rcx
 8:  48 c7 c1 02 00 00 00    mov    rcx,0x2
 f:  51                      push   rcx
@@ -504,9 +608,14 @@ f:  51                      push   rcx
 41: 51                      push   rcx
 42: 48 c7 c0 01 00 00 00    mov    rax,0x1
 49: 5b                      pop    rbx        -- Save result
-4a: cd 80                   int    0x80       -- Return
-</code></pre><p>So what does normalizing these op codes look like?</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="k">rec</span> <span class="n">normalize</span> <span class="n">exp</span> <span class="o">=</span>
+4a: cd 80                   int    0x80       -- Return</code></pre></div>
+<p>So what does normalizing these op codes look like?</p>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="k">rec</span> <span class="n">normalize</span> <span class="n">exp</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="k">match</span> <span class="n">exp</span> <span class="k">with</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="nc">Num</span> <span class="o">_</span> <span class="k">as</span> <span class="n">n</span> <span class="o">-&gt;</span> <span class="n">n</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="nc">Op</span> <span class="o">(_,</span> <span class="bp">[]</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">failwith</span> <span class="s2">&#34;empty op&#34;</span>
@@ -517,10 +626,15 @@ f:  51                      push   rcx
 </span></span><span class="line"><span class="cl">            <span class="k">let</span> <span class="n">l</span> <span class="o">=</span> <span class="n">normalize</span> <span class="n">l</span> <span class="k">in</span>
 </span></span><span class="line"><span class="cl">            <span class="k">let</span> <span class="n">r</span> <span class="o">=</span> <span class="n">normalize</span> <span class="n">r</span> <span class="k">in</span>
 </span></span><span class="line"><span class="cl">            <span class="nc">Op</span> <span class="o">(</span><span class="n">op</span><span class="o">,</span> <span class="o">[</span><span class="n">l</span><span class="o">;</span> <span class="n">r</span><span class="o">])</span>
-</span></span><span class="line"><span class="cl">        <span class="o">)</span> <span class="n">exps</span>
-</span></span></code></pre></div><p>There&rsquo;s a special case in here for subtraction. If we have subtraction with a single child we will keep it, so we can generate special negation code.</p>
+</span></span><span class="line"><span class="cl">        <span class="o">)</span> <span class="n">exps</span></span></span></code></pre></div></div>
+<p>There&rsquo;s a special case in here for subtraction. If we have subtraction with a single child we will keep it, so we can generate special negation code.</p>
 <p>Once the tree has been normalized we can loop over it and generate the instructions:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="k">open</span> <span class="nc">Instructions</span> <span class="k">in</span>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="k">open</span> <span class="nc">Instructions</span> <span class="k">in</span>
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="k">rec</span> <span class="n">compute</span> <span class="o">(</span><span class="n">instrs</span> <span class="o">:</span> <span class="kt">int</span> <span class="kt">list</span> <span class="kt">list</span><span class="o">)</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="n">do_op</span> <span class="n">op</span> <span class="o">=</span> <span class="k">function</span>
 </span></span><span class="line"><span class="cl">        <span class="o">|</span> <span class="o">[</span><span class="n">left</span><span class="o">;</span> <span class="n">right</span><span class="o">]</span> <span class="o">-&gt;</span>
@@ -560,30 +674,33 @@ f:  51                      push   rcx
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="nc">Num</span> <span class="n">num</span> <span class="o">-&gt;</span>
 </span></span><span class="line"><span class="cl">        <span class="n">push</span> <span class="nc">RCX</span>
 </span></span><span class="line"><span class="cl">        <span class="o">::</span> <span class="n">mov_const</span> <span class="o">~</span><span class="n">dst</span><span class="o">:</span><span class="nc">RCX</span> <span class="o">~</span><span class="n">const</span><span class="o">:</span><span class="n">num</span>
-</span></span><span class="line"><span class="cl">        <span class="o">::</span> <span class="n">instrs</span>
-</span></span></code></pre></div><p>We have the special case here for subtraction where we do the bit-wise negation and add one. As well as division, because it has fixed registers that it operates on, so the code has to be careful about what is put where in order to get the right result.</p>
+</span></span><span class="line"><span class="cl">        <span class="o">::</span> <span class="n">instrs</span></span></span></code></pre></div></div>
+<p>We have the special case here for subtraction where we do the bit-wise negation and add one. As well as division, because it has fixed registers that it operates on, so the code has to be careful about what is put where in order to get the right result.</p>
 <p>From here we need to bring our full compiler together and generate an executable from a string input. We do so with the following function:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">compile</span> <span class="o">(</span><span class="n">input</span> <span class="o">:</span> <span class="kt">string</span><span class="o">)</span> <span class="o">=</span>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">compile</span> <span class="o">(</span><span class="n">input</span> <span class="o">:</span> <span class="kt">string</span><span class="o">)</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="n">input</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="n">tokenize</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="n">build_ast</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="n">gen_code</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="n">write_elf</span>
-</span></span></code></pre></div><p>With this, we have a working compiler. It can take an expression from user input to generating an executable!</p>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="n">write_elf</span></span></span></code></pre></div></div>
+<p>With this, we have a working compiler. It can take an expression from user input to generating an executable!</p>
 <h2 id="conclusion">Conclusion</h2>
-<p>This was the first step to making a more advanced compiler. This compiler generates code for a very simple arithmetic language and outputs an ELF file using x86-64 instructions to compute the result. Future installments will add onto this compiler with more advanced features like arrays, structs, functions, strings, and more. Check out the full code base <a href="https://github.com/laser-turtle/calc-compiler" target="_blank" rel="noopener noreffer">here</a> to read any of the omitted parts.</p>
+<p>This was the first step to making a more advanced compiler. This compiler generates code for a very simple arithmetic language and outputs an ELF file using x86-64 instructions to compute the result. Future installments will add onto this compiler with more advanced features like arrays, structs, functions, strings, and more. Check out the full code base <a href="https://github.com/laser-turtle/calc-compiler" target="_blank" rel="noopener noreffer ">here</a> to read any of the omitted parts.</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
                 <span>Updated on 2022-08-05</span>
-            </div>
-            <div class="post-info-license"></div>
-        </div>
+            </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>
             <div class="post-info-share">
-                <span></span>
+                <span><a href="javascript:void(0);" title="Share on X" data-sharer="x" data-url="/blog/posts/build-a-compiler/" data-title="Build A Compiler"><i class="fab fa-x-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Threads" data-sharer="threads" data-url="/blog/posts/build-a-compiler/" data-title="Build A Compiler"><i class="fab fa-threads fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="/blog/posts/build-a-compiler/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="/blog/posts/build-a-compiler/" data-title="Build A Compiler"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="/blog/posts/build-a-compiler/" data-title="Build A Compiler"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@14.9.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="/blog/posts/build-a-compiler/" data-title="Build A Compiler"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Diaspora" data-sharer="diaspora" data-url="/blog/posts/build-a-compiler/" data-title="Build A Compiler" data-description=""><i class="fab fa-diaspora fa-fw" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=%2fblog%2fposts%2fbuild-a-compiler%2f&amp;text=Build%20A%20Compiler" target="_blank" title="Share on Telegram"><i class="fab fa-telegram fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
@@ -595,20 +712,23 @@ f:  51                      push   rcx
         </section>
     </div>
 
-    <div class="post-nav"><a href="/blog/posts/crt_shader/" class="prev" rel="prev" title="CRT Shader"><i class="fas fa-angle-left fa-fw"></i>CRT Shader</a>
-            <a href="/blog/posts/build-a-compiler-2-variables/" class="next" rel="next" title="Build A Compiler - Variables">Build A Compiler - Variables<i class="fas fa-angle-right fa-fw"></i></a></div>
+    <div class="post-nav"><a href="/blog/posts/crt_shader/" class="prev" rel="prev" title="CRT Shader"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>CRT Shader</a>
+            <a href="/blog/posts/build-a-compiler-2-variables/" class="next" rel="next" title="Build A Compiler - Variables">Build A Compiler - Variables<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.126.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.136.5">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.3.1-DEV"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
         </div>
     </footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
-                <i class="fas fa-arrow-up fa-fw"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
-                <i class="fas fa-comment fa-fw"></i>
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
             </a>
-        </div><script type="text/javascript" src="/blog/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/blog/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/blog/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":-1},"comment":{}};</script><script type="text/javascript" src="/blog/js/theme.min.js"></script></body>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.2/sharer.min.js"></script><script>window.config={"comment":{}};</script><script src="/blog/js/theme.min.js"></script></body>
 </html>

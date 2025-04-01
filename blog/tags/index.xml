@@ -3,12 +3,5 @@
         <title>Tags - Tag - A Blog</title>
         <link>/blog/tags/</link>
         <description>Tags - Tag - A Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Copyright &amp;copy; 2022 - Laser Turtle</copyright><lastBuildDate>Thu, 02 Feb 2023 00:00:00 -0700</lastBuildDate><atom:link href="/blog/tags/" rel="self" type="application/rss+xml" /><item>
-    <title>Art</title>
-    <link>/blog/tags/art/</link>
-    <pubDate>Thu, 02 Feb 2023 00:00:00 -0700</pubDate>
-    <author>Author</author>
-    <guid>/blog/tags/art/</guid>
-    <description><![CDATA[]]></description>
-</item></channel>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Copyright &amp;copy; 2022 - Laser Turtle</copyright><atom:link href="/blog/tags/" rel="self" type="application/rss+xml" /></channel>
 </rss>

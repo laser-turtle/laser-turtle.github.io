@@ -4,12 +4,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
         <title>Getting Started With Incr_dom - Part 2 - A Blog</title><meta name="Description" content="A blog description"><meta property="og:url" content="/blog/posts/incr-dom-2/">
   <meta property="og:site_name" content="A Blog">
   <meta property="og:title" content="Getting Started With Incr_dom - Part 2">
   <meta property="og:description" content="Note: Incr dom is superceded by a new, much easier to use library called Bonsai
-This installment will add the basic frame of the single page application. We’ll create a menu and be able to navigate between the various pages.">
+This installment will add the basic frame of the single page application. We’ll create a menu and be able to navigate between the various pages. In later chapters we’ll fill in the contents of each of the pages. The result of this part is shown below (interactive):">
   <meta property="og:locale" content="en">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -19,11 +18,14 @@ This installment will add the basic frame of the single page application. We’l
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Getting Started With Incr_dom - Part 2">
   <meta name="twitter:description" content="Note: Incr dom is superceded by a new, much easier to use library called Bonsai
-This installment will add the basic frame of the single page application. We’ll create a menu and be able to navigate between the various pages.">
+This installment will add the basic frame of the single page application. We’ll create a menu and be able to navigate between the various pages. In later chapters we’ll fill in the contents of each of the pages. The result of this part is shown below (interactive):">
 <meta name="application-name" content="A Blog">
-<meta name="apple-mobile-web-app-title" content="A Blog"><link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico" />
+<meta name="apple-mobile-web-app-title" content="A Blog">
+<meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/blog/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png"><link rel="manifest" href="/blog/site.webmanifest"><link rel="canonical" href="/blog/posts/incr-dom-2/" /><link rel="prev" href="/blog/posts/incr-dom/" /><link rel="next" href="/blog/posts/incr-dom-3/" /><link rel="stylesheet" href="/blog/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/blog/css/style.min.css"><link rel="stylesheet" href="/blog/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/blog/lib/animate/animate.min.css"><script type="application/ld+json">
+        <link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png"><link rel="mask-icon" href="/blog/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/blog/site.webmanifest"><link rel="canonical" href="/blog/posts/incr-dom-2/" /><link rel="prev" href="/blog/posts/incr-dom/" /><link rel="next" href="/blog/posts/incr-dom-3/" /><link rel="stylesheet" href="/blog/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -35,13 +37,13 @@ This installment will add the basic frame of the single page application. We’l
         },"genre": "posts","wordcount":  1231 ,
         "url": "\/blog\/posts\/incr-dom-2\/","datePublished": "2019-08-31T18:18:28-07:00","dateModified": "2019-08-31T18:18:28-07:00","license": "Copyright \u0026copy; 2022 - Laser Turtle","publisher": {
             "@type": "Organization",
-            "name": "Author"},"author": {
+            "name": ""},"author": {
                 "@type": "Person",
                 "name": "Author"
             },"description": ""
     }
     </script></head>
-    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script>(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
 
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
@@ -49,10 +51,9 @@ This installment will add the basic frame of the single page application. We’l
             <a href="/blog/" title="A Blog">A Blog</a>
         </div>
         <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/blog/"> Home </a><a class="menu-item" href="/blog/art/"> Art </a><a class="menu-item" href="/blog/posts/"> Posts </a><a class="menu-item" href="/blog/about/" title="About"> About </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                    <i class="fas fa-adjust fa-fw"></i>
-                </a>
-            </div>
+            <div class="menu-inner"><a class="menu-item" href="/blog/"> Home </a><a class="menu-item" href="/blog/posts/blender"> Art </a><a class="menu-item" href="/blog/posts/"> Posts </a><a class="menu-item" href="/blog/about/" title="About"> About </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
         </div>
     </div>
 </header><header class="mobile" id="header-mobile">
@@ -65,29 +66,22 @@ This installment will add the basic frame of the single page application. We’l
                 <span></span><span></span><span></span>
             </div>
         </div>
-        <div class="menu" id="menu-mobile"><a class="menu-item" href="/blog/" title="">Home</a><a class="menu-item" href="/blog/art/" title="">Art</a><a class="menu-item" href="/blog/posts/" title="">Posts</a><a class="menu-item" href="/blog/about/" title="About">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                <i class="fas fa-adjust fa-fw"></i>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/blog/" title="">Home</a><a class="menu-item" href="/blog/posts/blender" title="">Art</a><a class="menu-item" href="/blog/posts/" title="">Posts</a><a class="menu-item" href="/blog/about/" title="About">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
             </a></div>
     </div>
-</header>
-<div class="search-dropdown desktop">
-    <div id="search-dropdown-desktop"></div>
-</div>
-<div class="search-dropdown mobile">
-    <div id="search-dropdown-mobile"></div>
-</div>
-<main class="main">
+</header><main class="main">
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title">Getting Started With Incr_dom - Part 2</h1><div class="post-meta">
             <div class="post-meta-line"></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-08-31">2019-08-31</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1231 words&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;6 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  kept="">
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2019-08-31">2019-08-31</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1231 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
-                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
@@ -99,17 +93,27 @@ This installment will add the basic frame of the single page application. We’l
   </ul>
 </nav></div>
             </div><div class="content" id="content"><blockquote>
-<p>Note: Incr dom is superceded by a new, much easier to use library called <a href="https://github.com/janestreet/bonsai" target="_blank" rel="noopener noreffer">Bonsai</a></p>
+<p>Note: Incr dom is superceded by a new, much easier to use library called <a href="https://github.com/janestreet/bonsai" target="_blank" rel="noopener noreffer ">Bonsai</a></p>
 </blockquote>
 <p>This installment will add the basic frame of the single page application. We&rsquo;ll create a menu and be able to navigate between the various pages. In later chapters we&rsquo;ll fill in the contents of each of the pages. The result of this part is shown below (interactive):</p>
 <iframe src='/blog/html/incr_dom_tetris_part2.html' width='500px' height='300px'>
 </iframe>
 <h4 id="prerequisites">Prerequisites</h4>
-<p>In order to give our application a bit of polish we&rsquo;ll be using a CSS-only framework to go with our application. <a href="https://bulma.io" target="_blank" rel="noopener noreffer">Bulma.io</a> is a CSS framework that comes with many different pre-designed components for use in any application. Being CSS only makes it easy to integrate into Incr_dom, since Incr_dom wants full control over state handling. There are escape hatches, but it can get messy. For our purposes download the release from <a href="https://github.com/jgthms/bulma/releases/download/0.7.5/bulma-0.7.5.zip" target="_blank" rel="noopener noreffer">here</a>. Find the <code>bulma-0.7.5/css/bulma.min.css</code> file in the zip and copy it to the root of the Incr_dom project.</p>
+<p>In order to give our application a bit of polish we&rsquo;ll be using a CSS-only framework to go with our application. <a href="https://bulma.io" target="_blank" rel="noopener noreffer ">Bulma.io</a> is a CSS framework that comes with many different pre-designed components for use in any application. Being CSS only makes it easy to integrate into Incr_dom, since Incr_dom wants full control over state handling. There are escape hatches, but it can get messy. For our purposes download the release from <a href="https://github.com/jgthms/bulma/releases/download/0.7.5/bulma-0.7.5.zip" target="_blank" rel="noopener noreffer ">here</a>. Find the <code>bulma-0.7.5/css/bulma.min.css</code> file in the zip and copy it to the root of the Incr_dom project.</p>
 <p>Now update the index.html file to include a reference to this CSS file after the <code>&lt;meta&gt;</code> tag:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#39;stylesheet&#39;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#39;text/css&#39;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#39;bulma.min.css&#39;</span><span class="p">&gt;</span>
-</span></span></code></pre></div><p>It will also be helpful to have a <code>Makefile</code> to shorten the build cycle a bit. Here&rsquo;s an example one you can use:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-makefile" data-lang="makefile"><span class="line"><span class="cl"><span class="nf">all</span><span class="o">:</span>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-html">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#39;stylesheet&#39;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#39;text/css&#39;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#39;bulma.min.css&#39;</span><span class="p">&gt;</span></span></span></code></pre></div></div>
+<p>It will also be helpful to have a <code>Makefile</code> to shorten the build cycle a bit. Here&rsquo;s an example one you can use:</p>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-makefile">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-makefile" data-lang="makefile"><span class="line"><span class="cl"><span class="nf">all</span><span class="o">:</span>
 </span></span><span class="line"><span class="cl">    dune build bin/main.bc.js
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nf">show</span><span class="o">:</span>
@@ -117,7 +121,8 @@ This installment will add the basic frame of the single page application. We’l
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nf">clean</span><span class="o">:</span>
 </span></span><span class="line"><span class="cl">    dune clean
-</span></span></code></pre></div><p>Now you can type <code>make</code> at the terminal to build instead of <code>dune build bin/main.bc.js</code>.</p>
+</span></span></code></pre></div></div>
+<p>Now you can type <code>make</code> at the terminal to build instead of <code>dune build bin/main.bc.js</code>.</p>
 <h4 id="adding-a-main-menu">Adding A Main Menu</h4>
 <p>We&rsquo;ll add a main menu that the user can use to get to any other sub-page. We&rsquo;ll add the following items:</p>
 <ul>
@@ -126,7 +131,12 @@ This installment will add the basic frame of the single page application. We’l
 <li>Credits</li>
 </ul>
 <p>Open <code>lib/tetris.ml</code> and add a new variable called <code>main_menu</code> above the <code>view</code> function:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">main_menu</span> <span class="o">=</span>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">main_menu</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="k">open</span> <span class="nc">Vdom</span> <span class="k">in</span>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="k">open</span> <span class="nc">Node</span> <span class="k">in</span>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="k">open</span> <span class="nc">Attr</span> <span class="k">in</span>
@@ -165,14 +175,19 @@ This installment will add the basic frame of the single page application. We’l
 </span></span><span class="line"><span class="cl">        <span class="n">field</span> <span class="o">(</span><span class="n">menu_button</span> <span class="s2">&#34;Credits&#34;</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">      <span class="o">]</span>
 </span></span><span class="line"><span class="cl">    <span class="o">]</span>
-</span></span><span class="line"><span class="cl">  <span class="o">;;</span>
-</span></span></code></pre></div><p>Then update the view function to use this variable instead of returning a <code>Hello World!</code> div:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">view</span> <span class="n">model</span> <span class="o">~</span><span class="n">inject</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">  <span class="o">;;</span></span></span></code></pre></div></div>
+<p>Then update the view function to use this variable instead of returning a <code>Hello World!</code> div:</p>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">view</span> <span class="n">model</span> <span class="o">~</span><span class="n">inject</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">  <span class="k">let</span> <span class="k">open</span> <span class="nn">Incr</span><span class="p">.</span><span class="nc">Let_syntax</span> <span class="k">in</span>
 </span></span><span class="line"><span class="cl">  <span class="k">let</span><span class="o">%</span><span class="n">map</span> <span class="n">model</span> <span class="o">=</span> <span class="n">model</span> <span class="k">in</span>
 </span></span><span class="line"><span class="cl">  <span class="n">main_menu</span>
-</span></span><span class="line"><span class="cl"><span class="o">;;</span>
-</span></span></code></pre></div><p>Compling and rebuilding should look something like this:</p>
+</span></span><span class="line"><span class="cl"><span class="o">;;</span></span></span></code></pre></div></div>
+<p>Compling and rebuilding should look something like this:</p>
 <p><img
         class="lazyload"
         src="/blog/svg/loading.min.svg"
@@ -181,10 +196,15 @@ This installment will add the basic frame of the single page application. We’l
         data-sizes="auto"
         alt="/images/tetris_menu.png"
         title="Tetris Main Menu" /></p>
-<p>Unfortunately it&rsquo;s a fair amount of code to do what seems like a simple layout. An outer container <code>div</code> is marked <code>inline-block</code> so <code>text-align: centered</code> can be used on it (the Bulma.io <code>has-text-centered</code> CSS class). This centers the menu. Then the <code>Tetris</code> title is wrapped again to center it inside the menu div. Each button is wrapped in a Bulma.io <a href="https://bulma.io/documentation/form/general/" target="_blank" rel="noopener noreffer">field</a> to get some nice padding and vertical layout. <code>is-info</code> is used on each button to give it the blue color (default is white). Nothing exciting yet, but now we&rsquo;re ready to add some sub-pages.</p>
+<p>Unfortunately it&rsquo;s a fair amount of code to do what seems like a simple layout. An outer container <code>div</code> is marked <code>inline-block</code> so <code>text-align: centered</code> can be used on it (the Bulma.io <code>has-text-centered</code> CSS class). This centers the menu. Then the <code>Tetris</code> title is wrapped again to center it inside the menu div. Each button is wrapped in a Bulma.io <a href="https://bulma.io/documentation/form/general/" target="_blank" rel="noopener noreffer ">field</a> to get some nice padding and vertical layout. <code>is-info</code> is used on each button to give it the blue color (default is white). Nothing exciting yet, but now we&rsquo;re ready to add some sub-pages.</p>
 <h4 id="adding-a-sub-page">Adding A Sub-Page</h4>
 <p>There will be a couple steps we need to do to get sub-pages working properly. We&rsquo;ll need to keep track of which page we&rsquo;re on in the model. We&rsquo;ll need a way to change pages, and we&rsquo;ll need a way to route to the right sub-page when a link is loaded. And of course the view function needs to be updated to show the correct page. To tackle the first task lets create a new sum type that represents the different sub-pages and add it to the model. Update the model to look like:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">type</span> <span class="n">page</span> <span class="o">=</span>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">type</span> <span class="n">page</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="nc">MainMenu</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="nc">NewGame</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="nc">HighScores</span>
@@ -200,18 +220,33 @@ This installment will add the basic frame of the single page application. We’l
 </span></span><span class="line"><span class="cl">  <span class="n">current_page</span> <span class="o">=</span> <span class="nc">MainMenu</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="n">compare</span> <span class="o">=</span> <span class="o">...</span>
-</span></span></code></pre></div><p>Now we can keep track of the different pages in the model, but we&rsquo;ll need a way to change between pages and update the model. This is where the <code>Action</code> model and <code>inject</code> function comes into play. Update the action type to be:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="nc">ChangePage</span> <span class="k">of</span> <span class="nn">Model</span><span class="p">.</span><span class="n">page</span>
-</span></span><span class="line"><span class="cl"><span class="o">[@@</span><span class="n">deriving</span> <span class="n">sexp</span><span class="o">]</span>
-</span></span></code></pre></div><p>and update the <code>apply_action</code> function to be:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">apply_action</span> <span class="o">(</span><span class="n">model</span> <span class="o">:</span> <span class="nn">Model</span><span class="p">.</span><span class="n">t</span><span class="o">)</span> <span class="o">(</span><span class="n">action</span> <span class="o">:</span> <span class="nn">Action</span><span class="p">.</span><span class="n">t</span><span class="o">)</span> <span class="o">_</span> <span class="o">~</span><span class="n">schedule_action</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="n">compare</span> <span class="o">=</span> <span class="o">...</span></span></span></code></pre></div></div>
+<p>Now we can keep track of the different pages in the model, but we&rsquo;ll need a way to change between pages and update the model. This is where the <code>Action</code> model and <code>inject</code> function comes into play. Update the action type to be:</p>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="nc">ChangePage</span> <span class="k">of</span> <span class="nn">Model</span><span class="p">.</span><span class="n">page</span>
+</span></span><span class="line"><span class="cl"><span class="o">[@@</span><span class="n">deriving</span> <span class="n">sexp</span><span class="o">]</span></span></span></code></pre></div></div>
+<p>and update the <code>apply_action</code> function to be:</p>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">apply_action</span> <span class="o">(</span><span class="n">model</span> <span class="o">:</span> <span class="nn">Model</span><span class="p">.</span><span class="n">t</span><span class="o">)</span> <span class="o">(</span><span class="n">action</span> <span class="o">:</span> <span class="nn">Action</span><span class="p">.</span><span class="n">t</span><span class="o">)</span> <span class="o">_</span> <span class="o">~</span><span class="n">schedule_action</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">  <span class="k">match</span> <span class="n">action</span> <span class="k">with</span>
 </span></span><span class="line"><span class="cl">  <span class="o">|</span> <span class="nc">ChangePage</span> <span class="n">new_page</span> <span class="o">-&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="nn">Model</span><span class="p">.</span><span class="o">{</span> <span class="n">current_page</span> <span class="o">=</span> <span class="n">new_page</span> <span class="o">}</span>
-</span></span><span class="line"><span class="cl"><span class="o">;;</span>
-</span></span></code></pre></div><p>Now let&rsquo;s update the buttons on the main menu to navigate to the proper page. The revamped <code>main_menu</code> code looks like:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">main_menu</span> <span class="n">inject</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="o">;;</span></span></span></code></pre></div></div>
+<p>Now let&rsquo;s update the buttons on the main menu to navigate to the proper page. The revamped <code>main_menu</code> code looks like:</p>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">main_menu</span> <span class="n">inject</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">  <span class="c">(* ... *)</span>
 </span></span><span class="line"><span class="cl">  <span class="k">let</span> <span class="n">field</span> <span class="n">content</span> <span class="o">=</span> <span class="c">(* ... *)</span>
 </span></span><span class="line"><span class="cl">  <span class="k">let</span> <span class="n">menu_button</span> <span class="n">content</span> <span class="o">(</span><span class="n">page</span> <span class="o">:</span> <span class="nn">Model</span><span class="p">.</span><span class="n">page</span><span class="o">)</span> <span class="o">=</span>
@@ -228,10 +263,15 @@ This installment will add the basic frame of the single page application. We’l
 </span></span><span class="line"><span class="cl">      <span class="n">field</span> <span class="o">(</span><span class="n">menu_button</span> <span class="s2">&#34;Credits&#34;</span> <span class="nn">Model</span><span class="p">.</span><span class="nc">Credits</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">    <span class="o">]</span>
 </span></span><span class="line"><span class="cl">  <span class="o">]</span>
-</span></span><span class="line"><span class="cl"><span class="o">;;</span>
-</span></span></code></pre></div><p>The main change is an <code>on_click</code> attribute has been added to the buttons which calls the <code>inject</code> function with the appropriate <code>Action.t</code> to change the page. The <code>inject</code> function returns a <code>Vdom.Event.t</code> which is intercepted by the <code>Incr_dom</code> framework and queues a call to the <code>apply_action</code> function for updating the model. <code>Incr_dom</code> is written in such a way that it will update the model as much as possible before rendering. So you don&rsquo;t need to worry about actions causing unnecessary renders.</p>
+</span></span><span class="line"><span class="cl"><span class="o">;;</span></span></span></code></pre></div></div>
+<p>The main change is an <code>on_click</code> attribute has been added to the buttons which calls the <code>inject</code> function with the appropriate <code>Action.t</code> to change the page. The <code>inject</code> function returns a <code>Vdom.Event.t</code> which is intercepted by the <code>Incr_dom</code> framework and queues a call to the <code>apply_action</code> function for updating the model. <code>Incr_dom</code> is written in such a way that it will update the model as much as possible before rendering. So you don&rsquo;t need to worry about actions causing unnecessary renders.</p>
 <p>To actually see something when a button is clicked, a view for each sub-page needs to be created. We&rsquo;ll keep it simple and display a header for each sub-page and a back button. We&rsquo;ll wrap this up in a helper function so each sub-page provides its content, but each page will have the same header style and behavior. Create the helper function <code>subpage</code> somewhere above <code>main_menu</code>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">subpage</span> <span class="n">page_name</span> <span class="n">content</span> <span class="n">inject</span> <span class="o">=</span>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">subpage</span> <span class="n">page_name</span> <span class="n">content</span> <span class="n">inject</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">  <span class="k">let</span> <span class="k">open</span> <span class="nc">Vdom</span> <span class="k">in</span>
 </span></span><span class="line"><span class="cl">  <span class="k">let</span> <span class="k">open</span> <span class="nc">Node</span> <span class="k">in</span>
 </span></span><span class="line"><span class="cl">  <span class="k">let</span> <span class="k">open</span> <span class="nc">Attr</span> <span class="k">in</span>
@@ -256,9 +296,14 @@ This installment will add the basic frame of the single page application. We’l
 </span></span><span class="line"><span class="cl">          <span class="n">content</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">        <span class="o">]</span>
 </span></span><span class="line"><span class="cl">  <span class="o">]</span>
-</span></span><span class="line"><span class="cl"><span class="o">;;</span>
-</span></span></code></pre></div><p>Pretty simple helper that will wrap up any content on the page with a header of the page name and a back button that goes back to the main menu. Lets create a variable for each of our subpages:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">new_game_page</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="o">;;</span></span></span></code></pre></div></div>
+<p>Pretty simple helper that will wrap up any content on the page with a header of the page name and a back button that goes back to the main menu. Lets create a variable for each of our subpages:</p>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">new_game_page</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">  <span class="n">subpage</span> <span class="s2">&#34;New Game&#34;</span> <span class="nn">Vdom</span><span class="p">.</span><span class="nn">Node</span><span class="p">.</span><span class="o">(</span><span class="n">div</span> <span class="bp">[]</span> <span class="bp">[]</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="o">;;</span>
 </span></span><span class="line"><span class="cl">
@@ -268,9 +313,14 @@ This installment will add the basic frame of the single page application. We’l
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="n">credits_page</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">  <span class="n">subpage</span> <span class="s2">&#34;Credits&#34;</span> <span class="nn">Vdom</span><span class="p">.</span><span class="nn">Node</span><span class="p">.</span><span class="o">(</span><span class="n">div</span> <span class="bp">[]</span> <span class="bp">[]</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="o">;;</span>
-</span></span></code></pre></div><p>And finally let&rsquo;s update the <code>view</code> function to display based on the <code>Model</code>&rsquo;s <code>current_page</code> field:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">view</span> <span class="n">model</span> <span class="o">~</span><span class="n">inject</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="o">;;</span></span></span></code></pre></div></div>
+<p>And finally let&rsquo;s update the <code>view</code> function to display based on the <code>Model</code>&rsquo;s <code>current_page</code> field:</p>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">view</span> <span class="n">model</span> <span class="o">~</span><span class="n">inject</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">  <span class="k">let</span> <span class="k">open</span> <span class="nn">Incr</span><span class="p">.</span><span class="nc">Let_syntax</span> <span class="k">in</span>
 </span></span><span class="line"><span class="cl">  <span class="k">let</span><span class="o">%</span><span class="n">map</span> <span class="n">current_page</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="n">model</span> <span class="o">&gt;&gt;|</span> <span class="o">(</span><span class="k">fun</span> <span class="n">m</span> <span class="o">-&gt;</span> <span class="n">m</span><span class="o">.</span><span class="nn">Model</span><span class="p">.</span><span class="n">current_page</span><span class="o">)</span>
@@ -280,22 +330,20 @@ This installment will add the basic frame of the single page application. We’l
 </span></span><span class="line"><span class="cl">  <span class="o">|</span> <span class="nc">NewGame</span> <span class="o">-&gt;</span> <span class="n">new_game_page</span> <span class="n">inject</span>
 </span></span><span class="line"><span class="cl">  <span class="o">|</span> <span class="nc">HighScores</span> <span class="o">-&gt;</span> <span class="n">high_scores_page</span> <span class="n">inject</span>
 </span></span><span class="line"><span class="cl">  <span class="o">|</span> <span class="nc">Credits</span> <span class="o">-&gt;</span> <span class="n">credits_page</span> <span class="n">inject</span>
-</span></span><span class="line"><span class="cl"><span class="o">;;</span>
-</span></span></code></pre></div><p>Compiling and reloading should give working links! Here we can see that we projected out only the <code>current_page</code> variable. It doesn&rsquo;t really matter now, since the model only has one field, but shows the syntax for projecting out sub-parts of the <code>Model</code>.</p>
+</span></span><span class="line"><span class="cl"><span class="o">;;</span></span></span></code></pre></div></div>
+<p>Compiling and reloading should give working links! Here we can see that we projected out only the <code>current_page</code> variable. It doesn&rsquo;t really matter now, since the model only has one field, but shows the syntax for projecting out sub-parts of the <code>Model</code>.</p>
 <h4 id="conclusion">Conclusion</h4>
-<p>This part added a menu with some sub-pages and introduced the <a href="https://bulma.io" target="_blank" rel="noopener noreffer">Bulma.io</a> CSS framework. The next part in the series will start adding functionality to the different sub-pages. Code for this part can be found <a href="https://github.com/laser-turtle/base-incr-dom-tetris/tree/part2" target="_blank" rel="noopener noreffer">here</a>.</p>
+<p>This part added a menu with some sub-pages and introduced the <a href="https://bulma.io" target="_blank" rel="noopener noreffer ">Bulma.io</a> CSS framework. The next part in the series will start adding functionality to the different sub-pages. Code for this part can be found <a href="https://github.com/laser-turtle/base-incr-dom-tetris/tree/part2" target="_blank" rel="noopener noreffer ">here</a>.</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
                 <span>Updated on 2019-08-31</span>
-            </div>
-            <div class="post-info-license"></div>
-        </div>
+            </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>
             <div class="post-info-share">
-                <span></span>
+                <span><a href="javascript:void(0);" title="Share on X" data-sharer="x" data-url="/blog/posts/incr-dom-2/" data-title="Getting Started With Incr_dom - Part 2"><i class="fab fa-x-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Threads" data-sharer="threads" data-url="/blog/posts/incr-dom-2/" data-title="Getting Started With Incr_dom - Part 2"><i class="fab fa-threads fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="/blog/posts/incr-dom-2/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="/blog/posts/incr-dom-2/" data-title="Getting Started With Incr_dom - Part 2"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="/blog/posts/incr-dom-2/" data-title="Getting Started With Incr_dom - Part 2"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@14.9.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="/blog/posts/incr-dom-2/" data-title="Getting Started With Incr_dom - Part 2"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Diaspora" data-sharer="diaspora" data-url="/blog/posts/incr-dom-2/" data-title="Getting Started With Incr_dom - Part 2" data-description=""><i class="fab fa-diaspora fa-fw" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=%2fblog%2fposts%2fincr-dom-2%2f&amp;text=Getting%20Started%20With%20Incr_dom%20-%20Part%202" target="_blank" title="Share on Telegram"><i class="fab fa-telegram fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
@@ -307,20 +355,23 @@ This installment will add the basic frame of the single page application. We’l
         </section>
     </div>
 
-    <div class="post-nav"><a href="/blog/posts/incr-dom/" class="prev" rel="prev" title="Getting Started With Incr_dom - Part 1"><i class="fas fa-angle-left fa-fw"></i>Getting Started With Incr_dom - Part 1</a>
-            <a href="/blog/posts/incr-dom-3/" class="next" rel="next" title="Getting Started With Incr_dom - Part 3">Getting Started With Incr_dom - Part 3<i class="fas fa-angle-right fa-fw"></i></a></div>
+    <div class="post-nav"><a href="/blog/posts/incr-dom/" class="prev" rel="prev" title="Getting Started With Incr_dom - Part 1"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Getting Started With Incr_dom - Part 1</a>
+            <a href="/blog/posts/incr-dom-3/" class="next" rel="next" title="Getting Started With Incr_dom - Part 3">Getting Started With Incr_dom - Part 3<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.126.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.136.5">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.3.1-DEV"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
         </div>
     </footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
-                <i class="fas fa-arrow-up fa-fw"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
-                <i class="fas fa-comment fa-fw"></i>
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
             </a>
-        </div><script type="text/javascript" src="/blog/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/blog/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/blog/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":-1},"comment":{}};</script><script type="text/javascript" src="/blog/js/theme.min.js"></script></body>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.2/sharer.min.js"></script><script>window.config={"comment":{}};</script><script src="/blog/js/theme.min.js"></script></body>
 </html>

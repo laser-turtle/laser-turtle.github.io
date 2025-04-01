@@ -4,12 +4,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
         <title>CRT Shader - A Blog</title><meta name="Description" content="A blog description"><meta property="og:url" content="/blog/posts/crt_shader/">
   <meta property="og:site_name" content="A Blog">
   <meta property="og:title" content="CRT Shader">
   <meta property="og:description" content="Shader CRT Shader, or something.
-Code Vertex Shader attribute vec2 position; varying vec2 vPosition; void main() { vPosition = position; gl_Position = vec4(position, 0.0, 1.0); } Fragment Shader precision highp float; varying vec2 vPosition; uniform float uTime; uniform sampler2D uSampler; void main() { vec2 ndc = vPosition; // Bend the texture coordinates across a sphere-ish thing // Add some scan-line noise vec2 tpos = vPosition * vec2(0.">
+Code Vertex Shader attribute vec2 position; varying vec2 vPosition; void main() { vPosition = position; gl_Position = vec4(position, 0.0, 1.0); } Fragment Shader precision highp float; varying vec2 vPosition; uniform float uTime; uniform sampler2D uSampler; void main() { vec2 ndc = vPosition; // Bend the texture coordinates across a sphere-ish thing // Add some scan-line noise vec2 tpos = vPosition * vec2(0.5, -0.5) &#43; 0.5; tpos.x &#43;= sin(tpos.y*205. &#43; uTime*30.)*0.00060; vec4 color = texture2D(uSampler, tpos); const float strip_mix = 0.5; // Every other line is faded... interpolation effect float strip = tpos.t * mix(50.0, 100.0, strip_mix); float stripFac = 1.0 &#43; 0.25 * strip_mix * (step(0.5, strip-float(int(strip))) - 0.5); gl_FragColor = vec4(color.rgb * stripFac, 1); }">
   <meta property="og:locale" content="en">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -19,11 +18,14 @@ Code Vertex Shader attribute vec2 position; varying vec2 vPosition; void main() 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="CRT Shader">
   <meta name="twitter:description" content="Shader CRT Shader, or something.
-Code Vertex Shader attribute vec2 position; varying vec2 vPosition; void main() { vPosition = position; gl_Position = vec4(position, 0.0, 1.0); } Fragment Shader precision highp float; varying vec2 vPosition; uniform float uTime; uniform sampler2D uSampler; void main() { vec2 ndc = vPosition; // Bend the texture coordinates across a sphere-ish thing // Add some scan-line noise vec2 tpos = vPosition * vec2(0.">
+Code Vertex Shader attribute vec2 position; varying vec2 vPosition; void main() { vPosition = position; gl_Position = vec4(position, 0.0, 1.0); } Fragment Shader precision highp float; varying vec2 vPosition; uniform float uTime; uniform sampler2D uSampler; void main() { vec2 ndc = vPosition; // Bend the texture coordinates across a sphere-ish thing // Add some scan-line noise vec2 tpos = vPosition * vec2(0.5, -0.5) &#43; 0.5; tpos.x &#43;= sin(tpos.y*205. &#43; uTime*30.)*0.00060; vec4 color = texture2D(uSampler, tpos); const float strip_mix = 0.5; // Every other line is faded... interpolation effect float strip = tpos.t * mix(50.0, 100.0, strip_mix); float stripFac = 1.0 &#43; 0.25 * strip_mix * (step(0.5, strip-float(int(strip))) - 0.5); gl_FragColor = vec4(color.rgb * stripFac, 1); }">
 <meta name="application-name" content="A Blog">
-<meta name="apple-mobile-web-app-title" content="A Blog"><link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico" />
+<meta name="apple-mobile-web-app-title" content="A Blog">
+<meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/blog/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png"><link rel="manifest" href="/blog/site.webmanifest"><link rel="canonical" href="/blog/posts/crt_shader/" /><link rel="prev" href="/blog/posts/math-battle/" /><link rel="next" href="/blog/posts/build-a-compiler/" /><link rel="stylesheet" href="/blog/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/blog/css/style.min.css"><link rel="stylesheet" href="/blog/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/blog/lib/animate/animate.min.css"><script type="application/ld+json">
+        <link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png"><link rel="mask-icon" href="/blog/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/blog/site.webmanifest"><link rel="canonical" href="/blog/posts/crt_shader/" /><link rel="prev" href="/blog/posts/math-battle/" /><link rel="next" href="/blog/posts/build-a-compiler/" /><link rel="stylesheet" href="/blog/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -35,13 +37,13 @@ Code Vertex Shader attribute vec2 position; varying vec2 vPosition; void main() 
         },"genre": "posts","wordcount":  121 ,
         "url": "\/blog\/posts\/crt_shader\/","datePublished": "2021-04-01T21:49:09-07:00","dateModified": "2021-04-01T21:49:09-07:00","license": "Copyright \u0026copy; 2022 - Laser Turtle","publisher": {
             "@type": "Organization",
-            "name": "Author"},"author": {
+            "name": ""},"author": {
                 "@type": "Person",
                 "name": "Author"
             },"description": ""
     }
     </script></head>
-    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script>(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
 
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
@@ -49,10 +51,9 @@ Code Vertex Shader attribute vec2 position; varying vec2 vPosition; void main() 
             <a href="/blog/" title="A Blog">A Blog</a>
         </div>
         <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/blog/"> Home </a><a class="menu-item" href="/blog/art/"> Art </a><a class="menu-item" href="/blog/posts/"> Posts </a><a class="menu-item" href="/blog/about/" title="About"> About </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                    <i class="fas fa-adjust fa-fw"></i>
-                </a>
-            </div>
+            <div class="menu-inner"><a class="menu-item" href="/blog/"> Home </a><a class="menu-item" href="/blog/posts/blender"> Art </a><a class="menu-item" href="/blog/posts/"> Posts </a><a class="menu-item" href="/blog/about/" title="About"> About </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
         </div>
     </div>
 </header><header class="mobile" id="header-mobile">
@@ -65,29 +66,22 @@ Code Vertex Shader attribute vec2 position; varying vec2 vPosition; void main() 
                 <span></span><span></span><span></span>
             </div>
         </div>
-        <div class="menu" id="menu-mobile"><a class="menu-item" href="/blog/" title="">Home</a><a class="menu-item" href="/blog/art/" title="">Art</a><a class="menu-item" href="/blog/posts/" title="">Posts</a><a class="menu-item" href="/blog/about/" title="About">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                <i class="fas fa-adjust fa-fw"></i>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/blog/" title="">Home</a><a class="menu-item" href="/blog/posts/blender" title="">Art</a><a class="menu-item" href="/blog/posts/" title="">Posts</a><a class="menu-item" href="/blog/about/" title="About">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
             </a></div>
     </div>
-</header>
-<div class="search-dropdown desktop">
-    <div id="search-dropdown-desktop"></div>
-</div>
-<div class="search-dropdown mobile">
-    <div id="search-dropdown-mobile"></div>
-</div>
-<main class="main">
+</header><main class="main">
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title">CRT Shader</h1><div class="post-meta">
             <div class="post-meta-line"></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-04-01">2021-04-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;121 words&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;One minute&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  kept="">
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2021-04-01">2021-04-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;121 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;One minute&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
-                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
@@ -105,14 +99,24 @@ Code Vertex Shader attribute vec2 position; varying vec2 vPosition; void main() 
 <iframe src='/blog/html/crt_shader.html' width='500px' height='300px'></iframe>
 <h2 id="code">Code</h2>
 <h3 id="vertex-shader">Vertex Shader</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="line"><span class="cl"><span class="k">attribute</span> <span class="k">vec2</span> <span class="n">position</span><span class="p">;</span>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-glsl">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="line"><span class="cl"><span class="k">attribute</span> <span class="k">vec2</span> <span class="n">position</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="k">varying</span> <span class="k">vec2</span> <span class="n">vPosition</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="k">void</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">vPosition</span> <span class="o">=</span> <span class="n">position</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">gl_Position</span> <span class="o">=</span> <span class="k">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="fragment-shader">Fragment Shader</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="line"><span class="cl"><span class="k">precision</span> <span class="k">highp</span> <span class="k">float</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+<h3 id="fragment-shader">Fragment Shader</h3>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-glsl">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-glsl" data-lang="glsl"><span class="line"><span class="cl"><span class="k">precision</span> <span class="k">highp</span> <span class="k">float</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="k">varying</span> <span class="k">vec2</span> <span class="n">vPosition</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">uniform</span> <span class="k">float</span> <span class="n">uTime</span><span class="p">;</span>
@@ -139,19 +143,17 @@ Code Vertex Shader attribute vec2 position; varying vec2 vPosition; void main() 
 </span></span><span class="line"><span class="cl">            <span class="o">*</span> <span class="p">(</span><span class="n">step</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">strip</span><span class="o">-</span><span class="k">float</span><span class="p">(</span><span class="k">int</span><span class="p">(</span><span class="n">strip</span><span class="p">)))</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="k">vec4</span><span class="p">(</span><span class="n">color</span><span class="p">.</span><span class="n">rgb</span> <span class="o">*</span> <span class="n">stripFac</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div></div><div class="post-footer" id="post-footer">
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+</div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
                 <span>Updated on 2021-04-01</span>
-            </div>
-            <div class="post-info-license"></div>
-        </div>
+            </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>
             <div class="post-info-share">
-                <span></span>
+                <span><a href="javascript:void(0);" title="Share on X" data-sharer="x" data-url="/blog/posts/crt_shader/" data-title="CRT Shader"><i class="fab fa-x-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Threads" data-sharer="threads" data-url="/blog/posts/crt_shader/" data-title="CRT Shader"><i class="fab fa-threads fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="/blog/posts/crt_shader/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="/blog/posts/crt_shader/" data-title="CRT Shader"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="/blog/posts/crt_shader/" data-title="CRT Shader"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@14.9.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="/blog/posts/crt_shader/" data-title="CRT Shader"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Diaspora" data-sharer="diaspora" data-url="/blog/posts/crt_shader/" data-title="CRT Shader" data-description=""><i class="fab fa-diaspora fa-fw" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=%2fblog%2fposts%2fcrt_shader%2f&amp;text=CRT%20Shader" target="_blank" title="Share on Telegram"><i class="fab fa-telegram fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
@@ -163,20 +165,23 @@ Code Vertex Shader attribute vec2 position; varying vec2 vPosition; void main() 
         </section>
     </div>
 
-    <div class="post-nav"><a href="/blog/posts/math-battle/" class="prev" rel="prev" title="Math Battle"><i class="fas fa-angle-left fa-fw"></i>Math Battle</a>
-            <a href="/blog/posts/build-a-compiler/" class="next" rel="next" title="Build A Compiler">Build A Compiler<i class="fas fa-angle-right fa-fw"></i></a></div>
+    <div class="post-nav"><a href="/blog/posts/math-battle/" class="prev" rel="prev" title="Math Battle"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Math Battle</a>
+            <a href="/blog/posts/build-a-compiler/" class="next" rel="next" title="Build A Compiler">Build A Compiler<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.126.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.136.5">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.3.1-DEV"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
         </div>
     </footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
-                <i class="fas fa-arrow-up fa-fw"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
-                <i class="fas fa-comment fa-fw"></i>
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
             </a>
-        </div><script type="text/javascript" src="/blog/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/blog/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/blog/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":-1},"comment":{}};</script><script type="text/javascript" src="/blog/js/theme.min.js"></script></body>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.2/sharer.min.js"></script><script>window.config={"comment":{}};</script><script src="/blog/js/theme.min.js"></script></body>
 </html>

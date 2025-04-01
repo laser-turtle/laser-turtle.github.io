@@ -4,12 +4,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
         <title>Getting Started With Incr_dom - Part 1 - A Blog</title><meta name="Description" content="A blog description"><meta property="og:url" content="/blog/posts/incr-dom/">
   <meta property="og:site_name" content="A Blog">
   <meta property="og:title" content="Getting Started With Incr_dom - Part 1">
   <meta property="og:description" content="Note: Incr dom is superceded by a new, much easier to use library called Bonsai
-Incr_dom is a library created by Jane Street for building web applications using OCaml. The interesting thing about Incr_dom is it’s built on another one of Jane Street’s libraries, called Incremental.">
+Incr_dom is a library created by Jane Street for building web applications using OCaml. The interesting thing about Incr_dom is it’s built on another one of Jane Street’s libraries, called Incremental. Incremental lets you memoize parts of your application to avoid unnecessary computations. When you combine incremental with something like the virtual-dom you get very speedy web applications. This is the topic of today’s article. We’ll be building a very simple ‘Single Page (Web) Application’ using Incr_dom. The application will be a simple game of Tetris. It’ll include the main menu, a leaderboard viewer, settings page, and of course the game itself.">
   <meta property="og:locale" content="en">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -19,11 +18,14 @@ Incr_dom is a library created by Jane Street for building web applications using
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Getting Started With Incr_dom - Part 1">
   <meta name="twitter:description" content="Note: Incr dom is superceded by a new, much easier to use library called Bonsai
-Incr_dom is a library created by Jane Street for building web applications using OCaml. The interesting thing about Incr_dom is it’s built on another one of Jane Street’s libraries, called Incremental.">
+Incr_dom is a library created by Jane Street for building web applications using OCaml. The interesting thing about Incr_dom is it’s built on another one of Jane Street’s libraries, called Incremental. Incremental lets you memoize parts of your application to avoid unnecessary computations. When you combine incremental with something like the virtual-dom you get very speedy web applications. This is the topic of today’s article. We’ll be building a very simple ‘Single Page (Web) Application’ using Incr_dom. The application will be a simple game of Tetris. It’ll include the main menu, a leaderboard viewer, settings page, and of course the game itself.">
 <meta name="application-name" content="A Blog">
-<meta name="apple-mobile-web-app-title" content="A Blog"><link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico" />
+<meta name="apple-mobile-web-app-title" content="A Blog">
+<meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/blog/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png"><link rel="manifest" href="/blog/site.webmanifest"><link rel="canonical" href="/blog/posts/incr-dom/" /><link rel="prev" href="/blog/posts/maze/" /><link rel="next" href="/blog/posts/incr-dom-2/" /><link rel="stylesheet" href="/blog/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/blog/css/style.min.css"><link rel="stylesheet" href="/blog/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/blog/lib/animate/animate.min.css"><script type="application/ld+json">
+        <link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png"><link rel="mask-icon" href="/blog/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/blog/site.webmanifest"><link rel="canonical" href="/blog/posts/incr-dom/" /><link rel="prev" href="/blog/posts/maze/" /><link rel="next" href="/blog/posts/incr-dom-2/" /><link rel="stylesheet" href="/blog/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -35,13 +37,13 @@ Incr_dom is a library created by Jane Street for building web applications using
         },"genre": "posts","wordcount":  1500 ,
         "url": "\/blog\/posts\/incr-dom\/","datePublished": "2019-08-25T19:59:06-07:00","dateModified": "2019-08-25T19:59:06-07:00","license": "Copyright \u0026copy; 2022 - Laser Turtle","publisher": {
             "@type": "Organization",
-            "name": "Author"},"author": {
+            "name": ""},"author": {
                 "@type": "Person",
                 "name": "Author"
             },"description": ""
     }
     </script></head>
-    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script>(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
 
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
@@ -49,10 +51,9 @@ Incr_dom is a library created by Jane Street for building web applications using
             <a href="/blog/" title="A Blog">A Blog</a>
         </div>
         <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/blog/"> Home </a><a class="menu-item" href="/blog/art/"> Art </a><a class="menu-item" href="/blog/posts/"> Posts </a><a class="menu-item" href="/blog/about/" title="About"> About </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                    <i class="fas fa-adjust fa-fw"></i>
-                </a>
-            </div>
+            <div class="menu-inner"><a class="menu-item" href="/blog/"> Home </a><a class="menu-item" href="/blog/posts/blender"> Art </a><a class="menu-item" href="/blog/posts/"> Posts </a><a class="menu-item" href="/blog/about/" title="About"> About </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
         </div>
     </div>
 </header><header class="mobile" id="header-mobile">
@@ -65,29 +66,22 @@ Incr_dom is a library created by Jane Street for building web applications using
                 <span></span><span></span><span></span>
             </div>
         </div>
-        <div class="menu" id="menu-mobile"><a class="menu-item" href="/blog/" title="">Home</a><a class="menu-item" href="/blog/art/" title="">Art</a><a class="menu-item" href="/blog/posts/" title="">Posts</a><a class="menu-item" href="/blog/about/" title="About">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                <i class="fas fa-adjust fa-fw"></i>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/blog/" title="">Home</a><a class="menu-item" href="/blog/posts/blender" title="">Art</a><a class="menu-item" href="/blog/posts/" title="">Posts</a><a class="menu-item" href="/blog/about/" title="About">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
             </a></div>
     </div>
-</header>
-<div class="search-dropdown desktop">
-    <div id="search-dropdown-desktop"></div>
-</div>
-<div class="search-dropdown mobile">
-    <div id="search-dropdown-mobile"></div>
-</div>
-<main class="main">
+</header><main class="main">
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title">Getting Started With Incr_dom - Part 1</h1><div class="post-meta">
             <div class="post-meta-line"></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-08-25">2019-08-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1500 words&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;8 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  kept="">
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2019-08-25">2019-08-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1500 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;8 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
-                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
@@ -99,35 +93,50 @@ Incr_dom is a library created by Jane Street for building web applications using
   </ul>
 </nav></div>
             </div><div class="content" id="content"><blockquote>
-<p>Note: Incr dom is superceded by a new, much easier to use library called <a href="https://github.com/janestreet/bonsai" target="_blank" rel="noopener noreffer">Bonsai</a></p>
+<p>Note: Incr dom is superceded by a new, much easier to use library called <a href="https://github.com/janestreet/bonsai" target="_blank" rel="noopener noreffer ">Bonsai</a></p>
 </blockquote>
-<p><a href="https://github.com/janestreet/incr_dom" target="_blank" rel="noopener noreffer">Incr_dom</a> is a library created by <a href="https://www.janestreet.com/" target="_blank" rel="noopener noreffer">Jane Street</a> for building web applications using OCaml. The interesting thing about Incr_dom is it&rsquo;s built on another one of Jane Street&rsquo;s libraries, called <a href="https://opensource.janestreet.com/incremental/" target="_blank" rel="noopener noreffer">Incremental</a>. Incremental lets you memoize parts of your application to avoid unnecessary computations. When you combine incremental with something like the <a href="https://github.com/Matt-Esch/virtual-dom" target="_blank" rel="noopener noreffer">virtual-dom</a> you get very speedy web applications. This is the topic of today&rsquo;s article. We&rsquo;ll be building a very simple &lsquo;Single Page (Web) Application&rsquo; using Incr_dom. The application will be a simple game of Tetris. It&rsquo;ll include the main menu, a leaderboard viewer, settings page, and of course the game itself.</p>
+<p><a href="https://github.com/janestreet/incr_dom" target="_blank" rel="noopener noreffer ">Incr_dom</a> is a library created by <a href="https://www.janestreet.com/" target="_blank" rel="noopener noreffer ">Jane Street</a> for building web applications using OCaml. The interesting thing about Incr_dom is it&rsquo;s built on another one of Jane Street&rsquo;s libraries, called <a href="https://opensource.janestreet.com/incremental/" target="_blank" rel="noopener noreffer ">Incremental</a>. Incremental lets you memoize parts of your application to avoid unnecessary computations. When you combine incremental with something like the <a href="https://github.com/Matt-Esch/virtual-dom" target="_blank" rel="noopener noreffer ">virtual-dom</a> you get very speedy web applications. This is the topic of today&rsquo;s article. We&rsquo;ll be building a very simple &lsquo;Single Page (Web) Application&rsquo; using Incr_dom. The application will be a simple game of Tetris. It&rsquo;ll include the main menu, a leaderboard viewer, settings page, and of course the game itself.</p>
 <h4 id="prerequisites">Prerequisites</h4>
-<p>You&rsquo;ll need <code>opam</code>, installation instructions can be found <a href="https://opam.ocaml.org/doc/Install.html" target="_blank" rel="noopener noreffer">here</a>. You should install <code>opam 2.0</code> if possible, as that&rsquo;s what this tutorial will be using. Next you&rsquo;ll need to install a recent version of OCaml. This can be done with the following <code>opam</code> command:</p>
+<p>You&rsquo;ll need <code>opam</code>, installation instructions can be found <a href="https://opam.ocaml.org/doc/Install.html" target="_blank" rel="noopener noreffer ">here</a>. You should install <code>opam 2.0</code> if possible, as that&rsquo;s what this tutorial will be using. Next you&rsquo;ll need to install a recent version of OCaml. This can be done with the following <code>opam</code> command:</p>
 <p><code>opam switch create 4.07.0</code></p>
 <p>Which will install the 4.07.0 version of the compiler. This will take a bit as <code>opam</code> downloads and compiles OCaml. Once it&rsquo;s done run the following command to get the necessary libraries:</p>
 <p><code>opam install dune incr_dom</code></p>
-<p>Now we can use <a href="https://dune.readthedocs.io/en/stable/" target="_blank" rel="noopener noreffer">dune</a> (a popular OCaml build system) to create our project:</p>
+<p>Now we can use <a href="https://dune.readthedocs.io/en/stable/" target="_blank" rel="noopener noreffer ">dune</a> (a popular OCaml build system) to create our project:</p>
 <p><code>dune init project incr_dom_tetris</code></p>
 <p>Next we need to modify the <code>lib/dune</code> file to add our dependencies, it should look like the below:</p>
-<pre tabindex="0"><code>(library
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><pre tabindex="0"><code>(library
  (name incr_dom_tetris)
  (libraries
     incr_dom
     )
  (preprocess (pps ppx_jane))
-)
-</code></pre><p>It should be fairly self-explanatory. The <code>(preprocess (pps ppx_jane))</code> stuff is so we can use some syntax extensions that make dealing with the Incremental monad a bit easier. We&rsquo;re also going to make a few changes to the default standard library, we&rsquo;ll be using <code>core_kernel</code>. To do this add a file called <code>dune</code> in the root of the project with the following contents:</p>
-<pre tabindex="0"><code>(env
+)</code></pre></div>
+<p>It should be fairly self-explanatory. The <code>(preprocess (pps ppx_jane))</code> stuff is so we can use some syntax extensions that make dealing with the Incremental monad a bit easier. We&rsquo;re also going to make a few changes to the default standard library, we&rsquo;ll be using <code>core_kernel</code>. To do this add a file called <code>dune</code> in the root of the project with the following contents:</p>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><pre tabindex="0"><code>(env
     (dev
         (flags (:standard -warn-error -A -open Core_kernel)))
     (release
-        (flags (:standard -open Core_kernel))))
-</code></pre><p>This makes it so we use the <code>core_kernel</code> standard library by default in all files we make. It also prevents warnings from failing the build (although this behavior may have changed recently). Now we&rsquo;re ready to start making our application! In the root of the project execute <code>dune build bin/main.exe</code> to make sure everything we&rsquo;ve done so far works.</p>
+        (flags (:standard -open Core_kernel))))</code></pre></div>
+<p>This makes it so we use the <code>core_kernel</code> standard library by default in all files we make. It also prevents warnings from failing the build (although this behavior may have changed recently). Now we&rsquo;re ready to start making our application! In the root of the project execute <code>dune build bin/main.exe</code> to make sure everything we&rsquo;ve done so far works.</p>
 <h4 id="getting-started">Getting Started</h4>
-<p>The Incr_dom architecture is loosely inspired by <a href="https://elm-lang.org/" target="_blank" rel="noopener noreffer">Elm</a> and <a href="https://reactjs.org/" target="_blank" rel="noopener noreffer">React</a>. This means that applications are split into three main parts. The <code>Model</code>, the <code>Actions</code>, and the <code>View</code>. A standard MVC-ish pattern. The <code>Model</code> is 100% immutable, and the application can only use <code>Actions</code> to effect change in the <code>Model</code>&rsquo;s data. There&rsquo;s a special <code>State</code> sub-module that can be used for stateful data, but we shouldn&rsquo;t need that just yet. Let&rsquo;s get started!</p>
+<p>The Incr_dom architecture is loosely inspired by <a href="https://elm-lang.org/" target="_blank" rel="noopener noreffer ">Elm</a> and <a href="https://reactjs.org/" target="_blank" rel="noopener noreffer ">React</a>. This means that applications are split into three main parts. The <code>Model</code>, the <code>Actions</code>, and the <code>View</code>. A standard MVC-ish pattern. The <code>Model</code> is 100% immutable, and the application can only use <code>Actions</code> to effect change in the <code>Model</code>&rsquo;s data. There&rsquo;s a special <code>State</code> sub-module that can be used for stateful data, but we shouldn&rsquo;t need that just yet. Let&rsquo;s get started!</p>
 <p>Create a new file in the <code>lib</code> folder called <code>tetris.ml</code> with the following contents:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">open</span> <span class="nc">Incr_dom</span>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">open</span> <span class="nc">Incr_dom</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">module</span> <span class="nc">Model</span> <span class="o">=</span> <span class="k">struct</span>
 </span></span><span class="line"><span class="cl">  <span class="k">type</span> <span class="n">t</span> <span class="o">=</span> <span class="kt">unit</span>
@@ -169,34 +178,54 @@ Incr_dom is a library created by Jane Street for building web applications using
 </span></span><span class="line"><span class="cl">  <span class="ow">and</span> <span class="n">view</span> <span class="o">=</span> <span class="n">view</span> <span class="n">model</span> <span class="o">~</span><span class="n">inject</span>
 </span></span><span class="line"><span class="cl">  <span class="ow">and</span> <span class="n">model</span> <span class="o">=</span> <span class="n">model</span> <span class="k">in</span>
 </span></span><span class="line"><span class="cl">  <span class="nn">Component</span><span class="p">.</span><span class="n">create</span> <span class="o">~</span><span class="n">apply_action</span> <span class="n">model</span> <span class="n">view</span>
-</span></span><span class="line"><span class="cl"><span class="o">;;</span>
-</span></span></code></pre></div><p>There&rsquo;s a decent amount of boilerplate to go over here. The <code>[@@deriving sexp, compare]</code> are the syntax extensions talked about earlier. It&rsquo;s an attribute that does some codegen by those preprocessors so we don&rsquo;t have to write the comparison or serialization to <a href="https://en.wikipedia.org/wiki/S-expression" target="_blank" rel="noopener noreffer">S-expressions</a>. Similarly the <code>let%map</code> code is another syntax extension that makes working with monads easier. More can be learned <a href="https://blog.janestreet.com/let-syntax-and-why-you-should-use-it/" target="_blank" rel="noopener noreffer">here</a>.</p>
+</span></span><span class="line"><span class="cl"><span class="o">;;</span></span></span></code></pre></div></div>
+<p>There&rsquo;s a decent amount of boilerplate to go over here. The <code>[@@deriving sexp, compare]</code> are the syntax extensions talked about earlier. It&rsquo;s an attribute that does some codegen by those preprocessors so we don&rsquo;t have to write the comparison or serialization to <a href="https://en.wikipedia.org/wiki/S-expression" target="_blank" rel="noopener noreffer ">S-expressions</a>. Similarly the <code>let%map</code> code is another syntax extension that makes working with monads easier. More can be learned <a href="https://blog.janestreet.com/let-syntax-and-why-you-should-use-it/" target="_blank" rel="noopener noreffer ">here</a>.</p>
 <p>Starting from the top, the <code>Model</code> module has a basic model of <code>type t = unit</code> for now to make the compiler happy. It also has an <code>init</code> variable representing the initial state. The <code>cutoff</code> function is what Incr_dom uses to determine if the model has changed. This result determines if the incremental computations need to be recomputed.</p>
 <p>In the <code>Actions</code> module there&rsquo;s not much happening. We make a default <code>type t = unit</code> like the <code>Model</code> to make the compiler happy. The <code>[@@deriving sexp]</code> is because the serialization functions are required by the interface.</p>
 <p>We won&rsquo;t be using the <code>State</code> module and it will stay as this simple implementation. It&rsquo;s only here because it&rsquo;s also required by the Incr_dom application interface.</p>
 <p>The <code>on_startup</code> function gives an opportunity to setup state and asynchronous functions. It&rsquo;s useful for kicking off refresh actions or timers when the application loads. We won&rsquo;t need it for the moment.</p>
 <p>Next is <code>apply_action</code> which takes an <code>Action.t</code>, updates the model, and then returns a new model. Since we have no actions or model at the moment, it returns the passed in model.</p>
 <p>The <code>view</code> function is what generates the virtual-dom of our application. It takes in a <code>Model.t Incr.t</code> which is the model lifted into the Incremental monad. Since we need to return a <code>Vdom.Node.t Incr.t</code> we need to <code>map</code> the <code>Model.t Incr.t</code> to <code>Vdom.Node.t</code> hence the <code>let%map model = model in</code> code. This makes it so the value of the <code>let</code> body is the mapped value and handles lifting it back up into an <code>Incr.t</code>. Really it&rsquo;s calling <code>Incr.map</code> and putting all the code in the right places. It only makes things look nicer and avoid the endless nested <code>&gt;&gt;= &gt;&gt;|</code> operators. For example we could have written the code in the following ways:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">view</span> <span class="n">model</span> <span class="o">~</span><span class="n">inject</span> <span class="o">=</span>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">view</span> <span class="n">model</span> <span class="o">~</span><span class="n">inject</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">  <span class="nn">Incr</span><span class="p">.</span><span class="n">map</span> <span class="n">model</span> <span class="o">~</span><span class="n">f</span><span class="o">:(</span><span class="k">fun</span> <span class="n">model</span> <span class="o">-&gt;</span>
 </span></span><span class="line"><span class="cl">      <span class="nn">Vdom</span><span class="p">.</span><span class="nn">Node</span><span class="p">.</span><span class="n">div</span> <span class="bp">[]</span> <span class="bp">[]</span>
-</span></span><span class="line"><span class="cl">  <span class="o">)</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">view</span> <span class="n">model</span> <span class="o">~</span><span class="n">inject</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">  <span class="o">)</span></span></span></code></pre></div></div>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">let</span> <span class="n">view</span> <span class="n">model</span> <span class="o">~</span><span class="n">inject</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">  <span class="k">let</span> <span class="k">open</span> <span class="nc">Incr</span> <span class="k">in</span>
 </span></span><span class="line"><span class="cl">  <span class="n">model</span> <span class="o">&gt;&gt;|</span> <span class="k">fun</span> <span class="n">model</span> <span class="o">-&gt;</span>
-</span></span><span class="line"><span class="cl">      <span class="nn">Vdom</span><span class="p">.</span><span class="nn">Node</span><span class="p">.</span><span class="n">div</span> <span class="bp">[]</span> <span class="bp">[]</span>
-</span></span></code></pre></div><p>Which doesn&rsquo;t seem too bad right now, but gets much uglier and messier when we start projecting properties out of the model to be incrementalized. So we&rsquo;ll stick with the <code>let%map</code> for now as it&rsquo;s the one we want in the end.</p>
-<p>Lastly, we have the complicated <code>create</code> function. This ultimately calls the <code>Component.create</code> function which bundles up our state into something the Incr_dom framework can use. The complication of this method stems from flexibility. The reasoning is <a href="https://blog.janestreet.com/what-the-interns-have-wrought-2018/" target="_blank" rel="noopener noreffer">here</a> (see &lsquo;Streamlining Incr_dom&rsquo;). To summarize, it lets you share and incrementalize your application state more flexibly between the <code>Model</code>, <code>Action</code>, and <code>view</code>. In our case we don&rsquo;t really need much sharing, so we do the minimum to split things up.</p>
+</span></span><span class="line"><span class="cl">      <span class="nn">Vdom</span><span class="p">.</span><span class="nn">Node</span><span class="p">.</span><span class="n">div</span> <span class="bp">[]</span> <span class="bp">[]</span></span></span></code></pre></div></div>
+<p>Which doesn&rsquo;t seem too bad right now, but gets much uglier and messier when we start projecting properties out of the model to be incrementalized. So we&rsquo;ll stick with the <code>let%map</code> for now as it&rsquo;s the one we want in the end.</p>
+<p>Lastly, we have the complicated <code>create</code> function. This ultimately calls the <code>Component.create</code> function which bundles up our state into something the Incr_dom framework can use. The complication of this method stems from flexibility. The reasoning is <a href="https://blog.janestreet.com/what-the-interns-have-wrought-2018/" target="_blank" rel="noopener noreffer ">here</a> (see &lsquo;Streamlining Incr_dom&rsquo;). To summarize, it lets you share and incrementalize your application state more flexibly between the <code>Model</code>, <code>Action</code>, and <code>view</code>. In our case we don&rsquo;t really need much sharing, so we do the minimum to split things up.</p>
 <p>There&rsquo;s two more steps before we have a baseline application up and running. We need to edit the <code>bin/main.ml</code> file to initialize the Incr_dom framework with our module, and create our <code>index.html</code> file. Open <code>bin/main.ml</code> and change its contents to:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">open</span> <span class="nc">Incr_dom</span>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-ocaml">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="line"><span class="cl"><span class="k">open</span> <span class="nc">Incr_dom</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">let</span> <span class="bp">()</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">    <span class="nn">Start_app</span><span class="p">.</span><span class="n">start</span>
 </span></span><span class="line"><span class="cl">        <span class="o">(</span><span class="k">module</span> <span class="nn">Incr_dom_tetris</span><span class="p">.</span><span class="nc">Tetris</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">        <span class="o">~</span><span class="n">bind_to_element_with_id</span><span class="o">:</span><span class="s2">&#34;app&#34;</span>
-</span></span><span class="line"><span class="cl">        <span class="o">~</span><span class="n">initial_model</span><span class="o">:(</span><span class="nn">Incr_dom_tetris</span><span class="p">.</span><span class="nn">Tetris</span><span class="p">.</span><span class="nn">Model</span><span class="p">.</span><span class="n">init</span><span class="o">)</span>
-</span></span></code></pre></div><p>It&rsquo;s pretty straightforward. We want to create an app that uses our <code>Tetris</code> module and attaches it to the <code>app</code> element on our webpage. Now we need to create that <code>index.html</code>. Create <code>index.html</code> in the root of the project with the following contents:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="cp">&lt;!DOCTYPE&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">~</span><span class="n">initial_model</span><span class="o">:(</span><span class="nn">Incr_dom_tetris</span><span class="p">.</span><span class="nn">Tetris</span><span class="p">.</span><span class="nn">Model</span><span class="p">.</span><span class="n">init</span><span class="o">)</span></span></span></code></pre></div></div>
+<p>It&rsquo;s pretty straightforward. We want to create an app that uses our <code>Tetris</code> module and attaches it to the <code>app</code> element on our webpage. Now we need to create that <code>index.html</code>. Create <code>index.html</code> in the root of the project with the following contents:</p>
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-html">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="cp">&lt;!DOCTYPE&gt;</span>
 </span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&#34;en&#34;</span><span class="p">&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
 </span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&#34;utf-8&#34;</span><span class="p">&gt;</span>
@@ -205,40 +234,43 @@ Incr_dom is a library created by Jane Street for building web applications using
 </span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
 </span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#39;app&#39;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
-</span></span></code></pre></div><p>Now all that&rsquo;s left is to build the project! Run <code>dune build bin/main.bc.js</code>. This will compile the javascript version of our code. You can also compile the native version using <code>dune build bin/main.exe</code> which is not super useful because it won&rsquo;t have the javascript environment. But it is useful if we use a different <code>bin</code> module, for example our test executable can be native and call into our <code>Tetris</code> library for testing.</p>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span></span></span></code></pre></div></div>
+<p>Now all that&rsquo;s left is to build the project! Run <code>dune build bin/main.bc.js</code>. This will compile the javascript version of our code. You can also compile the native version using <code>dune build bin/main.exe</code> which is not super useful because it won&rsquo;t have the javascript environment. But it is useful if we use a different <code>bin</code> module, for example our test executable can be native and call into our <code>Tetris</code> library for testing.</p>
 <p>After building you should be able to open <code>index.html</code> and see <code>Hello World!</code> on the screen. If you open the console you&rsquo;ll see something like:</p>
-<pre tabindex="0"><code>Incr_dom action logging is disabled by default.
+<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+    <div class="code-header language-">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><pre tabindex="0"><code>Incr_dom action logging is disabled by default.
 To start logging actions, type startLogging()
-To stop logging actions, type stopLogging()
-</code></pre><p>Which is super helpful later when debugging the application, as it will print all the intermediate state changes as they happen to the console. Congrats! You have the start of an Incr_dom project. It may seem like a decent amount of work here, but this is something that can easily be turned into a template so you never have to run through it again. But it&rsquo;s good to go through at least once so there&rsquo;s a base understanding of the different moving parts.</p>
-<p>In case things have gone awry the code has been pushed <a href="https://github.com/laser-turtle/base-incr-dom-tetris/tree/part1" target="_blank" rel="noopener noreffer">here</a> (on branch <code>part1</code>).</p>
+To stop logging actions, type stopLogging()</code></pre></div>
+<p>Which is super helpful later when debugging the application, as it will print all the intermediate state changes as they happen to the console. Congrats! You have the start of an Incr_dom project. It may seem like a decent amount of work here, but this is something that can easily be turned into a template so you never have to run through it again. But it&rsquo;s good to go through at least once so there&rsquo;s a base understanding of the different moving parts.</p>
+<p>In case things have gone awry the code has been pushed <a href="https://github.com/laser-turtle/base-incr-dom-tetris/tree/part1" target="_blank" rel="noopener noreffer ">here</a> (on branch <code>part1</code>).</p>
 <h4 id="ending-remarks">Ending Remarks</h4>
 <p>In this installment we managed to get a basic Incr_dom application going. It doesn&rsquo;t do much at the moment, but that&rsquo;ll happen soon enough. A lot of new libraries and tools were introduced in this post, so some extra links have been included below.</p>
 <h4 id="extra-reading">Extra Reading</h4>
 <h5 id="incr_dom">Incr_dom</h5>
-<p><a href="https://opensource.janestreet.com/incr_dom/" target="_blank" rel="noopener noreffer">Documentation</a><br/>
-<a href="https://blog.janestreet.com/a-tutorial-for-building-web-applications-with-incrdom/" target="_blank" rel="noopener noreffer">Tutorials + Examples</a><br/>
-<a href="https://www.youtube.com/watch?v=h_e5pPKI0K4" target="_blank" rel="noopener noreffer">Tech Talk</a><br/>
-<a href="https://blog.janestreet.com/self-adjusting-dom/" target="_blank" rel="noopener noreffer">Blog Post</a><br/></p>
+<p><a href="https://opensource.janestreet.com/incr_dom/" target="_blank" rel="noopener noreffer ">Documentation</a><br/>
+<a href="https://blog.janestreet.com/a-tutorial-for-building-web-applications-with-incrdom/" target="_blank" rel="noopener noreffer ">Tutorials + Examples</a><br/>
+<a href="https://www.youtube.com/watch?v=h_e5pPKI0K4" target="_blank" rel="noopener noreffer ">Tech Talk</a><br/>
+<a href="https://blog.janestreet.com/self-adjusting-dom/" target="_blank" rel="noopener noreffer ">Blog Post</a><br/></p>
 <h5 id="incremental">Incremental</h5>
-<p><a href="https://opensource.janestreet.com/incremental/" target="_blank" rel="noopener noreffer">Documentation</a><br/>
-<a href="https://blog.janestreet.com/introducing-incremental/" target="_blank" rel="noopener noreffer">Announcement Blog Post</a><br/>
-<a href="https://blog.janestreet.com/seven-implementations-of-incremental/" target="_blank" rel="noopener noreffer">History Tech Talk</a><br/>
-<a href="https://www.youtube.com/watch?v=R3xX37RGJKE" target="_blank" rel="noopener noreffer">Incremental and UI Tech Talk</a><br/>
-<a href="https://www.youtube.com/watch?v=6JnzLq5NAmY" target="_blank" rel="noopener noreffer">Overview Tech Talk</a><br/></p>
+<p><a href="https://opensource.janestreet.com/incremental/" target="_blank" rel="noopener noreffer ">Documentation</a><br/>
+<a href="https://blog.janestreet.com/introducing-incremental/" target="_blank" rel="noopener noreffer ">Announcement Blog Post</a><br/>
+<a href="https://blog.janestreet.com/seven-implementations-of-incremental/" target="_blank" rel="noopener noreffer ">History Tech Talk</a><br/>
+<a href="https://www.youtube.com/watch?v=R3xX37RGJKE" target="_blank" rel="noopener noreffer ">Incremental and UI Tech Talk</a><br/>
+<a href="https://www.youtube.com/watch?v=6JnzLq5NAmY" target="_blank" rel="noopener noreffer ">Overview Tech Talk</a><br/></p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
                 <span>Updated on 2019-08-25</span>
-            </div>
-            <div class="post-info-license"></div>
-        </div>
+            </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>
             <div class="post-info-share">
-                <span></span>
+                <span><a href="javascript:void(0);" title="Share on X" data-sharer="x" data-url="/blog/posts/incr-dom/" data-title="Getting Started With Incr_dom - Part 1"><i class="fab fa-x-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Threads" data-sharer="threads" data-url="/blog/posts/incr-dom/" data-title="Getting Started With Incr_dom - Part 1"><i class="fab fa-threads fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="/blog/posts/incr-dom/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="/blog/posts/incr-dom/" data-title="Getting Started With Incr_dom - Part 1"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="/blog/posts/incr-dom/" data-title="Getting Started With Incr_dom - Part 1"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@14.9.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="/blog/posts/incr-dom/" data-title="Getting Started With Incr_dom - Part 1"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Diaspora" data-sharer="diaspora" data-url="/blog/posts/incr-dom/" data-title="Getting Started With Incr_dom - Part 1" data-description=""><i class="fab fa-diaspora fa-fw" aria-hidden="true"></i></a><a href="https://t.me/share/url?url=%2fblog%2fposts%2fincr-dom%2f&amp;text=Getting%20Started%20With%20Incr_dom%20-%20Part%201" target="_blank" title="Share on Telegram"><i class="fab fa-telegram fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
@@ -250,20 +282,23 @@ To stop logging actions, type stopLogging()
         </section>
     </div>
 
-    <div class="post-nav"><a href="/blog/posts/maze/" class="prev" rel="prev" title="Maze Program"><i class="fas fa-angle-left fa-fw"></i>Maze Program</a>
-            <a href="/blog/posts/incr-dom-2/" class="next" rel="next" title="Getting Started With Incr_dom - Part 2">Getting Started With Incr_dom - Part 2<i class="fas fa-angle-right fa-fw"></i></a></div>
+    <div class="post-nav"><a href="/blog/posts/maze/" class="prev" rel="prev" title="Maze Program"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Maze Program</a>
+            <a href="/blog/posts/incr-dom-2/" class="next" rel="next" title="Getting Started With Incr_dom - Part 2">Getting Started With Incr_dom - Part 2<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.126.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.136.5">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.3.1-DEV"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
         </div>
     </footer></div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
-                <i class="fas fa-arrow-up fa-fw"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
-                <i class="fas fa-comment fa-fw"></i>
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
             </a>
-        </div><script type="text/javascript" src="/blog/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/blog/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/blog/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":-1},"comment":{}};</script><script type="text/javascript" src="/blog/js/theme.min.js"></script></body>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.2/sharer.min.js"></script><script>window.config={"comment":{}};</script><script src="/blog/js/theme.min.js"></script></body>
 </html>
