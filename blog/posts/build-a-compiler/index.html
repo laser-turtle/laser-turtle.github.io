@@ -104,7 +104,7 @@ fairly straight forward to use another language of choice.</p>
 <h2 id="calculator-language">Calculator Language</h2>
 <p>The initial language will be a calculator language. There are two main parts to the language.
 Operators, and Numbers. An Operator is one of:</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -117,7 +117,7 @@ Operators, and Numbers. An Operator is one of:</p>
 <p>The language supports nesting of operators and is written using prefix notation. All operators will
 be wrapped in parentheses to prevent any ambiguity. For example the  calculation of: <code>2 + (2 * 2)</code>
 would be written as <code>(+ 2 (* 2 2))</code>, or in tree form:</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -129,7 +129,7 @@ would be written as <code>(+ 2 (* 2 2))</code>, or in tree form:</p>
    2   2</code></pre></div>
 <p>This means evaluation would proceed from the leaves to the root:</p>
 <p><strong>Step 1</strong>:</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -138,7 +138,7 @@ would be written as <code>(+ 2 (* 2 2))</code>, or in tree form:</p>
   / \   =&gt;  4
  2   2</code></pre></div>
 <p><strong>Step 2</strong>:</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -153,7 +153,7 @@ we&rsquo;ll build on this initial compiler so that it can compile a more complic
 <p>The first step of our compiler will be to turn the string of user input into a format more suitable for evaluation.
 This means we need to take a string like <code>(+ 2 (* 2 2))</code> and parse it into something called an <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree" target="_blank" rel="noopener noreffer ">Abstract Syntax Tree</a> (AST).</p>
 <p>In OCaml our AST will have the following type:</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-ocaml">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -170,7 +170,7 @@ This means we need to take a string like <code>(+ 2 (* 2 2))</code> and parse it
 <p>We&rsquo;ll consider it an error to have parentheses with only one element or just a number, for example:
 <code>(4)</code>, <code>(+)</code>, or <code>()</code> would throw an error. Valid input would be something like <code>(+ 1 (* 2 3))</code> which
 would become the following AST:</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-ocaml">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -186,7 +186,7 @@ would become the following AST:</p>
 </span></span><span class="line"><span class="cl"><span class="o">]</span></span></span></code></pre></div></div>
 <p>The first step in typical compiler is to parse the string into tokens, then turn the tokens into our
 AST. We&rsquo;ll use the following type for tokens:</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-ocaml">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -200,7 +200,7 @@ a parser combinator library like <a href="https://github.com/inhabitedtype/angst
 <p>The basic approach will be purely functional, turning our input string into
 a list of characters and then turning that list of characters into a list of
 tokens. Let&rsquo;s first take a look at the top-level parsing function:</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-ocaml">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -240,7 +240,7 @@ tokens. Let&rsquo;s first take a look at the top-level parsing function:</p>
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">List</span><span class="p">.</span><span class="n">rev</span></span></span></code></pre></div></div>
 <p>It&rsquo;s pretty straight forward. We look at each character and make a decision on what to do. If it&rsquo;s white space we skip it. If it&rsquo;s a digit, we call a helper function to parse it into an integer. If it&rsquo;s any other character we assume it&rsquo;s a string and call another helper function.</p>
 <p>The <code>parse_int</code> function looks like:</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-ocaml">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -259,7 +259,7 @@ tokens. Let&rsquo;s first take a look at the top-level parsing function:</p>
 </span></span><span class="line"><span class="cl">    <span class="n">loop</span> <span class="bp">[]</span> <span class="n">lst</span></span></span></code></pre></div></div>
 <p>It follows the same pattern as the top-level loop. It builds an accumulator list of digits and when it gets to a non-digit or the empty string, the accumulator gets transformed back into a string and then <code>Int.of_string</code> turns it into an integer.</p>
 <p>The <code>parse_string</code> helper function is very similar:</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-ocaml">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -285,7 +285,7 @@ tokens. Let&rsquo;s first take a look at the top-level parsing function:</p>
 <h3 id="parser">Parser</h3>
 <p>Now we need to turn this list of tokens into an AST. The basic approach is very similar to the <code>tokenize</code> method from the previous section. We&rsquo;ll consume an expression until we cannot consume it anymore, returning the tail of the list that is unparsed. For any malformed input we&rsquo;ll throw an exception.</p>
 <p>To start, the simplest function is parsing an operator kind:</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-ocaml">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -297,7 +297,7 @@ tokens. Let&rsquo;s first take a look at the top-level parsing function:</p>
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="s2">&#34;/&#34;</span> <span class="o">-&gt;</span> <span class="nc">Div</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|</span> <span class="o">_</span> <span class="o">-&gt;</span> <span class="n">failwith</span> <span class="s2">&#34;Invalid op&#34;</span></span></span></code></pre></div></div>
 <p>Next we will need to have a set of mutually recursive functions. One for parsing an expression, and one for parsing an operator. This is because operators can contain expressions and vice-versa.</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-ocaml">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -346,7 +346,7 @@ tokens. Let&rsquo;s first take a look at the top-level parsing function:</p>
 <h3 id="interpreter">Interpreter</h3>
 <p>Before doing code-gen we should figure out how to calculate a result from an AST. This AST technically supports multiple expressions in a row, but we&rsquo;ll only return the last result. In later sections when we add side effects and variables, these ignored expressions will be more useful.</p>
 <p>The evaluator is very simple. We do a bottom-up traversal where the root becomes our result.</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-ocaml">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -374,7 +374,7 @@ tokens. Let&rsquo;s first take a look at the top-level parsing function:</p>
 <p>For this example we&rsquo;ll use x86 64-bit and Linux. This means we&rsquo;ll need to understand the <a href="https://en.wikipedia.org/wiki/Executable_and_Linkable_Format" target="_blank" rel="noopener noreffer ">Executable and Linkable Format</a> (ELF) specification, as well as <a href="https://en.wikipedia.org/wiki/X86_instruction_listings" target="_blank" rel="noopener noreffer ">which CPU instructions</a> from the x86-64 <a href="https://en.wikipedia.org/wiki/Instruction_set_architecture" target="_blank" rel="noopener noreffer ">ISA</a> we should use.</p>
 <h4 id="evaluation-method">Evaluation Method</h4>
 <p>Before deciding what instructions to use, we need to know what operations need to happen in order to evaluate an AST. Much like our <code>eval</code> code above we&rsquo;d like to start at the leaves and work through the tree left to right, bottom to top. Let&rsquo;s do an example:</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -388,7 +388,7 @@ AST:
      /|\
     2 3 4</code></pre></div>
 <p>For a stack based approach we could evaluate the tree in the following order:</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -414,7 +414,7 @@ add       30</code></pre></div>
 <p>We will also need a way to encode these instructions into raw bytes. We&rsquo;ll do this by creating a function to generate each of the instructions. This will make it easier so we don&rsquo;t need to deal with raw bytes directly. You can use <a href="https://defuse.ca/online-x86-assembler.htm#disassembly" target="_blank" rel="noopener noreffer ">this website</a> to play around with the various instructions and their decodings/encodings.</p>
 <p>Below is an example instruction function. <a href="https://github.com/laser-turtle/calc-compiler/blob/main/lib/instructions.ml" target="_blank" rel="noopener noreffer ">View the code</a> to see all of them.</p>
 <p><strong>MOV</strong></p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-ocaml">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -454,7 +454,7 @@ add       30</code></pre></div>
 <h5 id="file-header">File Header</h5>
 <p>The file header contains metadata about the ELF file, like what machine type is expected, where the other headers are located, entry points, etc. Wikipedia has a great table on the ELF page linked above. Especially <a href="https://upload.wikimedia.org/wikipedia/commons/e/e4/ELF_Executable_and_Linkable_Format_diagram_by_Ange_Albertini.png" target="_blank" rel="noopener noreffer ">this image</a>. Most of the fields are constant values, or simple offsets and sizes. You can use the <a href="https://man7.org/linux/man-pages/man1/readelf.1.html" target="_blank" rel="noopener noreffer ">readelf</a> tool to dissect ELF files. The <code>-l -S -h</code> flags are particularly useful for viewing the different headers.</p>
 <p>Here&rsquo;s the output of <code>readelf</code> for the executable we&rsquo;ll be making:</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -480,7 +480,7 @@ add       30</code></pre></div>
   Number of section headers:         0
   Section header string table index: 0</code></pre></div>
 <p>This is the file header. And here is an annotated hex dump of that header:</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -514,7 +514,7 @@ Explained:
 <h5 id="program-header">Program Header</h5>
 <p>There are two program headers in our ELF file. One for the code, and one for the data. The reason for two is each one has a specific set of flags that control the permissions on the memory. For example we can say that one section has executable permissions, but is read only, and the other section contains writable data. This isn&rsquo;t required, we could easily throw everything in a section that has all the permissions, but it&rsquo;s helpful for debugging and security. If we accidentally try overwritting our code with data, we will get a segmentation fault and the program will crash. This is preferrable to execution continuing and returning the wrong result, making it hard to trace the issue.</p>
 <p>Below is the dump of the program headers from the <code>readelf -l</code> tool:</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -527,7 +527,7 @@ Explained:
   LOAD           0x0000000000000000 0x0000000000801000 0x0000000000801000
                  0x0000000000000104 0x0000000000000104   W     0x1000</code></pre></div>
 <p>They&rsquo;re pretty similar, the main difference being the flags. We can see one has <code>R E</code>, meaning read-only, executable, and the other <code>W</code> meaning it maps writable memory. An annotated hex dump of the first section is shown below:</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -550,7 +550,7 @@ Explained:
 [00 10] ................. Alignment (4096)</code></pre></div>
 <h4 id="generate-code">Generate Code</h4>
 <p>To generate code we need to walk the tree and output a list of x86-64 instructions. To make this easier the tree can be normalized so that a post-order traversal over the tree will make instruction generation easy. Normalize in this case means to make it so each operation has only two children, unlike now where the AST allows any number of children. Take the example from above:</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -575,7 +575,7 @@ Normalized:
   / \
 2    3</code></pre></div>
 <p>This allows us to operate on the tree left-to-right and keep nested operations in proper order. We would generate the following instruction stream for this tree:</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -610,7 +610,7 @@ f:  51                      push   rcx
 49: 5b                      pop    rbx        -- Save result
 4a: cd 80                   int    0x80       -- Return</code></pre></div>
 <p>So what does normalizing these op codes look like?</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-ocaml">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -629,7 +629,7 @@ f:  51                      push   rcx
 </span></span><span class="line"><span class="cl">        <span class="o">)</span> <span class="n">exps</span></span></span></code></pre></div></div>
 <p>There&rsquo;s a special case in here for subtraction. If we have subtraction with a single child we will keep it, so we can generate special negation code.</p>
 <p>Once the tree has been normalized we can loop over it and generate the instructions:</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-ocaml">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
@@ -677,7 +677,7 @@ f:  51                      push   rcx
 </span></span><span class="line"><span class="cl">        <span class="o">::</span> <span class="n">instrs</span></span></span></code></pre></div></div>
 <p>We have the special case here for subtraction where we do the bit-wise negation and add one. As well as division, because it has fixed registers that it operates on, so the code has to be careful about what is put where in order to get the right result.</p>
 <p>From here we need to bring our full compiler together and generate an executable from a string input. We do so with the following function:</p>
-<div class="code-block code-line-numbers" style="counter-reset: code-block 0">
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-ocaml">
         <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
         <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
