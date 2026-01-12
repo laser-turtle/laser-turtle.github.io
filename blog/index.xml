@@ -21,8 +21,7 @@
     <author>Author</author>
     <guid>/blog/posts/build-a-compiler-2-variables/</guid>
     <description><![CDATA[<blockquote>
-<p>Note: This is the second part of the series, post 1 can be found <a href="/posts/build-a-compiler" rel="">here</a></p>
-</blockquote>
+<p>Note: This is the second part of the series, post 1 can be found <a href="/posts/build-a-compiler" rel="">here</a></p></blockquote>
 <h2 id="introduction">Introduction</h2>
 <p>This installment of the build-a-compiler series will cover global variables, and multi-expression programs. Currently the compiler is a glorified calculator, but adding the ability to store calculations for later use will bring us one step closer to a full programming language. The full code for this article is available <a href="https://github.com/laser-turtle/calc-compiler/tree/variables" target="_blank" rel="noopener noreffer ">here</a>, note that it&rsquo;s under the <code>variables</code> branch.</p>]]></description>
 </item>
@@ -118,8 +117,7 @@ It&rsquo;ll start small by building a native compiler for a small calculator lan
     <author>Author</author>
     <guid>/blog/posts/incr-dom-3/</guid>
     <description><![CDATA[<blockquote>
-<p>Note: Incr dom is superceded by a new, much easier to use library called <a href="https://github.com/janestreet/bonsai" target="_blank" rel="noopener noreffer ">Bonsai</a></p>
-</blockquote>
+<p>Note: Incr dom is superceded by a new, much easier to use library called <a href="https://github.com/janestreet/bonsai" target="_blank" rel="noopener noreffer ">Bonsai</a></p></blockquote>
 <p>In this installment of the tutorial we&rsquo;ll get the basics of the Tetris game working. We&rsquo;ll create a 10x24 space board and use the standard pieces. There will be a preview box, score, and line clear animation.</p>]]></description>
 </item>
 <item>
@@ -129,8 +127,7 @@ It&rsquo;ll start small by building a native compiler for a small calculator lan
     <author>Author</author>
     <guid>/blog/posts/incr-dom-2/</guid>
     <description><![CDATA[<blockquote>
-<p>Note: Incr dom is superceded by a new, much easier to use library called <a href="https://github.com/janestreet/bonsai" target="_blank" rel="noopener noreffer ">Bonsai</a></p>
-</blockquote>
+<p>Note: Incr dom is superceded by a new, much easier to use library called <a href="https://github.com/janestreet/bonsai" target="_blank" rel="noopener noreffer ">Bonsai</a></p></blockquote>
 <p>This installment will add the basic frame of the single page application. We&rsquo;ll create a menu and be able to navigate between the various pages. In later chapters we&rsquo;ll fill in the contents of each of the pages. The result of this part is shown below (interactive):</p>]]></description>
 </item>
 <item>
@@ -140,8 +137,7 @@ It&rsquo;ll start small by building a native compiler for a small calculator lan
     <author>Author</author>
     <guid>/blog/posts/incr-dom/</guid>
     <description><![CDATA[<blockquote>
-<p>Note: Incr dom is superceded by a new, much easier to use library called <a href="https://github.com/janestreet/bonsai" target="_blank" rel="noopener noreffer ">Bonsai</a></p>
-</blockquote>
+<p>Note: Incr dom is superceded by a new, much easier to use library called <a href="https://github.com/janestreet/bonsai" target="_blank" rel="noopener noreffer ">Bonsai</a></p></blockquote>
 <p><a href="https://github.com/janestreet/incr_dom" target="_blank" rel="noopener noreffer ">Incr_dom</a> is a library created by <a href="https://www.janestreet.com/" target="_blank" rel="noopener noreffer ">Jane Street</a> for building web applications using OCaml. The interesting thing about Incr_dom is it&rsquo;s built on another one of Jane Street&rsquo;s libraries, called <a href="https://opensource.janestreet.com/incremental/" target="_blank" rel="noopener noreffer ">Incremental</a>. Incremental lets you memoize parts of your application to avoid unnecessary computations. When you combine incremental with something like the <a href="https://github.com/Matt-Esch/virtual-dom" target="_blank" rel="noopener noreffer ">virtual-dom</a> you get very speedy web applications. This is the topic of today&rsquo;s article. We&rsquo;ll be building a very simple &lsquo;Single Page (Web) Application&rsquo; using Incr_dom. The application will be a simple game of Tetris. It&rsquo;ll include the main menu, a leaderboard viewer, settings page, and of course the game itself.</p>]]></description>
 </item>
 <item>
