@@ -3,9 +3,17 @@
         <title>A Blog</title>
         <link>/blog/</link>
         <description>A blog description</description>
-        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Copyright &amp;copy; 2022 - Laser Turtle</copyright><lastBuildDate>Mon, 01 May 2023 12:34:56 -0700</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Copyright &amp;copy; 2022 - Laser Turtle</copyright><lastBuildDate>Mon, 12 Jan 2026 22:37:10 -0800</lastBuildDate>
             <atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Custom QMK Layers</title>
+    <link>/blog/posts/custom-qmk-layers/</link>
+    <pubDate>Mon, 12 Jan 2026 22:37:10 -0800</pubDate>
+    <author>Author</author>
+    <guid>/blog/posts/custom-qmk-layers/</guid>
+    <description><![CDATA[<p>I&rsquo;ve been using the Ergodox EZ for a while, but I&rsquo;ve never liked the different layer options. I always found they did half of what I wanted. The closest layer behavior is the <a href="https://docs.qmk.fm/one_shot_keys" target="_blank" rel="noopener noreffer ">One shot keys</a>, in particular the OSL(N) one shot layer functionality. Unfortunately it still relies a lot on timeouts and does not have immediate application or cancelation in many scenarios. Below is how I wish the one shot layer functionality worked:</p>]]></description>
+</item>
+<item>
     <title>Quasirandom Sequences</title>
     <link>/blog/posts/quasi-random/</link>
     <pubDate>Mon, 01 May 2023 12:34:56 -0700</pubDate>
@@ -139,15 +147,6 @@ It&rsquo;ll start small by building a native compiler for a small calculator lan
     <description><![CDATA[<blockquote>
 <p>Note: Incr dom is superceded by a new, much easier to use library called <a href="https://github.com/janestreet/bonsai" target="_blank" rel="noopener noreffer ">Bonsai</a></p></blockquote>
 <p><a href="https://github.com/janestreet/incr_dom" target="_blank" rel="noopener noreffer ">Incr_dom</a> is a library created by <a href="https://www.janestreet.com/" target="_blank" rel="noopener noreffer ">Jane Street</a> for building web applications using OCaml. The interesting thing about Incr_dom is it&rsquo;s built on another one of Jane Street&rsquo;s libraries, called <a href="https://opensource.janestreet.com/incremental/" target="_blank" rel="noopener noreffer ">Incremental</a>. Incremental lets you memoize parts of your application to avoid unnecessary computations. When you combine incremental with something like the <a href="https://github.com/Matt-Esch/virtual-dom" target="_blank" rel="noopener noreffer ">virtual-dom</a> you get very speedy web applications. This is the topic of today&rsquo;s article. We&rsquo;ll be building a very simple &lsquo;Single Page (Web) Application&rsquo; using Incr_dom. The application will be a simple game of Tetris. It&rsquo;ll include the main menu, a leaderboard viewer, settings page, and of course the game itself.</p>]]></description>
-</item>
-<item>
-    <title>Maze Program</title>
-    <link>/blog/posts/maze/</link>
-    <pubDate>Mon, 27 May 2019 22:25:15 -0700</pubDate>
-    <author>Author</author>
-    <guid>/blog/posts/maze/</guid>
-    <description><![CDATA[<h2 id="introduction">Introduction</h2>
-<p>This is part of an old program series I&rsquo;ll be writing up. During college I was into <a href="https://en.wikipedia.org/wiki/Computer_graphics" target="_blank" rel="noopener noreffer ">Computer Graphics</a>, Compilers, Operating Systems, anything that got to the &ldquo;heart&rdquo; of practical computing. Our lab machines were running Solaris at the time (or maybe it was Ubuntu at that point?) and there was a pretty generous screensaver <a href="https://www.jwz.org/xscreensaver/screenshots/" target="_blank" rel="noopener noreffer ">collection</a> installed on them. One day something like this <a href="https://www.youtube.com/watch?v=-u4neMXIRA8" target="_blank" rel="noopener noreffer ">Maze Screensaver</a> was running and I got curious how mazes were generated.</p>]]></description>
 </item>
 </channel>
 </rss>

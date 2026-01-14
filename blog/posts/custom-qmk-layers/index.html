@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Custom QMK Layers - A Blog</title><meta name="Description" content="A blog description"><meta property="og:url" content="/blog/posts/custom-qmk-layers/">
+  <meta property="og:site_name" content="A Blog">
+  <meta property="og:title" content="Custom QMK Layers">
+  <meta property="og:description" content="I’ve been using the Ergodox EZ for a while, but I’ve never liked the different layer options. I always found they did half of what I wanted. The closest layer behavior is the One shot keys, in particular the OSL(N) one shot layer functionality. Unfortunately it still relies a lot on timeouts and does not have immediate application or cancelation in many scenarios. Below is how I wish the one shot layer functionality worked:">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-12T22:37:10-08:00">
+    <meta property="article:modified_time" content="2026-01-12T22:37:10-08:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Custom QMK Layers">
+  <meta name="twitter:description" content="I’ve been using the Ergodox EZ for a while, but I’ve never liked the different layer options. I always found they did half of what I wanted. The closest layer behavior is the One shot keys, in particular the OSL(N) one shot layer functionality. Unfortunately it still relies a lot on timeouts and does not have immediate application or cancelation in many scenarios. Below is how I wish the one shot layer functionality worked:">
+<meta name="application-name" content="A Blog">
+<meta name="apple-mobile-web-app-title" content="A Blog">
+<meta name="referrer" content="no-referrer" /><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/blog/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png"><link rel="mask-icon" href="/blog/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/blog/site.webmanifest"><link rel="canonical" href="/blog/posts/custom-qmk-layers/" /><link rel="prev" href="/blog/posts/quasi-random/" /><link rel="stylesheet" href="/blog/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Custom QMK Layers",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "\/blog\/posts\/custom-qmk-layers\/"
+        },"genre": "posts","wordcount":  594 ,
+        "url": "\/blog\/posts\/custom-qmk-layers\/","datePublished": "2026-01-12T22:37:10-08:00","dateModified": "2026-01-12T22:37:10-08:00","license": "Copyright \u0026copy; 2022 - Laser Turtle","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script>(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/blog/" title="A Blog">A Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/blog/"> Home </a><a class="menu-item" href="/blog/posts/blender"> Art </a><a class="menu-item" href="/blog/posts/"> Posts </a><a class="menu-item" href="/blog/about/" title="About"> About </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/blog/" title="A Blog">A Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/blog/" title="">Home</a><a class="menu-item" href="/blog/posts/blender" title="">Art</a><a class="menu-item" href="/blog/posts/" title="">Posts</a><a class="menu-item" href="/blog/about/" title="About">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title">Custom QMK Layers</h1><div class="post-meta">
+            <div class="post-meta-line"></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2026-01-12">2026-01-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;594 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><p>I&rsquo;ve been using the Ergodox EZ for a while, but I&rsquo;ve never liked the different layer options. I always found they did half of what I wanted. The closest layer behavior is the <a href="https://docs.qmk.fm/one_shot_keys" target="_blank" rel="noopener noreffer ">One shot keys</a>, in particular the OSL(N) one shot layer functionality. Unfortunately it still relies a lot on timeouts and does not have immediate application or cancelation in many scenarios. Below is how I wish the one shot layer functionality worked:</p>
+<ul>
+<li>Tap to toggle oneshot, tap again to cancel</li>
+<li>Tap + press another key for one-shot behavior</li>
+<li>Hold for momentary access, upon release reset layer</li>
+<li>Long hold without pressing others keys cancels on release</li>
+<li>Triple-tap for locked mode, tap again to unlock</li>
+</ul>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-c">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="Copy to clipboard"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;../custom_keys.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;assert.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// State tracking for each layer
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">key_held</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">oneshot</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">locked</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">other_key_pressed</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">layer_num</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">keycode</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">hold_timer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint8_t</span> <span class="n">tap_count</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">last_tap_time</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="kt">custom_oneshot_layer_state_t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">static</span> <span class="kt">custom_oneshot_layer_state_t</span> <span class="n">layer_states</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{.</span><span class="n">keycode</span> <span class="o">=</span> <span class="n">CUSTOM_OSL1</span><span class="p">,</span> <span class="p">.</span><span class="n">layer_num</span> <span class="o">=</span> <span class="mi">1</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{.</span><span class="n">keycode</span> <span class="o">=</span> <span class="n">CUSTOM_OSL2</span><span class="p">,</span> <span class="p">.</span><span class="n">layer_num</span> <span class="o">=</span> <span class="mi">2</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{.</span><span class="n">keycode</span> <span class="o">=</span> <span class="n">CUSTOM_OSL3</span><span class="p">,</span> <span class="p">.</span><span class="n">layer_num</span> <span class="o">=</span> <span class="mi">3</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{.</span><span class="n">keycode</span> <span class="o">=</span> <span class="n">CUSTOM_OSL4</span><span class="p">,</span> <span class="p">.</span><span class="n">layer_num</span> <span class="o">=</span> <span class="mi">4</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">#define LAYER_HOLD_TIMEOUT 500 </span><span class="c1">// ms
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define TAP_TIMEOUT 300 </span><span class="c1">// ms
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">static</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">NUM_ENTRIES</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">layer_states</span><span class="p">)</span> <span class="o">/</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">layer_states</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl"><span class="nf">_Static_assert</span><span class="p">((</span><span class="k">sizeof</span><span class="p">(</span><span class="n">layer_states</span><span class="p">)</span> <span class="o">/</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">layer_states</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="o">==</span> <span class="mi">4</span><span class="p">,</span> <span class="s">&#34;mismatch of entries&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">get_keycode_index</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">keycode</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">NUM_ENTRIES</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">layer_states</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">keycode</span> <span class="o">==</span> <span class="n">keycode</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">bool</span> <span class="nf">process_custom_oneshot_layers</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">keycode</span><span class="p">,</span> <span class="kt">keyrecord_t</span> <span class="o">*</span><span class="n">record</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">const</span> <span class="kt">int</span> <span class="n">layer_idx</span> <span class="o">=</span> <span class="nf">get_keycode_index</span><span class="p">(</span><span class="n">keycode</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">layer_idx</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">       <span class="kt">custom_oneshot_layer_state_t</span> <span class="o">*</span><span class="n">state</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">layer_states</span><span class="p">[</span><span class="n">layer_idx</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">record</span><span class="o">-&gt;</span><span class="n">event</span><span class="p">.</span><span class="n">pressed</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// Key down
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">state</span><span class="o">-&gt;</span><span class="n">key_held</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">state</span><span class="o">-&gt;</span><span class="n">other_key_pressed</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">state</span><span class="o">-&gt;</span><span class="n">hold_timer</span> <span class="o">=</span> <span class="nf">timer_read</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="nf">layer_on</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">layer_num</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// Key up
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">other_key_pressed</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// No other keys pressed while holding
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="kt">uint16_t</span> <span class="n">hold_duration</span> <span class="o">=</span> <span class="nf">timer_elapsed</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">hold_timer</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="n">hold_duration</span> <span class="o">&gt;</span> <span class="n">LAYER_HOLD_TIMEOUT</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// Held too long - cancel
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="nf">layer_off</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">layer_num</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">state</span><span class="o">-&gt;</span><span class="n">tap_count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// This was a quick tap
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="k">if</span> <span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">locked</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="c1">// In locked mode - unlock and exit
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                        <span class="n">state</span><span class="o">-&gt;</span><span class="n">locked</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">state</span><span class="o">-&gt;</span><span class="n">oneshot</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                        <span class="nf">layer_off</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">layer_num</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">state</span><span class="o">-&gt;</span><span class="n">tap_count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="c1">// Not locked - handle tap counting (whether oneshot or not)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                        <span class="k">if</span> <span class="p">(</span><span class="nf">timer_elapsed</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">last_tap_time</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">TAP_TIMEOUT</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">state</span><span class="o">-&gt;</span><span class="n">tap_count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">state</span><span class="o">-&gt;</span><span class="n">tap_count</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">state</span><span class="o">-&gt;</span><span class="n">last_tap_time</span> <span class="o">=</span> <span class="nf">timer_read</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                        <span class="c1">// Handle based on tap count
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                        <span class="k">if</span> <span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">tap_count</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                            <span class="k">if</span> <span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">oneshot</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">state</span><span class="o">-&gt;</span><span class="n">oneshot</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                                <span class="nf">layer_off</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">layer_num</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                                <span class="c1">// First tap - enter oneshot
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                                <span class="n">state</span><span class="o">-&gt;</span><span class="n">oneshot</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">tap_count</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                            <span class="c1">// Second tap - exit oneshot
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                            <span class="n">state</span><span class="o">-&gt;</span><span class="n">oneshot</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                            <span class="nf">layer_off</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">layer_num</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">tap_count</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                            <span class="c1">// Third tap - enter locked mode
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                            <span class="n">state</span><span class="o">-&gt;</span><span class="n">oneshot</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">state</span><span class="o">-&gt;</span><span class="n">locked</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                            <span class="nf">layer_on</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">layer_num</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">state</span><span class="o">-&gt;</span><span class="n">tap_count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// This was a hold - turn off layer unless in oneshot mode
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">locked</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">oneshot</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="nf">layer_off</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">layer_num</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="n">state</span><span class="o">-&gt;</span><span class="n">tap_count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="n">state</span><span class="o">-&gt;</span><span class="n">key_held</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Handle all other keys
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">record</span><span class="o">-&gt;</span><span class="n">event</span><span class="p">.</span><span class="n">pressed</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// Key down - just mark that another key was pressed if layer key is held
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">NUM_ENTRIES</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">custom_oneshot_layer_state_t</span> <span class="o">*</span><span class="n">state</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">layer_states</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">key_held</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">state</span><span class="o">-&gt;</span><span class="n">other_key_pressed</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// Reset tap counts when other keys are pressed
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">NUM_ENTRIES</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">custom_oneshot_layer_state_t</span> <span class="o">*</span><span class="n">state</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">layer_states</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">locked</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">key_held</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">state</span><span class="o">-&gt;</span><span class="n">tap_count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// Key up - now turn off the layer if in oneshot mode
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">NUM_ENTRIES</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">custom_oneshot_layer_state_t</span> <span class="o">*</span><span class="n">state</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">layer_states</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">oneshot</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">key_held</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">state</span><span class="o">-&gt;</span><span class="n">oneshot</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="nf">layer_off</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">layer_num</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2026-01-12</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/blog/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/blog/posts/quasi-random/" class="prev" rel="prev" title="Quasirandom Sequences"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Quasirandom Sequences</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.145.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.3.1-DEV"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2026</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/blog/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div id="fixed-buttons-hidden"><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.2/sharer.min.js"></script><script>window.config={"comment":{}};</script><script src="/blog/js/theme.min.js"></script></body>
+</html>
